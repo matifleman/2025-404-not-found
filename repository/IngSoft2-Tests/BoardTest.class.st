@@ -5,58 +5,62 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'asserting' }
+BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
+
+	self
+		should: anErrorBlock
+		raise: anErrorClass
+		withExceptionDo: [ :error |
+		self assert: error messageText equals: errorMessage ]
+]
+
+{ #category : 'tests' }
+BoardTest >> testWhenBoardCreatedWithNegativeSizeThenCreationFails [
+	| sizeOfBoard |
+	sizeOfBoard := -1.
+	self
+		should: [ Board with: sizeOfBoard entranceBox: 2 exitBox: 6 ]
+		raise: Error
+		withMessageText: 'Board size should be positive'.
+]
+
 { #category : 'tests' }
 BoardTest >> testWhenPositionIsOutOfBoardThenIsInvalid [
 	| sizeOfBoard aBoard positionOfShip  |
 	sizeOfBoard := 10.
-	aBoard := Board with: sizeOfBoard andEntranceHole: 2 andExitHole: 6.
+	aBoard := Board with: sizeOfBoard entranceBox: 2 exitBox: 6.
 	positionOfShip := 11.
 	
-	self deny: (aBoard checksLimits: positionOfShip).
+	self deny: (aBoard checkLimits: positionOfShip).
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenSpaceShipIsOnHole [
-	| sizeOfBoard aBoard aPosition |
-	aPosition:=2.
-	sizeOfBoard := 10.
-	aBoard := Board with: sizeOfBoard andEntranceHole: 2 andExitHole: 6.
-	
-	self assert: (aBoard checkHoleAndRelocate: aPosition) equals:6.
+BoardTest >> testWhenWormholeEntranceBoxOutsideBoardThenCreationFails [
+	| sizeOfBoard |
+	sizeOfBoard := 20.
+	self
+		should: [ Board with: sizeOfBoard entranceBox: -1 exitBox: 6 ]
+		raise: Error
+		withMessageText: 'Entrance box should be inside the board'.
+		
+	self
+		should: [ Board with: sizeOfBoard entranceBox: 22 exitBox: 6 ]
+		raise: Error
+		withMessageText: 'Entrance box should be inside the board'.
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenSpaceshipLandsOnEntranceHoleThenGoesThroughExitHole [
-	| sizeOfBoard aBoard  aSpaceship |
-	sizeOfBoard := 10.
-	aBoard := Board with: sizeOfBoard andEntranceHole: 2 andExitHole: 6.
-	aSpaceship:= Spaceship withName: 'Nave 1' withBoard: aBoard .
-	
-	aSpaceship move:2.
-	
-	self assert: aSpaceship position equals: 6.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenSpaceshipLandsOnExitHoleThenGoesThroughEntranceHole [ 
-	| sizeOfBoard aBoard  aSpaceship |
-	sizeOfBoard := 10.
-	aBoard := Board with: sizeOfBoard andEntranceHole: 2 andExitHole: 6.
-	aSpaceship:= Spaceship withName: 'Nave 1' withBoard: aBoard .
-	
-	aSpaceship move:6.
-	
-	self assert: aSpaceship position equals: 2.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenSpaceshipLandsOnHoleThenMoves [ 
-	| sizeOfBoard aBoard  aSpaceship |
-	sizeOfBoard := 10.
-	aBoard := Board with: sizeOfBoard andEntranceHole: 2 andExitHole: 6.
-	aSpaceship:= Spaceship withName: 'Nave 1' withBoard: aBoard .
-	
-	aSpaceship move:2.
-	
-	self assert: aSpaceship position equals: 6.
+BoardTest >> testWhenWormholeExitBoxOutsideBoardThenCreationFails [
+	| sizeOfBoard |
+	sizeOfBoard := 20.
+	self
+		should: [ Board with: sizeOfBoard entranceBox: 2 exitBox: -6 ]
+		raise: Error
+		withMessageText: 'Exit box should be inside the board'.
+		
+	self
+		should: [ Board with: sizeOfBoard entranceBox: 2 exitBox: 26 ]
+		raise: Error
+		withMessageText: 'Exit box should be inside the board'.
 ]

@@ -13,6 +13,7 @@ Class {
 
 { #category : 'instance creation' }
 Die class >> with: sides [ 
+	sides negative ifTrue: [ Error signal: 'Sides should be positive' ].
 	^ self new initializeWith: sides
 ]
 
