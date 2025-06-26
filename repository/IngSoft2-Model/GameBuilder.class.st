@@ -17,6 +17,15 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'adding' }
+GameBuilder >> addCards [
+	| deck cards |
+	deck := CardDeck new.
+	cards := OrderedCollection new.
+	2 timesRepeat: [ cards add: (deck draw) ].
+	^cards
+]
+
 { #category : 'initialization' }
 GameBuilder >> addDieWithValue: aValue [
     dieValues add: aValue.
@@ -30,11 +39,13 @@ GameBuilder >> addSpaceshipNamed: aName [
 { #category : 'initialization' }
 GameBuilder >> buildGame [
 
-	| dice board spaceships |
+	| dice board spaceships cards |
 	maxFuel := dieValues sum.
 	dice := dieValues collect: [ :val | Die with: val ].
-	board := Board with: boardSize entranceBox: wormholeEntrance exitBox: wormholeExit.
-	spaceships := spaceshipNames collect: [ :name | Spaceship withName: name withBoard: board withMaxFuel: maxFuel ].
+	board := Board with: boardSize.
+	board addWormHolewithEntraceTile:wormholeEntrance exitTile:wormholeExit .
+	cards := self addCards.
+	spaceships := spaceshipNames collect: [ :name | Spaceship withName: name withBoard: board withMaxFuel: maxFuel withCards: cards].
 
 	^ Game with: spaceships andDice: dice laps: laps
 ]
