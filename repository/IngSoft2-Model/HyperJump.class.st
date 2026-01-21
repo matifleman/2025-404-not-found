@@ -14,6 +14,14 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'as yet unclassified' }
+HyperJump class >> inPosition: aPosition withEffect: aListOfParsec [
+	| sortedParsecs |
+	sortedParsecs :=aListOfParsec asSortedCollection reverse.
+	^self new initializeIn: aPosition withParsecs:sortedParsecs .
+	
+]
+
 { #category : 'effects' }
 HyperJump >> applyEffectsTo: aSpaceship in: aGame [
     | parsecsValue tilesToAdvance |
@@ -38,9 +46,8 @@ HyperJump >> convert: aConvertor with: sizeOfBoard and: aListOfValues [
 ]
 
 { #category : 'initialization' }
-HyperJump >> initialize [
-	super initialize.
-	originalList := #(). "Copia original para resetear"
-	listOfValues := #().
-	convertor := 1.
+HyperJump >> initializeIn: aPosition withParsecs:sortedCollection [
+	self initializeIn: aPosition.
+	listOfValues :=sortedCollection.
+	
 ]

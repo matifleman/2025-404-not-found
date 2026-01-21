@@ -141,8 +141,7 @@ BoardTileEffectTest >> testBHWhenSpaceShipLandsOnBlackHoleThenItMovesBackwards [
 { #category : 'tests' }
 BoardTileEffectTest >> testHGWhenSpaceshipLandsOnHyperGravityAndRollIsBiggerThenMoves [
 	| hyperGravity | 	 	
-	hyperGravity := HyperGravity inPosition: 6. 	
-	hyperGravity exitRoll: 2.
+	hyperGravity := HyperGravity inPosition: 6 needingToRoll: 2. 	
 	aBoard addTile: hyperGravity .
 	
 	aSpaceship1 turn: 6.
@@ -154,8 +153,7 @@ BoardTileEffectTest >> testHGWhenSpaceshipLandsOnHyperGravityAndRollIsBiggerThen
 { #category : 'tests' }
 BoardTileEffectTest >> testHGWhenSpaceshipLandsOnHyperGravityButRollIsSmallerThenStaysAtTheSamePosition [
 	| hyperGravity | 	 	
-	hyperGravity := HyperGravity inPosition: 6. 	
-	hyperGravity exitRoll: 10.
+	hyperGravity := HyperGravity inPosition: 6 needingToRoll: 10. 	
 	aBoard addTile: hyperGravity .
 	
 	aSpaceship1 turn: 6.
@@ -195,8 +193,7 @@ BoardTileEffectTest >> testHJWhenSpaceShipLandsOnHyperJumpThenItMovesAccordingTo
 { #category : 'tests' }
 BoardTileEffectTest >> testMWCorrectFuelUsage [
 	| moonWalk | 	 	
-	moonWalk := MoonWalk inPosition: 4. 	
-	moonWalk tilesToBack: 3.
+	moonWalk := MoonWalk inPosition: 4 backingUp: 3. 	
 	aBoard addTile: moonWalk .
 	
 	aSpaceship1 turn: 6.
@@ -209,8 +206,7 @@ BoardTileEffectTest >> testMWCorrectFuelUsage [
 { #category : 'tests' }
 BoardTileEffectTest >> testMWWhenOtherSpaceShipRunsOutOfFuelThenItApplisPenalization [
 	| moonWalk | 	 	
-	moonWalk := MoonWalk inPosition: 4. 	
-	moonWalk tilesToBack: 3.
+	moonWalk := MoonWalk inPosition: 4 backingUp: 3. 	
 	aBoard addTile: moonWalk .
 	
 	aSpaceship1 turn: 28.
@@ -225,8 +221,7 @@ BoardTileEffectTest >> testMWWhenOtherSpaceShipRunsOutOfFuelThenItApplisPenaliza
 { #category : 'tests' }
 BoardTileEffectTest >> testMWWhenSpaceShipLandsOnMoonWalkThenOthersBack [
 	| moonWalk | 	 	
-	moonWalk := MoonWalk inPosition: 4. 	
-	moonWalk tilesToBack: 3.
+	moonWalk := MoonWalk inPosition: 4 backingUp: 3. 	
 	aBoard addTile: moonWalk .
 	
 	aSpaceship1 turn: 6.
