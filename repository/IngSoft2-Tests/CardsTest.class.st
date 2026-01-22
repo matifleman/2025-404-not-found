@@ -52,11 +52,11 @@ CardsTest >> should: arg1 raise: arg2 withMessageText: arg3 [
 { #category : 'tests' }
 CardsTest >> test01WhenSpaceshipLandsOnCardTileThenReceivesACard [
 
-	| tmp1 |
+	| aCardDeck |
 	
-	tmp1 := CardDeck new.
-	tmp1 addCard: (Card with: Overload new).
-	drawCardTile := DrawCardTile inPosition: 6 withDeck: tmp1.
+	aCardDeck := CardDeck new.
+	aCardDeck addCard: (Card with: Overload new).
+	drawCardTile := DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile.
 	aSpaceship1 turn: 6.
 	self assert: aSpaceship1 cards equals: 1
@@ -65,15 +65,15 @@ CardsTest >> test01WhenSpaceshipLandsOnCardTileThenReceivesACard [
 { #category : 'tests' }
 CardsTest >> test02WhenSpaceshipLandsOnCardTileTwiceThenHasTwoCards [
 
-	| tmp1 aCardDeck anotherCardDeck |
+	| anotherDrawCardTile aCardDeck anotherCardDeck |
 	aCardDeck := CardDeck new.
 	aCardDeck addCard: (Card with: Overload new).
 	anotherCardDeck := CardDeck new.
 	anotherCardDeck addCard: (Card with: Overload new).
 	drawCardTile := DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
-	tmp1 := DrawCardTile inPosition: 9 withDeck: anotherCardDeck.
-	aBoard addTile: tmp1.
+	anotherDrawCardTile := DrawCardTile inPosition: 9 withDeck: anotherCardDeck.
+	aBoard addTile: anotherDrawCardTile.
 	aSpaceship1
 		turn: 6;
 		turn: 3.
@@ -238,14 +238,14 @@ CardsTest >> test12WhenUsedACancellationCardThenOverloadActionIsGone [
 { #category : 'tests' }
 CardsTest >> test13WhenUsedACancellationCardThenAllyActionIsGone [
 
-	| tmp1 tmp2 |
-	tmp1 := Card with: Cancellation new.
-	tmp2 := Card with: Ally new.
-	aSpaceship1 drawCard: tmp2.
-	aSpaceship2 drawCard: tmp1.
-	aSpaceship1 turn: 12 playCard: tmp2 against:aSpaceship2 in:aGame .
+	| aCancellationCard anAllyCard |
+	aCancellationCard := Card with: Cancellation new.
+	anAllyCard := Card with: Ally new.
+	aSpaceship1 drawCard: anAllyCard.
+	aSpaceship2 drawCard: aCancellationCard.
+	aSpaceship1 turn: 12 playCard: anAllyCard against:aSpaceship2 in:aGame .
 		
-	aSpaceship2 useCancellationOn: tmp2 inGame: aGame.
+	aSpaceship2 useCancellationOn: anAllyCard inGame: aGame.
 	aSpaceship1 turn: 2.
 	self assert: aSpaceship2 position equals: (Position in: 0 at: 0)
 ]
