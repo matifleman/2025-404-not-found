@@ -209,9 +209,3 @@ Spaceship >> useCard: aCard against: aSpaceship in: aGame [
 	cardToUse useAgainst: aSpaceship from: self in: aGame.
 	cards remove: (cards at: 1).
 ]
-
-{ #category : 'as yet unclassified' }
-Spaceship >> useCardAgainst: aSpaceship in: aGame [
-	(cards at: 1) useAgainst: aSpaceship from: self in: aGame.
-	cards remove: (cards at: 1).
-]

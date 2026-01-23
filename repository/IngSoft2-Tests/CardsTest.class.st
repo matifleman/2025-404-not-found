@@ -294,7 +294,7 @@ CardsTest >> test16WhenNotCardsInGameThenRedoNoEffect [
 	overloadCard := Card with: Overload new.
 	aSpaceship1
 		drawCard: redoCard;
-		useCardAgainst: aSpaceship2 in: aGame.
+		useCard:redoCard against: aSpaceship2 in: aGame.
 	aSpaceship2 turn: 3.
 	self
 		assert: aSpaceship2 position equals: (Position in: 3 at: 0);
@@ -331,7 +331,7 @@ CardsTest >> test18WhenRepeatCardUsedThenAppliesBlackHoleEffectToSpaceship [
 	blackHole:= BlackHole inPosition: 9.
 	aBoard addTile: blackHole.
 	aSpaceship3 turn: 9. "Aplicamos el efecto blackHole en el juego, la Nave 3 tiene 20 de fuel"
-	aSpaceship2 useCardAgainst: aSpaceship3 in:aGame. "usa la carta repetida y va 4 mas para atras"
+	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "usa la carta repetida y va 4 mas para atras"
 	
 	self assert:aSpaceship3 position equals: (Position in:1 at:0).
 ]
@@ -347,7 +347,7 @@ CardsTest >> test19WhenRepeatCardUsedThenAppliesAtomicBombEffectToSpaceship [
 	aSpaceship3 turn: 9. "Aplicamos el efecto atomicBomb en el juego, la Nave 3 tiene 20 de fuel"
 	aSpaceship3 turn: 5. "Vuelve a comenzar de cero y se mueve hasta 5"
 	aSpaceship1 turn: 3.
-	aSpaceship2 useCardAgainst: aSpaceship3 in:aGame. "usa la carta repetida y vuelve a 0"
+	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "usa la carta repetida y vuelve a 0"
 	
 	self assert:aSpaceship3 position equals: (Position in:0 at:0).
 	self assert:aSpaceship1 position equals: (Position in:3 at:0).
@@ -364,7 +364,7 @@ CardsTest >> test20WhenRepeatCardUsedThenAppliesHyperGravityEffectToSpaceship [
 	
 	aSpaceship3 turn: 5. "Aplicamos el efecto HyperGravity "
 	aSpaceship3 turn: 6. "sale del casillero"
-	aSpaceship2 useCardAgainst: aSpaceship3 in:aGame. "usa la carta repetida y vuelve a aplicarse con el mismo exit roll"
+	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "usa la carta repetida y vuelve a aplicarse con el mismo exit roll"
 	aSpaceship3 turn: 2. 
 	
 	self assert:aSpaceship3 position equals: (Position in:11 at:0). "No se pudo mover de 11 al no sacar mas de 3"
@@ -382,7 +382,7 @@ CardsTest >> test21WhenRepeatCardUsedThenAppliesMoonWalkEffectToSpaceship [
 	
 	aSpaceship3 turn: 5. "hace retroceder a los demas 3 posiciones"
 	aSpaceship3 turn: 4. "avanza a 9"
-	aSpaceship2 useCardAgainst: aSpaceship3 in:aGame. "usa la carta repetida y vuelve a aplicarse MW"
+	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "usa la carta repetida y vuelve a aplicarse MW"
 	
 	
 	self assert:aSpaceship3 position equals: (Position in:6 at:0). 
@@ -400,7 +400,7 @@ CardsTest >> test22WhenRepeatCardUsedThenAppliesHyperJumpEffectToSpaceship [
 	aBoard addTile: hyperJump.
 	
 	aSpaceship3 turn: 5. "se movera 6 lugares mas adelante"
-	aSpaceship2 useCardAgainst: aSpaceship3 in:aGame. "al volverselo a aplicar se movera 5 lugares mas"
+	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "al volverselo a aplicar se movera 5 lugares mas"
 	
 	
 	self assert:aSpaceship3 position equals: (Position in:17 at:0). 
