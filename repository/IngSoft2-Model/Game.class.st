@@ -12,16 +12,17 @@ Class {
 		'laps',
 		'permanentCards',
 		'lastEffect',
-		'cardTargets'
+		'cardTargets',
+		'board'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'instance creation' }
-Game class >> with: spaceShips andDice: someDice laps: lap [
+Game class >> with: spaceShips andDice: someDice laps: lap in:aBoard [
 	(lap < 1) ifTrue: [ Error signal: 'Number of laps should be greater than 0' ].
-	^ self new initializeWith: spaceShips andDice: someDice laps: lap
+	^ self new initializeWith: spaceShips andDice: someDice laps: lap in:aBoard.
 ]
 
 { #category : 'logic' }
@@ -63,8 +64,9 @@ Game >> applyRewardTo: aSpaceship withPorcentageOf: aPorcentage [
 ]
 
 { #category : 'initialization' }
-Game >> initializeWith: someSpaceships andDice: someDice laps: someLaps [
-
+Game >> initializeWith: someSpaceships andDice: someDice laps: someLaps in:aBoard [
+	
+	board:= aBoard.
 	laps := someLaps.
 	spaceships := someSpaceships.
 	dice := someDice.
