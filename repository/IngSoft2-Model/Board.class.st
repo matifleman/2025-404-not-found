@@ -48,8 +48,8 @@ Board >> addWormHolewithEntraceTile: entrance exitTile: exit [
 		Error signal: 'Tile should be inside the board' ].
 	
 	
-	entranceWormhole := WormHole inPosition: entrance withEffect: exit - entrance.
-	exitWormhole := WormHole inPosition: exit withEffect: entrance - exit.
+	entranceWormhole := WormHole inPosition: entrance withOffset: exit - entrance.
+	exitWormhole := WormHole inPosition: exit withOffset: entrance - exit.
 	self
 		addTile: entranceWormhole;
 		addTile: exitWormhole

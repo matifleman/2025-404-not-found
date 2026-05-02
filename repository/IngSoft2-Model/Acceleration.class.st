@@ -1,21 +1,14 @@
 Class {
 	#name : 'Acceleration',
 	#superclass : 'CardAction',
-	#instVars : [
-		'spaceship',
-		'cardSpaceship',
-		'game'
-	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
 Acceleration >> actOn: aSpaceship from: aCardSpaceship during: aGame [ 
-	spaceship := aSpaceship.
-	cardSpaceship := aCardSpaceship.
-	game := aGame.
-	aGame addCard: self.
+	
+	aGame addCard: self against: aSpaceship .
 	aGame modifyRollAll: 1
 
 ]
@@ -32,6 +25,6 @@ Acceleration >> nameOfCard [
 ]
 
 { #category : 'removing' }
-Acceleration >> removeAction [
-	game modifyRollAll: -1.
+Acceleration >> removeAction: aGame [
+	aGame modifyRollAll: -1.
 ]

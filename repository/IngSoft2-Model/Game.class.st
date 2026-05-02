@@ -11,16 +11,18 @@ Class {
 		'numberSpaceships',
 		'laps',
 		'permanentCards',
-		'lastEffect'
+		'lastEffect',
+		'cardTargets',
+		'board'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'instance creation' }
-Game class >> with: spaceShips andDice: someDice laps: lap [
+Game class >> with: spaceShips andDice: someDice laps: lap in:aBoard [
 	(lap < 1) ifTrue: [ Error signal: 'Number of laps should be greater than 0' ].
-	^ self new initializeWith: spaceShips andDice: someDice laps: lap
+	^ self new initializeWith: spaceShips andDice: someDice laps: lap in:aBoard.
 ]
 
 { #category : 'logic' }
@@ -38,15 +40,14 @@ Game >> activateMoonWalk: nTiles from: triggeringSpaceship [
 ]
 
 { #category : 'adding' }
-Game >> addCard: aCard [
-
-	permanentCards add: aCard 
+Game >> addCard: aCard against:aSpaceship [
+	permanentCards add: aCard .
+	cardTargets at: aCard put:aSpaceship .
 ]
 
 { #category : 'adding' }
 Game >> addPermanentCard: anOverloadCard against: aSpaceship [ 
-	permanentCards add: anOverloadCard.
-	anOverloadCard appliedTo:aSpaceship.
+	self addCard:anOverloadCard against: aSpaceship .
 	aSpaceship modifyRoll: anOverloadCard penalty .
 ]
 
@@ -63,14 +64,16 @@ Game >> applyRewardTo: aSpaceship withPorcentageOf: aPorcentage [
 ]
 
 { #category : 'initialization' }
-Game >> initializeWith: someSpaceships andDice: someDice laps: someLaps [
-
+Game >> initializeWith: someSpaceships andDice: someDice laps: someLaps in:aBoard [
+	
+	board:= aBoard.
 	laps := someLaps.
 	spaceships := someSpaceships.
 	dice := someDice.
 	turnNumber := 1.
 	numberSpaceships := spaceships size.
-	permanentCards := OrderedCollection new
+	permanentCards := OrderedCollection new.
+	cardTargets:=Dictionary new.
 ]
 
 { #category : 'logic' }
@@ -101,7 +104,8 @@ Game >> nextTurn [
 
 	| spaceship positionsToMove|
 	self isFinished ifTrue: [ ^ self ].
-	spaceship := spaceships at: turnNumber.
+	spaceship := spaceships at: turnNumber. "obtengo nave actual"
+	
 	((spaceship) managePenalization) ifFalse:[
 		positionsToMove:= self rollDices.
 		(positionsToMove = self maximumValueOfDice)ifTrue: [self applyRewardTo: spaceship withPorcentageOf: 80].
@@ -132,13 +136,19 @@ Game >> readLastCard [
 { #category : 'removing' }
 Game >> removeCard: aCardToRemove [
 
-	| cardToRemoveFromGame  |
+	| cardToRemoveFromGame  targetSpaceship |
 	cardToRemoveFromGame  := permanentCards
 		        detect: [ :aPermanentCard  | aPermanentCard  class = aCardToRemove action class ]
 		        ifNone: [
 		        Error signal: 'La carta a eliminar no esta en juego' ].
+	
 	permanentCards remove: cardToRemoveFromGame .
-	cardToRemoveFromGame  removeAction.
+	
+	targetSpaceship:= cardTargets at:aCardToRemove ifAbsent: [ nil ].
+	targetSpaceship ifNotNil: [ 
+		aCardToRemove removeAction:targetSpaceship in:self.
+		cardTargets removeKey:aCardToRemove ]ifNil: [ cardToRemoveFromGame  removeAction:self. ].
+	
 	^ cardToRemoveFromGame 
 ]
 

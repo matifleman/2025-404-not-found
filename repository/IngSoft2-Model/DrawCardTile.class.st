@@ -11,12 +11,18 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'as yet unclassified' }
+DrawCardTile class >> inPosition: aPosition withDeck: aDeck [
+	^self new initializeIn: aPosition withDeck: aDeck 
+]
+
 { #category : 'effects' }
 DrawCardTile >> applyEffectsTo: aSpaceship in: aGame [
     aSpaceship drawCard: (cardDeck draw)
 ]
 
 { #category : 'initialization' }
-DrawCardTile >> setCardDeck: aCardDeck [
-	cardDeck := aCardDeck.
+DrawCardTile >> initializeIn: aPosition withDeck:aDeck [
+	self initializeIn: aPosition.
+	cardDeck := aDeck 
 ]

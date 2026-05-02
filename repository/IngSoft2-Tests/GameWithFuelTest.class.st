@@ -29,7 +29,7 @@ GameWithFuelTest >> setUp [
 	aSpaceship1 := Spaceship withName: 'Nave 1' withBoard: aBoard withMaxFuel: 10.
 	spaceships := { aSpaceship1 }.
 	lap := 1.
-	aGame := Game with: spaceships andDice: dice laps: lap.
+	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard .
 	
 ]
 

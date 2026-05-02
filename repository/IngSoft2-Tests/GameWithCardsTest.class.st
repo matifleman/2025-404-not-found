@@ -32,7 +32,7 @@ GameWithCardsTest >> setUp [
 	aDie1 := LoadedDie with: { 3 . 3 . 3 . 3}. 
 	aDie2 := LoadedDie with: { 3 . 3 . 3 . 3}. 	
 	dice := { aDie1 . aDie2 }. 	lap := 2. 	
-	aGame := Game with: spaceships andDice: dice laps: lap. 	
+	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard . 	
 	aBoard setGame: aGame. 
 	
 	drawCardTile := DrawCardTile inPosition: 6.
@@ -56,7 +56,8 @@ GameWithCardsTest >> testOnlyCardsOnHandCanBePlayed [
 	allyCard:=Card with: Ally new.
 	repeatCard:=Card with:Repeat new.
 	aCardDeck addCard: allyCard.
-	drawCardTile setCardDeck: aCardDeck.
+	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	aBoard addTile: drawCardTile .
 	aSpaceship1 turn: 6.
 	
 	self
@@ -72,7 +73,8 @@ GameWithCardsTest >> testPermanentCardAOverloadIsPlayedDuringTurn [
 	aCardDeck:=CardDeck new.
 	overloadCard:=Card with: Overload new.
 	aCardDeck addCard: overloadCard.
-	drawCardTile setCardDeck: aCardDeck.
+	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	aBoard addTile: drawCardTile .
 
 	aSpaceship1 turn:6.
 	aSpaceship1 turn: 1 playCard: overloadCard against: aSpaceship2 in:aGame .
@@ -89,7 +91,8 @@ GameWithCardsTest >> testPermanentCardAccelerationIsCantBePlayedOutsideTurn [
 	aCardDeck:=CardDeck new.
 	accelerationCard:=Card with: Acceleration new.
 	aCardDeck addCard: accelerationCard.
-	drawCardTile setCardDeck: aCardDeck.
+	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	aBoard addTile: drawCardTile .
 
 	aSpaceship2 turn:6.
 	self
@@ -107,7 +110,8 @@ GameWithCardsTest >> testPermanentCardAccelerationIsPlayedDuringTurn [
 	aCardDeck:=CardDeck new.
 	accelerationCard:=Card with: Acceleration new.
 	aCardDeck addCard: accelerationCard.
-	drawCardTile setCardDeck: aCardDeck.
+	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	aBoard addTile: drawCardTile .
 
 	aSpaceship2 turn:6.
 	aSpaceship2 turn: 2 playCard: accelerationCard against: nil in:aGame .
@@ -122,7 +126,8 @@ GameWithCardsTest >> testPermanentCardAllyIsCantBePlayedOutsideTurn [
 	aCardDeck:=CardDeck new.
 	allyCard:=Card with: Ally new.
 	aCardDeck addCard: allyCard.
-	drawCardTile setCardDeck: aCardDeck.
+	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	aBoard addTile: drawCardTile .
 
 	aSpaceship2 turn:6.
 	self

@@ -1,19 +1,13 @@
 Class {
 	#name : 'Overload',
 	#superclass : 'CardAction',
-	#instVars : [
-		'spaceship',
-		'cardSpaceship'
-	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
 Overload >> actOn: aSpaceship from: aCardSpaceship during: aGame [ 
-	spaceship := aSpaceship.
-	cardSpaceship := aCardSpaceship.
-	aGame addCard: self.
+	aGame addCard: self against: aSpaceship .
 	aSpaceship modifyRoll: -2
 ]
 
@@ -29,6 +23,6 @@ Overload >> nameOfCard [
 ]
 
 { #category : 'removing' }
-Overload >> removeAction [
-	spaceship modifyRoll: 2. 
+Overload >> removeAction: aGame [
+	aGame modifyRollAll: 2.
 ]

@@ -8,6 +8,12 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'as yet unclassified' }
+HyperGravity class >> inPosition: aPosition needingToRoll:aNumber [
+	^self new initializeIn: aPosition needing:aNumber.
+	
+]
+
 { #category : 'effects' }
 HyperGravity >> applyEffectsTo: aSpaceship in: aGame [
 	aGame saveLastEffect: [:aShip | aShip lockUntil:exitRoll ].
@@ -15,8 +21,8 @@ HyperGravity >> applyEffectsTo: aSpaceship in: aGame [
 	
 ]
 
-{ #category : 'accessing' }
-HyperGravity >> exitRoll: anExitRoll [
-	exitRoll := anExitRoll.
-	
+{ #category : 'initialization' }
+HyperGravity >> initializeIn: aPosition needing:aNumber [
+	self initializeIn: aPosition.
+	exitRoll :=aNumber
 ]

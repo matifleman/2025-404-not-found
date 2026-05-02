@@ -65,8 +65,7 @@ BoardTileTest >> testWhenHyperGravityNegativeThenCreationFails [
 BoardTileTest >> testWhenHyperGravityOutsideBoardThenNotAddedToBoard [
 	| hyperGravity aBoard| 	 	
 	aBoard := Board with: 20. 
-	hyperGravity := HyperGravity inPosition: 22. 	 	
-	hyperGravity exitRoll:11.
+	hyperGravity := HyperGravity inPosition: 22 needingToRoll: 11. 	 	
 	self
 		should: [aBoard addTile: hyperGravity .]
 		raise: Error
@@ -105,8 +104,8 @@ BoardTileTest >> testWhenMoonWalkNegativeThenCreationFails [
 BoardTileTest >> testWhenMoonWalkOutsideBoardThenNotAddedToBoard [
 	| moonWalk aBoard| 	 	
 	aBoard := Board with: 20. 
-	moonWalk := MoonWalk inPosition: 22. 	
-	moonWalk tilesToBack: 3.
+	moonWalk := MoonWalk inPosition: 22 backingUp: 3. 	
+
 	self
 		should: [aBoard addTile: moonWalk .]
 		raise: Error

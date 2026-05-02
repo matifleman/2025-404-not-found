@@ -99,6 +99,19 @@ Spaceship >> initializeWith: aName withBoard: aBoard withMaxFuel: aMaxFuel withC
 	rollAddOn := 0.
 ]
 
+{ #category : 'initialization' }
+Spaceship >> initializeWith: aName  withMaxFuel: aMaxFuel withCards: someCards [
+	position := Position in: 0 at: 0.
+	name := aName.
+	fuelTank := FuelTank with: aMaxFuel.
+	penalization := 0.
+	exitRoll := 0.
+	cards := someCards.
+	minusMoves :=0.
+	ally := nil.
+	rollAddOn := 0.
+]
+
 { #category : 'logic' }
 Spaceship >> lockUntil: anExitRoll [
 	exitRoll := anExitRoll.
@@ -207,11 +220,5 @@ Spaceship >> useCard: aCard against: aSpaceship in: aGame [
 	| cardToUse |
 	cardToUse := cards detect: [:c | c == aCard ] ifNone: [ Error signal:'The chosen card was not found' ].
 	cardToUse useAgainst: aSpaceship from: self in: aGame.
-	cards remove: (cards at: 1).
-]
-
-{ #category : 'as yet unclassified' }
-Spaceship >> useCardAgainst: aSpaceship in: aGame [
-	(cards at: 1) useAgainst: aSpaceship from: self in: aGame.
 	cards remove: (cards at: 1).
 ]
