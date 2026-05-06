@@ -56,26 +56,12 @@ Board >> addWormHolewithEntraceTile: entrance exitTile: exit [
 ]
 
 { #category : 'accessing' }
-Board >> applyTileEffectTo: aSpaceship [ 	
-	| tile |   
-	tile := self tileAt: aSpaceship position. 	
-	"
-	(tile notNil and: [ tile class ~= CommonTile ]) ifTrue: [
-        game ifNotNil: [ game saveLastEffect: tile ].
-    ]."
-    tile ifNotNil: [
-        tile applyEffectsTo: aSpaceship in: game
-    ].
-]
-
-{ #category : 'accessing' }
-Board >> applyTileEffectTo: aSpaceship in: aGame [ [
+Board >> applyTileEffectTo: aSpaceship in: aGame [ 
     | tile |
     tile := self tileAt: aSpaceship position.
     tile ifNotNil: [
         tile applyEffectsTo: aSpaceship in: aGame
     ].
-]
 ]
 
 { #category : 'check' }

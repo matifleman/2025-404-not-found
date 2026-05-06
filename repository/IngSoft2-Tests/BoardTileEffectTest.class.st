@@ -30,7 +30,7 @@ BoardTileEffectTest >> setUp [
 	aDie2 := LoadedDie with: { 3 . 3 . 3 . 2}. 	
 	dice := { aDie1 . aDie2 }. 	lap := 2. 	
 	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard . 	
-	aBoard setGame: aGame. 
+
 ]
 
 { #category : 'tests' }
@@ -38,8 +38,8 @@ BoardTileEffectTest >> testABWhenSpaceshipLandsOnAtomicBombAndGoesBackToOThenLap
 	| atomicBomb | 	 	
 	atomicBomb := AtomicBomb inPosition: 4. 	
 	aBoard addTile: atomicBomb.
-	aSpaceship2 turn: 18.
-	aSpaceship1 turn: 25.
+	aSpaceship2 turn: 18 in: aGame.
+	aSpaceship1 turn: 25 in: aGame.
 	
 	self assert: aSpaceship1 position equals: (Position in: 0 at: 1).
 	self assert: aSpaceship2 position equals: (Position in: 0 at: 0).
@@ -50,8 +50,8 @@ BoardTileEffectTest >> testABWhenSpaceshipLandsOnAtomicBombThenAllSpaceshipsGoBa
 	| atomicBomb | 	 	
 	atomicBomb := AtomicBomb inPosition: 9. 	
 	aBoard addTile: atomicBomb.
-	aSpaceship2 turn: 8.	
-	aSpaceship1 turn: 9. 
+	aSpaceship2 turn: 8 in: aGame.	
+	aSpaceship1 turn: 9 in: aGame. 
 	
 	self assert: aSpaceship1 position equals: (Position in: 0 at: 0).
 	self assert: aSpaceship2 position equals: (Position in: 0 at: 0).
@@ -62,7 +62,7 @@ BoardTileEffectTest >> testABWhenSpaceshipLandsOnAtomicBombThenSpaceshipsDontUse
 	| atomicBomb | 	 	
 	atomicBomb := AtomicBomb inPosition: 9. 	
 	aBoard addTile: atomicBomb.
-	aSpaceship1 turn: 9. 
+	aSpaceship1 turn: 9 in: aGame. 
 	 
 	self assert: aSpaceship2 fuel equals: 30.
 	self assert: aSpaceship1 fuel equals: 21.
@@ -75,7 +75,7 @@ BoardTileEffectTest >> testBHWhenBlackHoleEffectIsApliedThenFuelGoesDown [
 	blackHole:= BlackHole inPosition: 9.
 	aBoard addTile: blackHole.
 	
-	aSpaceship1 turn: 9.
+	aSpaceship1 turn: 9 in: aGame.
 	
 	self assert: aSpaceship1 fuel equals: 17.
 	
@@ -89,7 +89,7 @@ BoardTileEffectTest >> testBHWhenFuelRunsOutDurginBlackHoleThenGoesBackTo0AndIsP
 	blackHole := BlackHole inPosition: 7.
 	aBoard addTile: blackHole.
 	
-	aSpaceship1 turn: 28.
+	aSpaceship1 turn: 28 in: aGame.
 	
 	self assert: aSpaceship1 position equals: (Position in: 0 at: 1).	
 
@@ -102,7 +102,7 @@ BoardTileEffectTest >> testBHWhenGoingBackwardsCanReduceOneLap [
 	blackHole := BlackHole inPosition: 2.
 	aBoard addTile: blackHole.
 	
-	aSpaceship1 turn: 23.
+	aSpaceship1 turn: 23 in: aGame.
 	
 	self assert: aSpaceship1 position equals: (Position in: 18 at: 0).	
 
@@ -117,7 +117,7 @@ BoardTileEffectTest >> testBHWhenSpaceShipLandsOnBlackHoleMovesBackwardsThenNoOt
 	blackHole2 := BlackHole inPosition: 5.
 	aBoard addTile: blackHole2.
 	
-	aSpaceship1 turn: 9.
+	aSpaceship1 turn: 9 in: aGame.
 	
 	self assert: aSpaceship1 position equals:(Position in: 5 at: 0).
 	
@@ -131,7 +131,7 @@ BoardTileEffectTest >> testBHWhenSpaceShipLandsOnBlackHoleThenItMovesBackwards [
 	blackHole := BlackHole inPosition: 9.
 	aBoard addTile: blackHole.
 	
-	aSpaceship1 turn: 9.
+	aSpaceship1 turn: 9 in: aGame.
 	
 	self assert: aSpaceship1 position equals:(Position in: 5 at: 0).
 	
@@ -144,8 +144,8 @@ BoardTileEffectTest >> testHGWhenSpaceshipLandsOnHyperGravityAndRollIsBiggerThen
 	hyperGravity := HyperGravity inPosition: 6 needingToRoll: 2. 	
 	aBoard addTile: hyperGravity .
 	
-	aSpaceship1 turn: 6.
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
+	aSpaceship1 turn: 6 in: aGame.
 	 
 	self assert: aSpaceship1 position equals: (Position in: 12 at: 0).
 ]
@@ -156,8 +156,8 @@ BoardTileEffectTest >> testHGWhenSpaceshipLandsOnHyperGravityButRollIsSmallerThe
 	hyperGravity := HyperGravity inPosition: 6 needingToRoll: 10. 	
 	aBoard addTile: hyperGravity .
 	
-	aSpaceship1 turn: 6.
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
+	aSpaceship1 turn: 6 in: aGame.
 	 
 	self assert: aSpaceship1 position equals: (Position in: 6 at: 0).
 ]
@@ -169,8 +169,8 @@ BoardTileEffectTest >> testHJWhenSecondSpaceshipLandOnHyperJumpThenUsesSecondVal
 	hyperJump convert: 2 with: (Parsec with:(aBoard size))and: {Parsec with:10 . Parsec with:12 . Parsec with:8 . Parsec with:5 . Parsec with:3. Parsec with:2} . "es decir si el tamaño es 20, tendra 20*2 = 40 parsecs y esa es mi lista de valores maximos"
 	aBoard addTile: hyperJump .
 	
-	aSpaceship1 turn: 4.
-	aSpaceship2 turn: 4.
+	aSpaceship1 turn: 4 in: aGame.
+	aSpaceship2 turn: 4 in: aGame.
 	 
 	self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
 	self assert: aSpaceship2 position equals: (Position in: 9 at: 0).
@@ -184,7 +184,7 @@ BoardTileEffectTest >> testHJWhenSpaceShipLandsOnHyperJumpThenItMovesAccordingTo
 	hyperJump convert: 2 with: (Parsec with:(aBoard size)) and: {Parsec with:10 . Parsec with:12 . Parsec with:8 . Parsec with:5 . Parsec with:3. Parsec with:2} . "es decir si el tamaño es 20, tendra 20*2 = 40 parsecs y esa es mi lista de valores maximos"
 	aBoard addTile: hyperJump .
 	
-	aSpaceship1 turn: 4.
+	aSpaceship1 turn: 4 in: aGame.
 	
 	self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
 	
@@ -196,8 +196,8 @@ BoardTileEffectTest >> testMWCorrectFuelUsage [
 	moonWalk := MoonWalk inPosition: 4 backingUp: 3. 	
 	aBoard addTile: moonWalk .
 	
-	aSpaceship1 turn: 6.
-	aSpaceship2 turn: 4. "Cae en moonWalk y hace que la 1 retroceda"
+	aSpaceship1 turn: 6 in: aGame.
+	aSpaceship2 turn: 4 in: aGame. "Cae en moonWalk y hace que la 1 retroceda"
 	 
 	self assert: aSpaceship2 fuel equals: 26.
 	self assert: aSpaceship1 fuel equals: 21.
@@ -209,8 +209,8 @@ BoardTileEffectTest >> testMWWhenOtherSpaceShipRunsOutOfFuelThenItApplisPenaliza
 	moonWalk := MoonWalk inPosition: 4 backingUp: 3. 	
 	aBoard addTile: moonWalk .
 	
-	aSpaceship1 turn: 28.
-	aSpaceship2 turn: 4. "Cae en moonWalk y hace que la 1 retroceda"
+	aSpaceship1 turn: 28 in: aGame.
+	aSpaceship2 turn: 4 in: aGame. "Cae en moonWalk y hace que la 1 retroceda"
 	 
 	"self assert: aSpaceship2 fuel equals: 26."
 	self assert: aSpaceship1 position equals: (Position in: 0 at: 1).
@@ -224,8 +224,8 @@ BoardTileEffectTest >> testMWWhenSpaceShipLandsOnMoonWalkThenOthersBack [
 	moonWalk := MoonWalk inPosition: 4 backingUp: 3. 	
 	aBoard addTile: moonWalk .
 	
-	aSpaceship1 turn: 6.
-	aSpaceship2 turn: 4. "Cae en moonWalk y hace que la 1 retroceda"
+	aSpaceship1 turn: 6 in: aGame.
+	aSpaceship2 turn: 4 in: aGame. "Cae en moonWalk y hace que la 1 retroceda"
 	 
 	self assert: aSpaceship2 position equals: (Position in: 4 at: 0)."se queda en su posicion"
 	self assert: aSpaceship1 position equals: (Position in: 3 at: 0). "retrocedio 3 posiciones"

@@ -30,7 +30,6 @@ HyperJumpWithDiferentUnits >> setUp [
 	aDie2 := LoadedDie with: { 3 . 3 . 3 . 2}. 	
 	dice := { aDie1 . aDie2 }. 	lap := 2. 	
 	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard . 	
-	aBoard setGame: aGame. 
 ]
 
 { #category : 'tests' }
@@ -42,7 +41,7 @@ HyperJumpWithDiferentUnits >> testWhenHyperJumpReceivesLightYears [
 
 	aBoard addTile: hyperJump .
 	
-	aSpaceship1 turn: 4.
+	aSpaceship1 turn: 4 in: aGame.
 	
 	self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
 ]
@@ -56,7 +55,7 @@ HyperJumpWithDiferentUnits >> testWhenHyperJumpReceivesLightYearsAndParsec [
 
 	aBoard addTile: hyperJump .
 	
-	aSpaceship1 turn: 4.
+	aSpaceship1 turn: 4 in: aGame.
 	
 	self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
 ]
@@ -70,7 +69,7 @@ HyperJumpWithDiferentUnits >> testWhenHyperJumpReceivesParsecs [
 
 	aBoard addTile: hyperJump .
 	
-	aSpaceship1 turn: 4.
+	aSpaceship1 turn: 4 in: aGame.
 	
 	self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
 ]

@@ -32,8 +32,7 @@ CardsTest >> setUp [
 	aDie1 := LoadedDie with: { 3 . 3 . 3 . 3}. 
 	aDie2 := LoadedDie with: { 3 . 3 . 3 . 3}. 	
 	dice := { aDie1 . aDie2 }. 	lap := 2. 	
-	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard . 	
-	aBoard setGame: aGame. 
+	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard . 	 
 	
 	
 	
@@ -58,7 +57,7 @@ CardsTest >> test01WhenSpaceshipLandsOnCardTileThenReceivesACard [
 	aCardDeck addCard: (Card with: Overload new).
 	drawCardTile := DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile.
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
 	self assert: aSpaceship1 cards equals: 1
 ]
 
@@ -75,8 +74,8 @@ CardsTest >> test02WhenSpaceshipLandsOnCardTileTwiceThenHasTwoCards [
 	anotherDrawCardTile := DrawCardTile inPosition: 9 withDeck: anotherCardDeck.
 	aBoard addTile: anotherDrawCardTile.
 	aSpaceship1
-		turn: 6;
-		turn: 3.
+		turn: 6 in: aGame;
+		turn: 3 in: aGame.
 	self assert: aSpaceship1 cards equals: 2
 ]
 
@@ -88,7 +87,7 @@ CardsTest >> test03WhenSpaceShipPicksUpOverloadCardAndUses [
 	aCardDeck addCard: overloadCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn:1 playCard: overloadCard against: aSpaceship2 in:aGame .
 	
 	self assert: aSpaceship1 cards equals: 0.
@@ -103,10 +102,10 @@ CardsTest >> test04WhenSpaceShipUsesOverloadCardAndApplyEffect [
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
 	
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn:1 playCard: overloadCard against: aSpaceship2 in:aGame .
 	
-	aSpaceship2 turn:4.
+	aSpaceship2 turn:4 in: aGame.
 	
 	self assert: aSpaceship2 position equals:(Position in: 2 at: 0).
 ]
@@ -120,7 +119,7 @@ CardsTest >> test05WhenUsedAllyCardThenBothSpaceshipFuelsGoDown [
 	aCardDeck addCard: allyCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn:6 playCard: allyCard against: aSpaceship2 in: aGame.
 	
 	self assert: aSpaceship2 fuel equals: 8
@@ -135,7 +134,7 @@ CardsTest >> test06WhenAllyRunsOutOfFuelThenBothRunOutOfFuel [
 	aCardDeck addCard: allyCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn:15 playCard: allyCard against: aSpaceship2 in: aGame.
 	
 	self assert: aSpaceship1 fuel equals: 0.
@@ -151,7 +150,7 @@ CardsTest >> test07WhenAllyRunsOutOfFuelThenBothRGoBackToZero [
 	aCardDeck addCard: allyCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn:15 playCard: allyCard against: aSpaceship2 in: aGame.
 
 	
@@ -168,7 +167,7 @@ CardsTest >> test08WhenAccelerationCardIsUsedThenTheNextMoveIsUpByOne [
 	aCardDeck addCard: accelerationCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn: 2 playCard: accelerationCard against: nil in: aGame .
 	
 	self assert: aSpaceship1 position equals: (Position in: 9 at: 0).
@@ -183,9 +182,9 @@ CardsTest >> test09WhenAccelerationCardIsUsedThenAllMovesAreUpByOne [
 	aCardDeck addCard: accelerationCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn: 2 playCard: accelerationCard against: nil in: aGame .
-	aSpaceship2 turn: 6.
+	aSpaceship2 turn: 6 in: aGame.
 	
 	self assert: aSpaceship1 position equals: (Position in: 9 at: 0).
 	self assert: aSpaceship2 position equals: (Position in: 7 at: 0).
@@ -215,7 +214,7 @@ CardsTest >> test11WhenUsedACancellationCardThenAccelerationActionIsGone [
 	aSpaceship1 turn: 2 playCard: accelerationCard against: nil in: aGame .
 	
 	aSpaceship2 useCancellationOn: accelerationCard inGame: aGame.
-	aSpaceship1 turn: 1.
+	aSpaceship1 turn: 1 in: aGame.
 	self assert: aSpaceship1 position equals: (Position in: 4 at: 0)
 ]
 
@@ -229,9 +228,9 @@ CardsTest >> test12WhenUsedACancellationCardThenOverloadActionIsGone [
 	aSpaceship2 drawCard: cancellationCard.
 	aSpaceship1 turn:1 playCard:overloadCard against:aSpaceship2 in:aGame.
 	aSpaceship2
-		turn: 5;
+		turn: 5 in: aGame;
 		useCancellationOn: overloadCard inGame: aGame;
-		turn: 1.
+		turn: 1 in: aGame.
 	self assert: aSpaceship2 position equals: (Position in: 4 at: 0)
 ]
 
@@ -246,7 +245,7 @@ CardsTest >> test13WhenUsedACancellationCardThenAllyActionIsGone [
 	aSpaceship1 turn: 12 playCard: anAllyCard against:aSpaceship2 in:aGame .
 		
 	aSpaceship2 useCancellationOn: anAllyCard inGame: aGame.
-	aSpaceship1 turn: 2.
+	aSpaceship1 turn: 2 in: aGame.
 	self assert: aSpaceship2 position equals: (Position in: 0 at: 0)
 ]
 
@@ -279,7 +278,7 @@ CardsTest >> test15WhenRedoCardUsedPlaysLatestPlayedCard [
 	aSpaceship1 turn:5 playCard: redoCard against:aSpaceship2 in:aGame.
 		"turn: 5;
 		useCardAgainst: aSpaceship2 in: aGame."
-	aSpaceship2 turn: 3.
+	aSpaceship2 turn: 3 in: aGame.
 	self
 		assert: aSpaceship2 position equals: (Position in: 2 at: 0);
 		assert: aSpaceship1 position equals: (Position in: 3 at: 0);
@@ -295,7 +294,7 @@ CardsTest >> test16WhenNotCardsInGameThenRedoNoEffect [
 	aSpaceship1
 		drawCard: redoCard;
 		useCard:redoCard against: aSpaceship2 in: aGame.
-	aSpaceship2 turn: 3.
+	aSpaceship2 turn: 3 in: aGame.
 	self
 		assert: aSpaceship2 position equals: (Position in: 3 at: 0);
 		assert: aGame permanentCards equals: 0
@@ -313,7 +312,7 @@ CardsTest >> test17WhenRedoCardUsedPlaysLatestAccelerationCard [
 	aBoard addTile: drawCardTile .
 	aSpaceship1 drawCard: redoCard.
 	aSpaceship2
-		turn: 6;
+		turn: 6 in: aGame;
 		turn: 1 playCard: accelerationCard against: nil in: aGame .
 	aSpaceship1 turn: 2 playCard: redoCard against: nil in: aGame .
 	self
@@ -330,7 +329,7 @@ CardsTest >> test18WhenRepeatCardUsedThenAppliesBlackHoleEffectToSpaceship [
 	
 	blackHole:= BlackHole inPosition: 9.
 	aBoard addTile: blackHole.
-	aSpaceship3 turn: 9. "Aplicamos el efecto blackHole en el juego, la Nave 3 tiene 20 de fuel"
+	aSpaceship3 turn: 9 in: aGame. "Aplicamos el efecto blackHole en el juego, la Nave 3 tiene 20 de fuel"
 	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "usa la carta repetida y va 4 mas para atras"
 	
 	self assert:aSpaceship3 position equals: (Position in:1 at:0).
@@ -344,9 +343,9 @@ CardsTest >> test19WhenRepeatCardUsedThenAppliesAtomicBombEffectToSpaceship [
 	
 	atomicBomb:= AtomicBomb inPosition: 9.
 	aBoard addTile: atomicBomb.
-	aSpaceship3 turn: 9. "Aplicamos el efecto atomicBomb en el juego, la Nave 3 tiene 20 de fuel"
-	aSpaceship3 turn: 5. "Vuelve a comenzar de cero y se mueve hasta 5"
-	aSpaceship1 turn: 3.
+	aSpaceship3 turn: 9 in: aGame. "Aplicamos el efecto atomicBomb en el juego, la Nave 3 tiene 20 de fuel"
+	aSpaceship3 turn: 5 in: aGame. "Vuelve a comenzar de cero y se mueve hasta 5"
+	aSpaceship1 turn: 3 in: aGame.
 	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "usa la carta repetida y vuelve a 0"
 	
 	self assert:aSpaceship3 position equals: (Position in:0 at:0).
@@ -362,10 +361,10 @@ CardsTest >> test20WhenRepeatCardUsedThenAppliesHyperGravityEffectToSpaceship [
 	hyperGravity:= HyperGravity inPosition: 5 needingToRoll: 3.
 	aBoard addTile: hyperGravity.
 	
-	aSpaceship3 turn: 5. "Aplicamos el efecto HyperGravity "
-	aSpaceship3 turn: 6. "sale del casillero"
+	aSpaceship3 turn: 5 in: aGame. "Aplicamos el efecto HyperGravity "
+	aSpaceship3 turn: 6 in: aGame. "sale del casillero"
 	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "usa la carta repetida y vuelve a aplicarse con el mismo exit roll"
-	aSpaceship3 turn: 2. 
+	aSpaceship3 turn: 2 in: aGame. 
 	
 	self assert:aSpaceship3 position equals: (Position in:11 at:0). "No se pudo mover de 11 al no sacar mas de 3"
 	
@@ -380,8 +379,8 @@ CardsTest >> test21WhenRepeatCardUsedThenAppliesMoonWalkEffectToSpaceship [
 	moonwalk:= MoonWalk inPosition: 5 backingUp: 3. "lo que tendra que retroceder"
 	aBoard addTile: moonwalk.
 	
-	aSpaceship3 turn: 5. "hace retroceder a los demas 3 posiciones"
-	aSpaceship3 turn: 4. "avanza a 9"
+	aSpaceship3 turn: 5 in: aGame. "hace retroceder a los demas 3 posiciones"
+	aSpaceship3 turn: 4 in: aGame. "avanza a 9"
 	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "usa la carta repetida y vuelve a aplicarse MW"
 	
 	
@@ -399,7 +398,7 @@ CardsTest >> test22WhenRepeatCardUsedThenAppliesHyperJumpEffectToSpaceship [
 	hyperJump convert: 2 with: (Parsec with:(aBoard size))and: {Parsec with:10 . Parsec with:12 . Parsec with:8 . Parsec with:5 . Parsec with:3. Parsec with:2} .
 	aBoard addTile: hyperJump.
 	
-	aSpaceship3 turn: 5. "se movera 6 lugares mas adelante"
+	aSpaceship3 turn: 5 in: aGame. "se movera 6 lugares mas adelante"
 	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "al volverselo a aplicar se movera 5 lugares mas"
 	
 	
