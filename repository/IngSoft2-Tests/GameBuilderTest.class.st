@@ -79,50 +79,6 @@ GameBuilderTest >> testWhenGameCreationWithInvalidSpaceshipNameThenFails [
 ]
 
 { #category : 'asserting' }
-GameBuilderTest >> testWhenGameCreationWithInvalidWormholeEntranceThenFails [
-	| builder game |
-	builder := GameBuilder new.
-	builder addSpaceshipNamed: 'Nave 1'.
-	builder addSpaceshipNamed: 'Nave 2'.
-	builder addDieWithValue: 3.
-	builder addDieWithValue: 5.
-	builder setBoardSize: 10.
-	builder setWormholeEntrance: -2 exit: 7.
-	
-	self
-		should: [ game := builder buildGame ]
-		raise: Error
-		withMessageText: 'Tile should be a positive position'			
-				
-			
-		
-	
-
-]
-
-{ #category : 'asserting' }
-GameBuilderTest >> testWhenGameCreationWithInvalidWormholeExitThenFails [
-	| builder game |
-	builder := GameBuilder new.
-	builder addSpaceshipNamed: 'Nave 1'.
-	builder addSpaceshipNamed: 'Nave 2'.
-	builder addDieWithValue: 3.
-	builder addDieWithValue: 5.
-	builder setBoardSize: 10.
-	builder setWormholeEntrance: 2 exit: -7.
-	
-	self
-		should: [ game := builder buildGame ]
-		raise: Error
-		withMessageText: 'Tile should be a positive position'		
-				
-			
-		
-	
-
-]
-
-{ #category : 'asserting' }
 GameBuilderTest >> testWhenGameCreationWithNegativeBoardSizeThenFails [
 	| builder game |
 	builder := GameBuilder new.

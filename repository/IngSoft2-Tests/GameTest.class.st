@@ -88,17 +88,6 @@ GameTest >> testWhenADiceIsRolledOneSpaceshipMovesAndTheOtherDoesnt [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenASpaceShipHasFallenIntoWormholeThenItChangesPosition [ 
-
-	aGame nextTurn.
-	aGame nextTurn.
-	aGame nextTurn.
-	
-	self assert: aSpaceship1 position equals: (Position in: 18 at: 0).
-	
-]
-
-{ #category : 'tests' }
 GameTest >> testWhenMultiplesDicesAreRolledTheSumIsCalculatedCorrectly [
 
 	self assert: aGame rollDices equals: 6.

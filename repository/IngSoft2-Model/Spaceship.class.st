@@ -192,10 +192,20 @@ Spaceship >> turn: toMove [
 	board applyTileEffectTo: self
 ]
 
+{ #category : 'logic' }
+Spaceship >> turn: toMove in: aGame [
+    toMove < exitRoll ifTrue: [ ^ self ].
+    exitRoll := 0.
+    self move: toMove + rollAddOn.
+    board applyTileEffectTo: self in: aGame
+
+]
+
 { #category : 'as yet unclassified' }
-Spaceship >> turn: aNumber playCard: aCard against: aSpaceship in:aGame [
-	self useCard: aCard against:aSpaceship during:aGame .
-	self turn: aNumber 
+Spaceship >> turn: aNumber playCard: aCard against: aSpaceship in: aGame [
+    self useCard: aCard against: aSpaceship during: aGame.
+    self turn: aNumber in: aGame
+
 ]
 
 { #category : 'as yet unclassified' }

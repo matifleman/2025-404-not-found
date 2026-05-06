@@ -109,7 +109,7 @@ Game >> nextTurn [
 	((spaceship) managePenalization) ifFalse:[
 		positionsToMove:= self rollDices.
 		(positionsToMove = self maximumValueOfDice)ifTrue: [self applyRewardTo: spaceship withPorcentageOf: 80].
-		spaceship turn: positionsToMove.
+		spaceship turn: positionsToMove in: self.
 	].
 	turnNumber := (turnNumber \\ numberSpaceships) + 1.
 

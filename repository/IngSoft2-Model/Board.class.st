@@ -55,11 +55,6 @@ Board >> addWormHolewithEntraceTile: entrance exitTile: exit [
 		addTile: exitWormhole
 ]
 
-{ #category : 'as yet unclassified' }
-Board >> applyCard: anOverloadCard to: aSpaceship [ 
-	game addPermanentCard:anOverloadCard against:aSpaceship .
-]
-
 { #category : 'accessing' }
 Board >> applyTileEffectTo: aSpaceship [ 	
 	| tile |   
@@ -71,6 +66,16 @@ Board >> applyTileEffectTo: aSpaceship [
     tile ifNotNil: [
         tile applyEffectsTo: aSpaceship in: game
     ].
+]
+
+{ #category : 'accessing' }
+Board >> applyTileEffectTo: aSpaceship in: aGame [ [
+    | tile |
+    tile := self tileAt: aSpaceship position.
+    tile ifNotNil: [
+        tile applyEffectsTo: aSpaceship in: aGame
+    ].
+]
 ]
 
 { #category : 'check' }
@@ -85,17 +90,6 @@ Board >> boardPosition: position [
 Board >> checkLimits: aNumber [
 	^ (aNumber<size) & (aNumber>0)
 	
-]
-
-{ #category : 'as yet unclassified' }
-Board >> gotMaxRoll: valueRoll [
-	^ game maxRoll = valueRoll .
-	
-]
-
-{ #category : 'initialization' }
-Board >> setGame: aGame [ 
-	game := aGame.
 ]
 
 { #category : 'accessing' }
