@@ -134,7 +134,6 @@ Spaceship >> modifyRoll: aNumber [
 
 { #category : 'moving' }
 Spaceship >> move: numberOfTiles [
-
 	position := board boardPosition: position + numberOfTiles.
 	fuelTank useFuel: numberOfTiles from: self.
 	
