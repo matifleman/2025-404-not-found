@@ -9,3 +9,8 @@ Class {
 OthersTarget >> resolveFrom: aSpaceship in: aGame [
 	^ aGame spaceships reject: [ :s | s = aSpaceship ]
 ]
+
+{ #category : 'highlighting' }
+OthersTarget >> reverse [
+	^ SelfTarget new
+]

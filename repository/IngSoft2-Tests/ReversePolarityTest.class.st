@@ -66,3 +66,35 @@ ReversePolarityTest >> test03SelfTargetReversedBecomesOtherTarget [
    self assert: (result includes: aSpaceship1 ).
    self deny: (result includes: aSpaceship2 ).
 ]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test04OtherTargetReversedBecomesSelfTarget [
+	| target result reversed |
+	target := OthersTarget new.
+	reversed := target reverse.
+   result := reversed resolveFrom: aSpaceship1 in: aGame.
+   self assert: result size equals: 1.
+   self assert: (result includes: aSpaceship1 ).
+   self deny: (result includes: aSpaceship2 ).
+	self deny: (result includes: aSpaceship3 ).
+
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test05AllTargetResolvesAllShips [
+	| target result |
+	target := AllTarget new.
+   result := target resolveFrom: aSpaceship1 in: aGame.
+	self assert: result size equals: 3.
+   self assert: (result includes: aSpaceship1 ).
+	self assert: (result includes: aSpaceship1 ).
+	self assert: (result includes: aSpaceship1 ).
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test05NoOneTargetResolvesNoShips [
+	| target result |
+	target := NoOneTarget new.
+   result := target resolveFrom: aSpaceship1 in: aGame.
+	self assert: result isEmpty .
+]
