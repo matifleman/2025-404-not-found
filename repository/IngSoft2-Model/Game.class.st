@@ -49,11 +49,10 @@ Game >> addPermanentCard: aCard against: aSpaceship [
 Game >> applyRewardTo: aSpaceship withPercentageOf: aPorcentage [
 	| randomNumber |
 
-    randomNumber := (Random new next * 100) rounded.
-
-    randomNumber <= aPorcentage
-        ifTrue: [ aSpaceship increaseMaxFuelBy: 1 ]
-        ifFalse: [ aSpaceship reduceFuelBy: 1 ].
+	randomNumber := (Random new next * 100) rounded.
+   randomNumber <= aPorcentage
+		ifTrue: [ aSpaceship increaseMaxFuelBy: 1 ]
+      ifFalse: [ aSpaceship reduceFuelBy: 1 ].
 
 ]
 
@@ -77,7 +76,7 @@ Game >> isFinished [
 
 { #category : 'accessing' }
 Game >> lastEffect [
-^lastEffect 
+	^lastEffect 
 ]
 
 { #category : 'accessing' }
@@ -120,18 +119,18 @@ Game >> permanentCards [
 { #category : 'removing' }
 Game >> readLastCard [
 	permanentCards isEmpty ifTrue: [ ^ NullCard new ].
-    ^ permanentCards last
+   ^ permanentCards last
 ]
 
 { #category : 'removing' }
 Game >> removeCard: aCardToRemove [
 	| card |
-    card := permanentCards
-        detect: [ :c | c == aCardToRemove ]
-        ifNone: [ Error signal: 'La carta a eliminar no esta en juego' ].
-    permanentCards remove: card.
-    cardTargets removeKey: card ifAbsent: [ nil ].
-    card removeFrom: self.
+	card := permanentCards
+		detect: [ :c | c == aCardToRemove ]
+      ifNone: [ Error signal: 'La carta a eliminar no esta en juego' ].
+   permanentCards remove: card.
+   cardTargets removeKey: card ifAbsent: [ nil ].
+   card removeFrom: self.
 ]
 
 { #category : 'logic' }

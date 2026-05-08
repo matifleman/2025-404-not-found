@@ -41,9 +41,9 @@ Board >> addTile: tile [
 Board >> applyTileEffectTo: aSpaceship in: aGame [ 
    | tile |
    tile := self tileAt: aSpaceship position.
-    tile ifNotNil: [
-        tile applyEffectsTo: aSpaceship in: aGame
-    ]
+   tile ifNotNil: [
+		tile applyEffectsTo: aSpaceship in: aGame
+   ]
 ]
 
 { #category : 'check' }
@@ -67,21 +67,18 @@ Board >> size [
 
 { #category : 'accessing' }
 Board >> tileAt: position [
-
 	position index = 0 ifTrue: [ ^ nil ].
 	^ tiles at: position index
 ]
 
 { #category : 'initialization' }
 Board >> with: aSize [
-
 	size := aSize.
 	tiles := (TileDistributionStrategy new) initializeTiles: aSize.
 ]
 
 { #category : 'initialization' }
 Board >> withRandom: aSize [
-
 	size := aSize.
 	tiles := (TileDistributionStrategy new) initializeTilesRandom: aSize.
 ]

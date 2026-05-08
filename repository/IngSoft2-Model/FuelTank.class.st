@@ -36,7 +36,7 @@ FuelTank >> initializeWith: aMaxFuel [
 
 { #category : 'accessing' }
 FuelTank >> maxFuel [ 
-^maxFuel
+	^maxFuel
 
 ]
 
@@ -56,7 +56,6 @@ FuelTank >> shareFuel: fuelNeeded from: aSpaceship [
 
 { #category : 'moving' }
 FuelTank >> useFuel: numberOfTiles from: spaceship [
-
 	fuel := fuel - numberOfTiles abs.
 	fuel > 0 ifTrue: [ ^self ].
 	(spaceship askForFuel: fuel abs) ifTrue: [ ^self ].

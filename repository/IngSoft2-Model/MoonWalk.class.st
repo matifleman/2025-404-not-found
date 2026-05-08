@@ -19,7 +19,7 @@ MoonWalk class >> inPosition: aPosition backingUp: aNumber [
 { #category : 'effects' }
 MoonWalk >> applyEffectsTo: aSpaceship in: aGame [
 	aGame saveLastEffect: [:aShip | aShip move:nTiles ].
-	aGame activateMoonWalk: nTiles from: aSpaceship. "le pasa la cantidad de que tendra que restar cada nave"
+	aGame activateMoonWalk: nTiles from: aSpaceship.
 
 ]
 

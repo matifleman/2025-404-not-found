@@ -36,9 +36,6 @@ WormHole class >> inPosition: aPosition withOffset: anOffset [
 { #category : 'effects' }
 WormHole >> applyEffectsTo: aSpaceship in: aGame [
 	aSpaceship move: offset .
-
-
-	"effects ifNotNil: [effects do: [ :effect | effect applyTo: aSpaceship ] ]."
 ]
 
 { #category : 'initialization' }

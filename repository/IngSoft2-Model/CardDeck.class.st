@@ -28,7 +28,7 @@ CardDeck >> generateRandomCards: aNumberOfCards [
 	 1 to: aNumberOfCards do: [:i | cards add: self randomCard ].
 ]
 
-{ #category : 'adding' }
+{ #category : 'initialization' }
 CardDeck >> initialize [
 	cards := OrderedCollection new.
 ]

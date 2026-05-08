@@ -48,7 +48,6 @@ Spaceship >> askForFuel: fuelNeeded [
 
 { #category : 'logic' }
 Spaceship >> breakAlliance [
-
 	ally := nil
 ]
 
@@ -59,7 +58,7 @@ Spaceship >> cards [
 
 { #category : 'logic' }
 Spaceship >> checkFuelCapacity [
-^fuelTank maxFuel
+	^fuelTank maxFuel
 
 ]
 
@@ -75,7 +74,6 @@ Spaceship >> fuel [
 
 { #category : 'logic' }
 Spaceship >> hasWon: laps [
-
 	^ position hasDoneLaps: laps
 ]
 
@@ -170,7 +168,6 @@ Spaceship >> refuel [
 
 { #category : 'initialization' }
 Spaceship >> resetToStartWithoutFuelLoss [
-
 	position := position backToZero.
 ]
 

@@ -16,7 +16,7 @@ Redo >> isPermanent [
 { #category : 'play' }
 Redo >> playOn: aSpaceship from: aCardOwner in: aGame [
 	| lastCard |
-    lastCard := aGame readLastCard.
-    lastCard playOn: aSpaceship from: aCardOwner in: aGame 
+	lastCard := aGame readLastCard.
+   lastCard playOn: aSpaceship from: aCardOwner in: aGame 
 
 ]
