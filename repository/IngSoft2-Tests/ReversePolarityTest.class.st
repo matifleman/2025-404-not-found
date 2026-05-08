@@ -92,9 +92,30 @@ ReversePolarityTest >> test05AllTargetResolvesAllShips [
 ]
 
 { #category : 'tests' }
-ReversePolarityTest >> test05NoOneTargetResolvesNoShips [
+ReversePolarityTest >> test06NoOneTargetResolvesNoShips [
 	| target result |
 	target := NoOneTarget new.
    result := target resolveFrom: aSpaceship1 in: aGame.
 	self assert: result isEmpty .
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test07AllTargetReversedResolvesNoShips [
+	| target result reversed |
+	target := AllTarget new.
+	reversed := target reverse.
+   result := reversed resolveFrom: aSpaceship1 in: aGame.
+	self assert: result isEmpty .
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test08NoOneTargetReversedResolvesAllShips [
+	| target result reversed |
+	target := NoOneTarget new.
+	reversed := target reverse.
+   result := reversed resolveFrom: aSpaceship1 in: aGame.
+	self assert: result size equals: 3.
+   self assert: (result includes: aSpaceship1 ).
+	self assert: (result includes: aSpaceship1 ).
+	self assert: (result includes: aSpaceship1 ).
 ]
