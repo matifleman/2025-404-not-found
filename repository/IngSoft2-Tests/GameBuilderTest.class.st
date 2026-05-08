@@ -24,7 +24,6 @@ GameBuilderTest >> testSpaceshipFuelInitializesWithDoubleTheMaxRoll [
 	builder addDieWithValue: 3.
 	builder addDieWithValue: 5.
 	builder setBoardSize: 10.
-	builder setWormholeEntrance: 2 exit: 7.
 	builder setGameLaps: 1.
 	
 	game := builder buildGame.
@@ -45,8 +44,7 @@ GameBuilderTest >> testWhenGameCreationWithInvalidLapsThenFails [
 	builder addSpaceshipNamed: 'Nave 2'.
 	builder addDieWithValue: 3.
 	builder addDieWithValue: 5.
-	builder setBoardSize: 10.
-	builder setWormholeEntrance: 2 exit: 7.		
+	builder setBoardSize: 10.		
 	builder setGameLaps: 0.
 				
 	self
@@ -66,8 +64,7 @@ GameBuilderTest >> testWhenGameCreationWithInvalidSpaceshipNameThenFails [
 	builder addSpaceshipNamed: 'Nave 2'.
 	builder addDieWithValue: 3.
 	builder addDieWithValue: 5.
-	builder setBoardSize: 10.
-	builder setWormholeEntrance: 2 exit: 7.		
+	builder setBoardSize: 10.	
 				
 	self
 		should: [ game := builder buildGame ]
@@ -87,7 +84,6 @@ GameBuilderTest >> testWhenGameCreationWithNegativeBoardSizeThenFails [
 	builder addDieWithValue: 3.
 	builder addDieWithValue: 5.
 	builder setBoardSize: -10.
-	builder setWormholeEntrance: 2 exit: 7.
 	
 	self
 		should: [ game := builder buildGame ]
@@ -109,7 +105,6 @@ GameBuilderTest >> testWhenGameCreationWithNegativeDieSideThenFails [
 	builder addDieWithValue: -3.
 	builder addDieWithValue: 5.
 	builder setBoardSize: 10.
-	builder setWormholeEntrance: 2 exit: 7.
 	
 	self
 		should: [ game := builder buildGame ]

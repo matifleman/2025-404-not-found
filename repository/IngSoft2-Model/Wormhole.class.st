@@ -12,8 +12,24 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-WormHole class >> inPosition: aPosition withOffset:anOffset [
-	^ self new initializeIn: aPosition withOffset: anOffset 
+WormHole class >> createPairWithEntrance: entrancePos andExit: exitPos [ 
+	| distance entrance exit |
+	
+	distance := exitPos - entrancePos.
+	
+	entrance := self inPosition: entrancePos withOffset: distance.
+	exit := self inPosition: exitPos withOffset: distance negated.
+	
+	^ { entrance . exit }
+]
+
+{ #category : 'as yet unclassified' }
+WormHole class >> inPosition: aPosition withOffset: anOffset [ 
+	aPosition negative ifTrue: [
+		Error signal: 'Tile should be a positive position' ].
+		
+	^ self new initializeIn: aPosition withOffset: anOffset
+	
 
 ]
 
@@ -26,9 +42,9 @@ WormHole >> applyEffectsTo: aSpaceship in: aGame [
 ]
 
 { #category : 'initialization' }
-WormHole >> initializeIn: aPosition withOffset:anOffset [
+WormHole >> initializeIn: aPosition withOffset: anOffset [
 	self initializeIn: aPosition. 
-	offset :=anOffset
+	offset := anOffset
 	
 	
 ]

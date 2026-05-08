@@ -37,30 +37,13 @@ Board >> addTile: tile [
 	tiles at: tile position put: tile
 ]
 
-{ #category : 'adding' }
-Board >> addWormHolewithEntraceTile: entrance exitTile: exit [
-
-	| entranceWormhole exitWormhole |
-	(entrance > size)  ifTrue: [
-		Error signal: 'Tile should be inside the board' ].
-	(exit > size)  ifTrue: [
-		Error signal: 'Tile should be inside the board' ].
-	
-	
-	entranceWormhole := WormHole inPosition: entrance withOffset: exit - entrance.
-	exitWormhole := WormHole inPosition: exit withOffset: entrance - exit.
-	self
-		addTile: entranceWormhole;
-		addTile: exitWormhole
-]
-
 { #category : 'accessing' }
 Board >> applyTileEffectTo: aSpaceship in: aGame [ 
-    | tile |
-    tile := self tileAt: aSpaceship position.
+   | tile |
+   tile := self tileAt: aSpaceship position.
     tile ifNotNil: [
         tile applyEffectsTo: aSpaceship in: aGame
-    ].
+    ]
 ]
 
 { #category : 'check' }

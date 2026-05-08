@@ -32,7 +32,6 @@ GameTest >> setUp [
 	dice := { aDie1 . aDie2 }.
 	lap := 1.
 	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard .
-	aBoard addWormHolewithEntraceTile: 12 exitTile: 18.
 	
 ]
 
