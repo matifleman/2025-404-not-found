@@ -1,28 +1,26 @@
+"
+Overload card
+"
 Class {
 	#name : 'Overload',
-	#superclass : 'CardAction',
+	#superclass : 'Card',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-Overload >> actOn: aSpaceship from: aCardSpaceship during: aGame [ 
-	aGame addCard: self against: aSpaceship .
-	aSpaceship modifyRoll: -2
+{ #category : 'play' }
+Overload >> isPermanent [
+	^true
 ]
 
-{ #category : 'as yet unclassified' }
-Overload >> actOn: aSpaceship from: aCardSpaceship in: aGame [
-	Error signal:'Permanent Card can only be played turing turn'
+{ #category : 'play' }
+Overload >> playOn: aSpaceship from: aCardOwner in: aGame [
+	aGame addPermanentCard: self against: aSpaceship.
+   aSpaceship modifyRoll: -2
 
 ]
 
-{ #category : 'as yet unclassified' }
-Overload >> nameOfCard [ 
-^'overload'
-]
-
-{ #category : 'removing' }
-Overload >> removeAction: aGame [
-	aGame modifyRollAll: 2.
+{ #category : 'play' }
+Overload >> removeFrom: aGame [
+	aGame modifyRollAll: 2
 ]
