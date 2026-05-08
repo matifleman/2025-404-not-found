@@ -54,7 +54,7 @@ CardsTest >> test01WhenSpaceshipLandsOnCardTileThenReceivesACard [
 	| aCardDeck |
 	
 	aCardDeck := CardDeck new.
-	aCardDeck addCard: (Card with: Overload new).
+	aCardDeck addCard: (Overload new).
 	drawCardTile := DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile.
 	aSpaceship1 turn: 6 in: aGame.
@@ -66,9 +66,9 @@ CardsTest >> test02WhenSpaceshipLandsOnCardTileTwiceThenHasTwoCards [
 
 	| anotherDrawCardTile aCardDeck anotherCardDeck |
 	aCardDeck := CardDeck new.
-	aCardDeck addCard: (Card with: Overload new).
+	aCardDeck addCard: (Overload new).
 	anotherCardDeck := CardDeck new.
-	anotherCardDeck addCard: (Card with: Overload new).
+	anotherCardDeck addCard: (Overload new).
 	drawCardTile := DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
 	anotherDrawCardTile := DrawCardTile inPosition: 9 withDeck: anotherCardDeck.
@@ -82,7 +82,7 @@ CardsTest >> test02WhenSpaceshipLandsOnCardTileTwiceThenHasTwoCards [
 { #category : 'tests' }
 CardsTest >> test03WhenSpaceShipPicksUpOverloadCardAndUses [
 	| aCardDeck overloadCard|
-	overloadCard:=Card with: Overload new.
+	overloadCard:=Overload new.
 	aCardDeck:=CardDeck new.
 	aCardDeck addCard: overloadCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
@@ -97,7 +97,7 @@ CardsTest >> test03WhenSpaceShipPicksUpOverloadCardAndUses [
 CardsTest >> test04WhenSpaceShipUsesOverloadCardAndApplyEffect [
 	| aCardDeck overloadCard|
 	aCardDeck:=CardDeck new.
-	overloadCard:=Card with: Overload new.
+	overloadCard:=Overload new.
 	aCardDeck addCard:overloadCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
@@ -115,7 +115,7 @@ CardsTest >> test05WhenUsedAllyCardThenBothSpaceshipFuelsGoDown [
 
 	| aCardDeck allyCard|
 	aCardDeck:=CardDeck new.
-	allyCard:=Card with: Ally new.
+	allyCard:=Ally new.
 	aCardDeck addCard: allyCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
@@ -130,7 +130,7 @@ CardsTest >> test06WhenAllyRunsOutOfFuelThenBothRunOutOfFuel [
 
 	| aCardDeck allyCard|
 	aCardDeck:=CardDeck new.
-	allyCard:=Card with:Ally new.
+	allyCard:=Ally new.
 	aCardDeck addCard: allyCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
@@ -146,7 +146,7 @@ CardsTest >> test07WhenAllyRunsOutOfFuelThenBothRGoBackToZero [
 
 	| aCardDeck allyCard|
 	aCardDeck:=CardDeck new.
-	allyCard:=Card with: Ally new.
+	allyCard:=Ally new.
 	aCardDeck addCard: allyCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
@@ -163,7 +163,7 @@ CardsTest >> test08WhenAccelerationCardIsUsedThenTheNextMoveIsUpByOne [
 
 	| aCardDeck accelerationCard|
 	aCardDeck:=CardDeck new.
-	accelerationCard:=Card with: Acceleration new.
+	accelerationCard:=Acceleration new.
 	aCardDeck addCard: accelerationCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
@@ -178,7 +178,7 @@ CardsTest >> test09WhenAccelerationCardIsUsedThenAllMovesAreUpByOne [
 
 	| aCardDeck accelerationCard|
 	aCardDeck:=CardDeck new.
-	accelerationCard:=Card with: Acceleration new.
+	accelerationCard:=Acceleration new.
 	aCardDeck addCard: accelerationCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
 	aBoard addTile: drawCardTile .
@@ -194,8 +194,8 @@ CardsTest >> test09WhenAccelerationCardIsUsedThenAllMovesAreUpByOne [
 CardsTest >> test10WhenUsedACancellationCardThenAPermanentCardIsEliminatedtest [
 
 	| cancellationCard accelerationCard |
-	cancellationCard := Card with: Cancellation new.
-	accelerationCard := Card with: Acceleration new.
+	cancellationCard :=Cancellation new.
+	accelerationCard :=Acceleration new.
 	aSpaceship1 drawCard: accelerationCard.
 	aSpaceship2 drawCard: cancellationCard.
 	aSpaceship1 turn: 2 playCard: accelerationCard against: nil in: aGame .
@@ -207,8 +207,8 @@ CardsTest >> test10WhenUsedACancellationCardThenAPermanentCardIsEliminatedtest [
 CardsTest >> test11WhenUsedACancellationCardThenAccelerationActionIsGone [
 
 	| cancellationCard accelerationCard |
-	cancellationCard := Card with: Cancellation new.
-	accelerationCard := Card with: Acceleration new.
+	cancellationCard := Cancellation new.
+	accelerationCard := Acceleration new.
 	aSpaceship1 drawCard: accelerationCard.
 	aSpaceship2 drawCard: cancellationCard.
 	aSpaceship1 turn: 2 playCard: accelerationCard against: nil in: aGame .
@@ -222,8 +222,8 @@ CardsTest >> test11WhenUsedACancellationCardThenAccelerationActionIsGone [
 CardsTest >> test12WhenUsedACancellationCardThenOverloadActionIsGone [
 
 	| cancellationCard overloadCard |
-	cancellationCard := Card with: Cancellation new.
-	overloadCard := Card with: Overload new.
+	cancellationCard := Cancellation new.
+	overloadCard := Overload new.
 	aSpaceship1 drawCard: overloadCard.
 	aSpaceship2 drawCard: cancellationCard.
 	aSpaceship1 turn:1 playCard:overloadCard against:aSpaceship2 in:aGame.
@@ -238,8 +238,8 @@ CardsTest >> test12WhenUsedACancellationCardThenOverloadActionIsGone [
 CardsTest >> test13WhenUsedACancellationCardThenAllyActionIsGone [
 
 	| aCancellationCard anAllyCard |
-	aCancellationCard := Card with: Cancellation new.
-	anAllyCard := Card with: Ally new.
+	aCancellationCard := Cancellation new.
+	anAllyCard := Ally new.
 	aSpaceship1 drawCard: anAllyCard.
 	aSpaceship2 drawCard: aCancellationCard.
 	aSpaceship1 turn: 12 playCard: anAllyCard against:aSpaceship2 in:aGame .
@@ -253,9 +253,9 @@ CardsTest >> test13WhenUsedACancellationCardThenAllyActionIsGone [
 CardsTest >> test14WhenUsedACancellationCardOnANonExistenCardThenIsInvalid [
 
 	| cancellationCard allyCard accelerationCard |
-	cancellationCard := Card with: Cancellation new.
-	allyCard := Card with: Ally new.
-	accelerationCard := Card with: Acceleration new.
+	cancellationCard := Cancellation new.
+	allyCard := Ally new.
+	accelerationCard := Acceleration new.
 	aSpaceship1 drawCard: allyCard.
 	aSpaceship2 drawCard: cancellationCard.
 	aSpaceship1 turn:12 playCard:allyCard against:aSpaceship2 in:aGame .
@@ -269,8 +269,8 @@ CardsTest >> test14WhenUsedACancellationCardOnANonExistenCardThenIsInvalid [
 CardsTest >> test15WhenRedoCardUsedPlaysLatestPlayedCard [
 
 	| redoCard overloadCard |
-	redoCard := Card with: Redo new.
-	overloadCard := Card with: Overload new.
+	redoCard := Redo new.
+	overloadCard :=Overload new.
 	aSpaceship1 drawCard: redoCard.
 	aSpaceship2
 		drawCard: overloadCard;
@@ -289,8 +289,8 @@ CardsTest >> test15WhenRedoCardUsedPlaysLatestPlayedCard [
 CardsTest >> test16WhenNotCardsInGameThenRedoNoEffect [
 
 	| redoCard overloadCard |
-	redoCard := Card with: Redo new.
-	overloadCard := Card with: Overload new.
+	redoCard := Redo new.
+	overloadCard := Overload new.
 	aSpaceship1
 		drawCard: redoCard;
 		useCard:redoCard against: aSpaceship2 in: aGame.
@@ -304,8 +304,8 @@ CardsTest >> test16WhenNotCardsInGameThenRedoNoEffect [
 CardsTest >> test17WhenRedoCardUsedPlaysLatestAccelerationCard [
 
 	| redoCard accelerationCard aCardDeck |
-	redoCard := Card with: Redo new.
-	accelerationCard := Card with: Acceleration new.
+	redoCard := Redo new.
+	accelerationCard := Acceleration new.
 	aCardDeck := CardDeck new.
 	aCardDeck addCard: accelerationCard.
 	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
@@ -324,7 +324,7 @@ CardsTest >> test17WhenRedoCardUsedPlaysLatestAccelerationCard [
 { #category : 'tests' }
 CardsTest >> test18WhenRepeatCardUsedThenAppliesBlackHoleEffectToSpaceship [
 	|repeat blackHole|
-	repeat := Card with: Repeat new.
+	repeat := Repeat new.
 	aSpaceship2  drawCard: repeat.
 	
 	blackHole:= BlackHole inPosition: 9.
@@ -338,7 +338,7 @@ CardsTest >> test18WhenRepeatCardUsedThenAppliesBlackHoleEffectToSpaceship [
 { #category : 'tests' }
 CardsTest >> test19WhenRepeatCardUsedThenAppliesAtomicBombEffectToSpaceship [
 	|repeat atomicBomb|
-	repeat := Card with: Repeat new.
+	repeat := Repeat new.
 	aSpaceship2  drawCard: repeat.
 	
 	atomicBomb:= AtomicBomb inPosition: 9.
@@ -355,7 +355,7 @@ CardsTest >> test19WhenRepeatCardUsedThenAppliesAtomicBombEffectToSpaceship [
 { #category : 'tests' }
 CardsTest >> test20WhenRepeatCardUsedThenAppliesHyperGravityEffectToSpaceship [
 	|repeat hyperGravity|
-	repeat := Card with: Repeat new.
+	repeat := Repeat new.
 	aSpaceship2  drawCard: repeat.
 	
 	hyperGravity:= HyperGravity inPosition: 5 needingToRoll: 3.
@@ -373,7 +373,7 @@ CardsTest >> test20WhenRepeatCardUsedThenAppliesHyperGravityEffectToSpaceship [
 { #category : 'tests' }
 CardsTest >> test21WhenRepeatCardUsedThenAppliesMoonWalkEffectToSpaceship [
 	|repeat moonwalk|
-	repeat := Card with: Repeat new.
+	repeat := Repeat new.
 	aSpaceship2  drawCard: repeat.
 	
 	moonwalk:= MoonWalk inPosition: 5 backingUp: 3. "lo que tendra que retroceder"
@@ -391,7 +391,7 @@ CardsTest >> test21WhenRepeatCardUsedThenAppliesMoonWalkEffectToSpaceship [
 { #category : 'tests' }
 CardsTest >> test22WhenRepeatCardUsedThenAppliesHyperJumpEffectToSpaceship [
 	|repeat hyperJump|
-	repeat := Card with: Repeat new.
+	repeat := Repeat new.
 	aSpaceship2  drawCard: repeat.
 	
 	hyperJump:= HyperJump inPosition: 5.

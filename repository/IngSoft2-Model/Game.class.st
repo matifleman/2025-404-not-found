@@ -40,15 +40,9 @@ Game >> activateMoonWalk: nTiles from: triggeringSpaceship [
 ]
 
 { #category : 'adding' }
-Game >> addCard: aCard against:aSpaceship [
-	permanentCards add: aCard .
-	cardTargets at: aCard put:aSpaceship .
-]
-
-{ #category : 'adding' }
-Game >> addPermanentCard: anOverloadCard against: aSpaceship [ 
-	self addCard:anOverloadCard against: aSpaceship .
-	aSpaceship modifyRoll: anOverloadCard penalty .
+Game >> addPermanentCard: aCard against: aSpaceship [ 
+	permanentCards add: aCard.
+   cardTargets at: aCard put: aSpaceship
 ]
 
 { #category : 'as yet unclassified' }
@@ -126,30 +120,24 @@ Game >> permanentCards [
 
 { #category : 'removing' }
 Game >> readLastCard [
-
-	permanentCards isEmptyOrNil ifTrue: [
-		^ NullCard with: NullAction new ].
-	nil.
-	^ permanentCards last
+	permanentCards isEmpty ifTrue: [ ^ NullCard new ].
+    ^ permanentCards last
 ]
 
 { #category : 'removing' }
 Game >> removeCard: aCardToRemove [
-
-	| cardToRemoveFromGame  targetSpaceship |
-	cardToRemoveFromGame  := permanentCards
-		        detect: [ :aPermanentCard  | aPermanentCard  class = aCardToRemove action class ]
-		        ifNone: [
-		        Error signal: 'La carta a eliminar no esta en juego' ].
-	
-	permanentCards remove: cardToRemoveFromGame .
-	
-	targetSpaceship:= cardTargets at:aCardToRemove ifAbsent: [ nil ].
-	targetSpaceship ifNotNil: [ 
-		aCardToRemove removeAction:targetSpaceship in:self.
-		cardTargets removeKey:aCardToRemove ]ifNil: [ cardToRemoveFromGame  removeAction:self. ].
-	
-	^ cardToRemoveFromGame 
+	| card target |
+    card := permanentCards
+        detect: [ :c | c == aCardToRemove ]
+        ifNone: [ Error signal: 'La carta a eliminar no esta en juego' ].
+    permanentCards remove: card.
+    target := cardTargets at: card ifAbsent: [ nil ].
+    target ifNotNil: [
+        card removeFrom: self.
+        cardTargets removeKey: card
+    ] ifNil: [
+        card removeFrom: self
+    ]
 ]
 
 { #category : 'logic' }

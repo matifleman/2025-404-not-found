@@ -1,3 +1,6 @@
+"
+Null card
+"
 Class {
 	#name : 'NullCard',
 	#superclass : 'Card',
@@ -5,17 +8,8 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'instance creation' }
-NullCard class >> with: anAction [
-	^ self new initializeWith: anAction.
-]
+{ #category : 'play' }
+NullCard >> playOn: aSpaceship from: aCardOwner in: aGame [
+	
 
-{ #category : 'as yet unclassified' }
-NullCard >> actOn: aSpaceship from: aSpaceship2 in: aGame [ 
-	^self
-]
-
-{ #category : 'initialization' }
-NullCard >> initializeWith: anAction [
-	action := anAction 
 ]
