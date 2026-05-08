@@ -1,3 +1,6 @@
+"
+Common tile
+"
 Class {
 	#name : 'CommonTile',
 	#superclass : 'BoardTile',

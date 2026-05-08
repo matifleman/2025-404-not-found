@@ -1,3 +1,6 @@
+"
+Atomic Bomb
+"
 Class {
 	#name : 'AtomicBomb',
 	#superclass : 'BoardTile',

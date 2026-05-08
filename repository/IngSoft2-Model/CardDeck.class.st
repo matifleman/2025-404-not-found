@@ -38,10 +38,10 @@ CardDeck >> randomCard [
 	| r |
     r := Random new next.
 
-    (r < 0.17) ifTrue: [ ^ Card with: Acceleration new ].
-    (r < 0.34) ifTrue: [ ^ Card with: Ally new ].
-    (r < 0.51) ifTrue: [ ^ Card with: Overload new ].
-    (r < 0.68) ifTrue: [ ^ Card with: Cancellation new ].
-    (r < 0.84) ifTrue: [ ^ Card with: Repeat new ].
-    ^ Card with: Redo new.
+    (r < 0.17) ifTrue: [ ^ Acceleration new ].
+    (r < 0.34) ifTrue: [ ^ Ally new ].
+    (r < 0.51) ifTrue: [ ^ Overload new ].
+    (r < 0.68) ifTrue: [ ^ Cancellation new ].
+    (r < 0.84) ifTrue: [ ^ Repeat new ].
+    ^ Redo new.
 ]

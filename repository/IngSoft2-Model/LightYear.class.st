@@ -1,3 +1,6 @@
+"
+LightYearUnit
+"
 Class {
 	#name : 'LightYear',
 	#superclass : 'Unit',
@@ -5,7 +8,7 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 LightYear >> parsec [ 
 	^value/3.
 ]

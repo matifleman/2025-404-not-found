@@ -22,7 +22,7 @@ FuelTank >> fuel [
 	^fuel
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 FuelTank >> increaseSize:aNumber [
 	maxFuel := maxFuel +aNumber.
 
@@ -45,7 +45,7 @@ FuelTank >> refuel [
 	fuel := maxFuel.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'moving' }
 FuelTank >> shareFuel: fuelNeeded from: aSpaceship [
 	fuel := fuel - fuelNeeded abs.
 	fuel > 0 ifTrue: [ ^true ].

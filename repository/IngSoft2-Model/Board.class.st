@@ -7,8 +7,7 @@ Class {
 	#instVars : [
 		'wormhole',
 		'size',
-		'tiles',
-		'game'
+		'tiles'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'

@@ -34,19 +34,19 @@ Spaceship class >> withName: aName withBoard:aBoard withMaxFuel: maxFuel withCar
 	^ self new initializeWith: aName withBoard: aBoard  withMaxFuel: maxFuel withCards: cards
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> allyWith: aSpaceship [
 	ally := aSpaceship.
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> askForFuel: fuelNeeded [
 	ally ifNil: [ ^false ].
 	^ally shareFuel: fuelNeeded
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> breakAlliance [
 
 	ally := nil
@@ -57,7 +57,7 @@ Spaceship >> cards [
 	^cards size
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> checkFuelCapacity [
 ^fuelTank maxFuel
 
@@ -79,7 +79,7 @@ Spaceship >> hasWon: laps [
 	^ position hasDoneLaps: laps
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> increaseMaxFuelBy: aNumberToIncreaseTank [
 	fuelTank increaseSize:aNumberToIncreaseTank.
 
@@ -127,7 +127,7 @@ Spaceship >> managePenalization [
 	^ true
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> modifyRoll: aNumber [
 	rollAddOn := rollAddOn + aNumber.
 ]
@@ -158,9 +158,9 @@ Spaceship >> position [
 	^ position
 ]
 
-{ #category : 'as yet unclassified' }
-Spaceship >> reduceFuelBy:aNumber [
-	fuelTank useFuel: 1 from: self.
+{ #category : 'logic' }
+Spaceship >> reduceFuelBy: aNumber [
+	fuelTank useFuel: aNumber from: self.
 
 ]
 
@@ -175,7 +175,7 @@ Spaceship >> resetToStartWithoutFuelLoss [
 	position := position backToZero.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> shareFuel: fuelNeeded [
 	^fuelTank shareFuel: fuelNeeded from: self.
 	
@@ -191,7 +191,7 @@ Spaceship >> turn: toMove in: aGame [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> turn: aNumber playCard: aCard against: aTarget in: aGame [
     | cardToUse |
     cardToUse := cards
@@ -203,7 +203,7 @@ Spaceship >> turn: aNumber playCard: aCard against: aTarget in: aGame [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> useCancellationOn: cardToRemove inGame: aGame [
     | cancellationCard |
     cancellationCard := cards
@@ -214,7 +214,7 @@ Spaceship >> useCancellationOn: cardToRemove inGame: aGame [
     ^ cancellationCard
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> useCard: aCard against: aTarget in: aGame [
     | cardToUse |
     cardToUse := cards

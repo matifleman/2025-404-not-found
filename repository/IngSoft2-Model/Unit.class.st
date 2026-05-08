@@ -1,3 +1,6 @@
+"
+Unit
+"
 Class {
 	#name : 'Unit',
 	#superclass : 'Object',
@@ -21,7 +24,7 @@ Unit >> initializeWith: aValue [
 	value:=aValue 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Unit >> parsec [ 
   self subclassResponsibility.
 

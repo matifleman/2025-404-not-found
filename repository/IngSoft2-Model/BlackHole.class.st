@@ -1,3 +1,6 @@
+"
+Black hole
+"
 Class {
 	#name : 'BlackHole',
 	#superclass : 'BoardTile',

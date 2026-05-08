@@ -1,3 +1,6 @@
+"
+Parsec unit
+"
 Class {
 	#name : 'Parsec',
 	#superclass : 'Unit',
@@ -10,7 +13,7 @@ Parsec class >> with: aParsecValue [
 	^self new initializeWith: aParsecValue .
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Parsec >> parsec [
 	^value 
 ]

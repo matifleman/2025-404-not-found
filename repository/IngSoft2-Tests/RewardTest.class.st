@@ -36,7 +36,7 @@ RewardTest >> setUp [
 
 { #category : 'tests' }
 RewardTest >> test01WhenMaxRollGetsMaxFuelPermanently [
-	aGame applyRewardTo: aSpaceship1 withPorcentageOf:100.
+	aGame applyRewardTo: aSpaceship1 withPercentageOf:100.
 	"Inicialmente tiene 10 de fuel, luego tendra un maximo en el tanque de 11, pero recordemos que el fuel que tiene seguira siendo 10 de 11"
 	self assert: aSpaceship1 checkFuelCapacity equals:11. "luego de un turno y de moverse 6 lugares quiero que se le sume 1 de fuel"
 
@@ -44,7 +44,7 @@ RewardTest >> test01WhenMaxRollGetsMaxFuelPermanently [
 
 { #category : 'tests' }
 RewardTest >> test02WhenMaxRollGetsOneLessFuel [
-	aGame applyRewardTo: aSpaceship1 withPorcentageOf:0.
+	aGame applyRewardTo: aSpaceship1 withPercentageOf:0.
 	"Inicialmente tiene 10 de fuel, pasara a 9 el que tiene, no del tanque"
 	self assert: aSpaceship1 fuel equals:9.
 

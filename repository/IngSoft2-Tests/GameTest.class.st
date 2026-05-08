@@ -90,7 +90,7 @@ GameTest >> testWhenADiceIsRolledOneSpaceshipMovesAndTheOtherDoesnt [
 { #category : 'tests' }
 GameTest >> testWhenMultiplesDicesAreRolledTheSumIsCalculatedCorrectly [
 
-	self assert: aGame rollDices equals: 6.
+	self assert: aGame rollDice equals: 6.
 ]
 
 { #category : 'tests' }

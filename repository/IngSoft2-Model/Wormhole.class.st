@@ -1,3 +1,6 @@
+"
+Wormhole
+"
 Class {
 	#name : 'WormHole',
 	#superclass : 'BoardTile',

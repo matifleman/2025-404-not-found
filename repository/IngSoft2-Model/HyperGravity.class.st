@@ -1,3 +1,6 @@
+"
+Hypergravity
+"
 Class {
 	#name : 'HyperGravity',
 	#superclass : 'BoardTile',

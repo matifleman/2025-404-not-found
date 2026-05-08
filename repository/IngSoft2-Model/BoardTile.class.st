@@ -1,3 +1,6 @@
+"
+Board tile
+"
 Class {
 	#name : 'BoardTile',
 	#superclass : 'Object',

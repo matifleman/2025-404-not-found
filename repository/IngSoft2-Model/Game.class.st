@@ -45,8 +45,8 @@ Game >> addPermanentCard: aCard against: aSpaceship [
    cardTargets at: aCard put: aSpaceship
 ]
 
-{ #category : 'as yet unclassified' }
-Game >> applyRewardTo: aSpaceship withPorcentageOf: aPorcentage [
+{ #category : 'logic' }
+Game >> applyRewardTo: aSpaceship withPercentageOf: aPorcentage [
 	| randomNumber |
 
     randomNumber := (Random new next * 100) rounded.
@@ -86,7 +86,7 @@ Game >> maximumValueOfDice [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Game >> modifyRollAll: aNumber [
 	
 	spaceships do: [ :ship | ship modifyRoll: aNumber ].
@@ -101,8 +101,8 @@ Game >> nextTurn [
 	spaceship := spaceships at: turnNumber. "obtengo nave actual"
 	
 	((spaceship) managePenalization) ifFalse:[
-		positionsToMove:= self rollDices.
-		(positionsToMove = self maximumValueOfDice)ifTrue: [self applyRewardTo: spaceship withPorcentageOf: 80].
+		positionsToMove:= self rollDice.
+		(positionsToMove = self maximumValueOfDice)ifTrue: [self applyRewardTo: spaceship withPercentageOf: 80].
 		spaceship turn: positionsToMove in: self.
 	].
 	turnNumber := (turnNumber \\ numberSpaceships) + 1.
@@ -114,8 +114,7 @@ Game >> nextTurn [
 
 { #category : 'accessing' }
 Game >> permanentCards [
-
-	^ permanentCards size
+	^ permanentCards
 ]
 
 { #category : 'removing' }
@@ -126,29 +125,24 @@ Game >> readLastCard [
 
 { #category : 'removing' }
 Game >> removeCard: aCardToRemove [
-	| card target |
+	| card |
     card := permanentCards
         detect: [ :c | c == aCardToRemove ]
         ifNone: [ Error signal: 'La carta a eliminar no esta en juego' ].
     permanentCards remove: card.
-    target := cardTargets at: card ifAbsent: [ nil ].
-    target ifNotNil: [
-        card removeFrom: self.
-        cardTargets removeKey: card
-    ] ifNil: [
-        card removeFrom: self
-    ]
+    cardTargets removeKey: card ifAbsent: [ nil ].
+    card removeFrom: self.
 ]
 
 { #category : 'logic' }
-Game >> rollDices [
+Game >> rollDice [
 	| resultados |
 	resultados := dice collect: [ :dado | dado roll ].
 	^ resultados sum.
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Game >> saveLastEffect: aBlock [
 	lastEffect :=aBlock .
 ]
