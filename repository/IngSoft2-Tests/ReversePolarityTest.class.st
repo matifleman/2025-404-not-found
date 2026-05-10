@@ -13,7 +13,8 @@ Class {
 		'aGame',
 		'aSpaceship3',
 		'aCardDeck',
-		'drawCardTile'
+		'drawCardTile',
+		'reverseCard'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -29,17 +30,18 @@ ReversePolarityTest >> setUp [
 	aSpaceship2 := Spaceship withName: 'Nave 2' withBoard: aBoard withMaxFuel: 30 withCards: OrderedCollection new.
 	aSpaceship3 := Spaceship withName: 'Nave 3' withBoard: aBoard withMaxFuel: 30 withCards: OrderedCollection new.
 	spaceships := { aSpaceship1 . aSpaceship2 . aSpaceship3 }.
-	"Exacto una vuelta         1   2   1   2   1   2 "
+	"Exacto una vuelta         1   2   3   1   2   3 "
 	aDie1 := LoadedDie with: { 3 . 3 . 3 . 3 . 4 . 4}.
 	aDie2 := LoadedDie with: { 3 . 3 . 3 . 3 . 5 . 5}.
 	dice := { aDie1 . aDie2 }.
 	lap := 1.
 	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard .
 	
-	"aCardDeck := CardDeck new.
-	aCardDeck addCard: ReversePolarity new.
+	aCardDeck:=CardDeck new.
+	reverseCard := ReversePolarity new.
+	aCardDeck addCard: reverseCard.
 	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
-	aBoard addTile: drawCardTile ." "en el 6 siempre hay una carta reversePolarity"
+	aBoard addTile: drawCardTile .
 
 ]
 
@@ -142,13 +144,8 @@ ReversePolarityTest >> test09ReversedTwiceRestoresOriginalTarget [
 
 { #category : 'tests' }
 ReversePolarityTest >> test10ReversePolarityInvertsBlackHoleToAffectOtherShips [
-	| aBlackHole reverseCard |
-	
-	aCardDeck:=CardDeck new.
-	reverseCard := ReversePolarity new.
-	aCardDeck addCard: reverseCard.
-	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
-	aBoard addTile: drawCardTile ."mazo con el 6 con la carta"
+	| aBlackHole |
+
 	aBlackHole := BoardTile inPosition: 8 effect: (BlackHole new) target: SelfTarget new." blackhole en el 8"
 	aBoard addTile: aBlackHole .
 	
@@ -163,14 +160,9 @@ ReversePolarityTest >> test10ReversePolarityInvertsBlackHoleToAffectOtherShips [
 ]
 
 { #category : 'tests' }
-ReversePolarityTest >> test10ReversePolarityInvertsMoonwalkAndAffectsSelf [
-	| aMoonWalk reverseCard |
+ReversePolarityTest >> test11ReversePolarityInvertsMoonwalkAndAffectsSelf [
+	| aMoonWalk |
 	
-	aCardDeck:=CardDeck new.
-	reverseCard := ReversePolarity new.
-	aCardDeck addCard: reverseCard.
-	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
-	aBoard addTile: drawCardTile .
 	aMoonWalk := BoardTile inPosition: 8 effect: (MoonWalk steps: 4) target: OthersTarget new.
 	aBoard addTile: aMoonWalk .
 	
@@ -180,6 +172,84 @@ ReversePolarityTest >> test10ReversePolarityInvertsMoonwalkAndAffectsSelf [
 	
 	self assert: aSpaceship1 position equals: (Position in: 16 at: 0).
 	self assert: aSpaceship2 position equals: (Position in: 4 at: 0)
+	
+	
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test12ReversePolarityInvertsAtomicBombAndAffectsNoOne [
+	| anAtomicBomb |
+	
+	anAtomicBomb := BoardTile inPosition: 8 effect: (AtomicBomb new) target: AllTarget new.
+	aBoard addTile: anAtomicBomb .
+	
+	aSpaceship1 turn: 6 in: aGame.  
+	aSpaceship1 turn: 10 playCard: reverseCard against: anAtomicBomb in: aGame.
+	aSpaceship2 turn: 8 in: aGame. 
+	
+	self assert: aSpaceship1 position equals: (Position in: 16 at: 0).
+	self assert: aSpaceship2 position equals: (Position in: 8 at: 0)
+	
+	
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test13ReversePolarityInvertsHyperJumpAndAffectsOthers [
+	| hyperJumpTile hyperJumpEffect |
+	
+	hyperJumpEffect := HyperJump 
+       withParsecs: { Parsec with: 10. Parsec with: 12. Parsec with: 8. 
+                      Parsec with: 5. Parsec with: 3. Parsec with: 2 }
+       convertor: 2
+       boardSize: aBoard size.
+   hyperJumpTile := BoardTile inPosition: 8 effect: hyperJumpEffect target: SelfTarget new.
+	aBoard addTile: hyperJumpTile .
+	
+	aSpaceship1 turn: 6 in: aGame.  
+	aSpaceship1 turn: 10 playCard: reverseCard against: hyperJumpTile in: aGame.
+	aSpaceship2 turn: 8 in: aGame. 
+	
+	self assert: aSpaceship1 position equals: (Position in: 1 at: 1).
+	self assert: aSpaceship2 position equals: (Position in: 8 at: 0).
+	self assert: aSpaceship3 position equals: (Position in: 5 at: 0).
+	
+	
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test14ReversePolarityInvertsHyperGravityAndAffectsOthers [
+	| hyperGravity |
+	
+	hyperGravity := BoardTile inPosition: 8 effect: (HyperGravity needing: 7) target: SelfTarget new.
+	aBoard addTile: hyperGravity .
+	
+	aSpaceship1 turn: 6 in: aGame.  
+	aSpaceship1 turn: 10 playCard: reverseCard against: hyperGravity in: aGame.
+	aSpaceship2 turn: 8 in: aGame. "activa hypergravity en los demas"
+	
+	aSpaceship1 turn: 6 in: aGame. "no sale queda en 16"
+	aSpaceship2 turn: 6 in: aGame. "puede jugar"
+	aSpaceship3 turn: 6 in: aGame. "no sale queda en 0"
+	
+	self assert: aSpaceship1 position equals: (Position in: 16 at: 0).
+	self assert: aSpaceship2 position equals: (Position in: 14 at: 0).
+	self assert: aSpaceship3 position equals: (Position in: 0 at: 0).
+	
+	
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test15ReversePolarityInvertsDrawCardAndOtherDraw [
+	"Ya tengo drawCard en el 6"
+	aSpaceship1 turn: 6 in: aGame.  
+	aCardDeck addCard: Acceleration new.
+	aCardDeck addCard: Ally new.
+	aSpaceship1 turn: 10 playCard: reverseCard against: drawCardTile in: aGame.
+	aSpaceship2 turn: 6 in: aGame. "activa drawcard en los demas"
+	
+	self assert: aSpaceship1 cards equals: 1.
+	self assert: aSpaceship2 cards equals: 0.
+	self assert: aSpaceship3 cards equals: 1.
 	
 	
 ]
