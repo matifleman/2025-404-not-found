@@ -1,19 +1,19 @@
 "
-Black hole
+Common tile
 "
 Class {
-	#name : 'BlackHole',
+	#name : 'NoEffect',
 	#superclass : 'TileEffect',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'effects' }
-BlackHole >> applyEffectTo: aSpaceship in: aGame [
-	aSpaceship move: -4.
+NoEffect >> applyEffectTo: aSpaceship in: aGame [
+	
 ]
 
 { #category : 'asserting' }
-BlackHole >> shouldSaveAsLastEffect [
-	^true 
+NoEffect >> shouldSaveAsLastEffect [
+	^false 
 ]

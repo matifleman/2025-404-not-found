@@ -3,28 +3,31 @@ MoonWalk
 "
 Class {
 	#name : 'MoonWalk',
-	#superclass : 'BoardTile',
+	#superclass : 'TileEffect',
 	#instVars : [
-		'nTiles'
+		'steps'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-MoonWalk class >> inPosition: aPosition backingUp: aNumber [
-	^self new initializeIn: aPosition backingUp:aNumber 
+{ #category : 'instance creation' }
+MoonWalk class >> steps: aNumber [
+	^self new initializeWithSteps: aNumber 
 ]
 
 { #category : 'effects' }
-MoonWalk >> applyEffectsTo: aSpaceship in: aGame [
-	aGame saveLastEffect: [:aShip | aShip move:nTiles ].
-	aGame activateMoonWalk: nTiles from: aSpaceship.
+MoonWalk >> applyEffectTo: aSpaceship in: aGame [
+	aSpaceship move: steps .
 
 ]
 
 { #category : 'initialization' }
-MoonWalk >> initializeIn: aPosition backingUp: aNumber [
-	self initializeIn: aPosition .
-	nTiles:= aNumber negated .
+MoonWalk >> initializeWithSteps: aNumber [
+	steps := aNumber negated .
+]
+
+{ #category : 'asserting' }
+MoonWalk >> shouldSaveAsLastEffect [
+	^true 
 ]

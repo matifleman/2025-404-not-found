@@ -1,3 +1,6 @@
+"
+AllTarget
+"
 Class {
 	#name : 'AllTarget',
 	#superclass : 'TileTarget',

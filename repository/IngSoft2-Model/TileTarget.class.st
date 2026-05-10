@@ -1,3 +1,6 @@
+"
+TileTarget class
+"
 Class {
 	#name : 'TileTarget',
 	#superclass : 'Object',

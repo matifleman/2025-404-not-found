@@ -1,3 +1,6 @@
+"
+NoOneTarget
+"
 Class {
 	#name : 'NoOneTarget',
 	#superclass : 'TileTarget',

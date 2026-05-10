@@ -3,7 +3,7 @@ HyperJump
 "
 Class {
 	#name : 'HyperJump',
-	#superclass : 'BoardTile',
+	#superclass : 'TileEffect',
 	#instVars : [
 		'parsecs',
 		'listOfValues',
@@ -15,24 +15,19 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-HyperJump class >> inPosition: aPosition withEffect: aListOfParsec [
-	| sortedParsecs |
-	sortedParsecs :=aListOfParsec asSortedCollection reverse.
-	^self new initializeIn: aPosition withParsecs:sortedParsecs .
+HyperJump class >> withParsecs: aListOfParsec convertor: aConvertor boardSize: sizeOfBoard [ 
+   ^ self new initializeWithParsecs: aListOfParsec convertor: aConvertor boardSize: sizeOfBoard
 	
 ]
 
 { #category : 'effects' }
-HyperJump >> applyEffectsTo: aSpaceship in: aGame [
-    | parsecsValue tilesToAdvance |
-	
-    listOfValues isEmpty ifTrue: [ listOfValues := originalList copy ].
-    parsecsValue := listOfValues max.
-    listOfValues remove: parsecsValue.
-
-    tilesToAdvance := parsecsValue // convertor.
-	 aGame saveLastEffect: [:aShip | aShip move:tilesToAdvance ].
-    aSpaceship move: tilesToAdvance.
+HyperJump >> applyEffectTo: aSpaceship in: aGame [
+	| parsecsValue tilesToAdvance |
+   listOfValues isEmpty ifTrue: [ listOfValues := originalList copy ].
+   parsecsValue := listOfValues first.
+   listOfValues := listOfValues copyFrom: 2 to: listOfValues size.
+   tilesToAdvance := parsecsValue // convertor.
+   aSpaceship move: tilesToAdvance
 ]
 
 { #category : 'effects' }
@@ -46,8 +41,16 @@ HyperJump >> convert: aConvertor with: sizeOfBoard and: aListOfValues [
 ]
 
 { #category : 'initialization' }
-HyperJump >> initializeIn: aPosition withParsecs:sortedCollection [
-	self initializeIn: aPosition.
-	listOfValues :=sortedCollection.
+HyperJump >> initializeWithParsecs: aListOfParsec convertor: aConvertor boardSize: sizeOfBoard [
+	| results |
+   convertor := aConvertor.
+   results := aListOfParsec collect: [ :each | each parsec ].
+   originalList := results asSortedCollection reverse.
+   listOfValues := originalList copy.
 	
+]
+
+{ #category : 'asserting' }
+HyperJump >> shouldSaveAsLastEffect [
+	^true 
 ]

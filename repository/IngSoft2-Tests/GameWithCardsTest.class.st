@@ -32,10 +32,7 @@ GameWithCardsTest >> setUp [
 	aDie1 := LoadedDie with: { 3 . 3 . 3 . 3}. 
 	aDie2 := LoadedDie with: { 3 . 3 . 3 . 3}. 	
 	dice := { aDie1 . aDie2 }. 	lap := 2. 	
-	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard . 	 
-	
-	drawCardTile := DrawCardTile inPosition: 6.
-	aBoard addTile: drawCardTile.
+	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard . 
 ]
 
 { #category : 'asserting' }
@@ -55,7 +52,7 @@ GameWithCardsTest >> testOnlyCardsOnHandCanBePlayed [
 	allyCard:=Ally new.
 	repeatCard:=Repeat new.
 	aCardDeck addCard: allyCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 	aSpaceship1 turn: 6 in: aGame.
 	
@@ -72,7 +69,7 @@ GameWithCardsTest >> testPermanentCardAOverloadIsPlayedDuringTurn [
 	aCardDeck:=CardDeck new.
 	overloadCard:=Overload new.
 	aCardDeck addCard: overloadCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 
 	aSpaceship1 turn:6 in: aGame.
@@ -90,7 +87,7 @@ GameWithCardsTest >> testPermanentCardAccelerationIsCantBePlayedOutsideTurn [
 	aCardDeck:=CardDeck new.
 	accelerationCard:=Acceleration new.
 	aCardDeck addCard: accelerationCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 
 	aSpaceship2 turn:6 in: aGame.
@@ -109,7 +106,7 @@ GameWithCardsTest >> testPermanentCardAccelerationIsPlayedDuringTurn [
 	aCardDeck:=CardDeck new.
 	accelerationCard:=Acceleration new.
 	aCardDeck addCard: accelerationCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 
 	aSpaceship2 turn:6 in: aGame.
@@ -125,7 +122,7 @@ GameWithCardsTest >> testPermanentCardAllyIsCantBePlayedOutsideTurn [
 	aCardDeck:=CardDeck new.
 	allyCard:=Ally new.
 	aCardDeck addCard: allyCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 
 	aSpaceship2 turn:6 in: aGame.

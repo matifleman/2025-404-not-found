@@ -1,3 +1,6 @@
+"
+SelfTarget
+"
 Class {
 	#name : 'SelfTarget',
 	#superclass : 'TileTarget',
