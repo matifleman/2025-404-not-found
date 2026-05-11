@@ -401,3 +401,49 @@ ReversePolarityTest >> test21RPAppliedTwiceRestoresDrawCard [
 	
 	
 ]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test22RPIsRemovedByCancellationAndRestoresTarget [
+	| aBlackHole cancelCard |
+	
+	cancelCard := Cancellation new.
+	aBlackHole := BoardTile inPosition: 8 effect: (BlackHole new) target: SelfTarget new." blackhole en el 8"
+	aBoard addTile: aBlackHole .
+	
+	aSpaceship1 turn: 6 in: aGame.  "levanta la carta"
+	aSpaceship1 turn: 1 playCard: reverseCard against: aBlackHole in: aGame. "la juega en el blackhole"
+	aSpaceship2 turn: 8 in: aGame. "cae en el blackhole, manda a todos para atras"
+	
+	aCardDeck addCard: cancelCard .
+	aSpaceship3 turn: 11 in: aGame. "levanta carta"
+	aSpaceship3 useCancellationOn: reverseCard inGame: aGame . "da vuela efecto"
+	aSpaceship1 turn: 5 in: aGame. "afecta solo a 1"
+	 
+	self assert: aSpaceship1 position equals: (Position in: 4 at: 0).
+	self assert: aSpaceship2 position equals: (Position in: 8 at: 0).
+	self assert: aSpaceship3 position equals: (Position in: 6 at: 0).
+	
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test23RPIsRepeatedOnSameTileByRedoCard [
+	| aBlackHole cancelCard |
+	
+	cancelCard := Cancellation new.
+	aBlackHole := BoardTile inPosition: 8 effect: (BlackHole new) target: SelfTarget new." blackhole en el 8"
+	aBoard addTile: aBlackHole .
+	
+	aSpaceship1 turn: 6 in: aGame.  "levanta la carta"
+	aSpaceship1 turn: 1 playCard: reverseCard against: aBlackHole in: aGame. "la juega en el blackhole"
+	aSpaceship2 turn: 8 in: aGame. "cae en el blackhole, manda a todos para atras"
+	
+	aCardDeck addCard: cancelCard .
+	aSpaceship3 turn: 11 in: aGame. "levanta carta"
+	aSpaceship3 useCancellationOn: reverseCard inGame: aGame . "da vuela efecto"
+	aSpaceship1 turn: 5 in: aGame. "afecta solo a 1"
+	 
+	self assert: aSpaceship1 position equals: (Position in: 4 at: 0).
+	self assert: aSpaceship2 position equals: (Position in: 8 at: 0).
+	self assert: aSpaceship3 position equals: (Position in: 6 at: 0).
+	
+]
