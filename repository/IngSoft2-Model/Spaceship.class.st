@@ -194,7 +194,10 @@ Spaceship >> turbines [
 { #category : 'logic' }
 Spaceship >> turn: toMove in: aGame [
 	self checkTurbines.
-   toMove < exitRoll ifTrue: [ ^ self ].
+   toMove < exitRoll ifTrue: [ 
+		self loseTurbine.
+		^ self 
+	].
    exitRoll := 0.
    self move: toMove + rollAddOn.
    board applyTileEffectTo: self in: aGame
