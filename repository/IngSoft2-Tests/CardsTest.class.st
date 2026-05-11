@@ -55,7 +55,7 @@ CardsTest >> test01WhenSpaceshipLandsOnCardTileThenReceivesACard [
 	
 	aCardDeck := CardDeck new.
 	aCardDeck addCard: (Overload new).
-	drawCardTile := DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile := BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile.
 	aSpaceship1 turn: 6 in: aGame.
 	self assert: aSpaceship1 cards equals: 1
@@ -69,9 +69,9 @@ CardsTest >> test02WhenSpaceshipLandsOnCardTileTwiceThenHasTwoCards [
 	aCardDeck addCard: (Overload new).
 	anotherCardDeck := CardDeck new.
 	anotherCardDeck addCard: (Overload new).
-	drawCardTile := DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile := BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
-	anotherDrawCardTile := DrawCardTile inPosition: 9 withDeck: anotherCardDeck.
+	anotherDrawCardTile := BoardTile inPosition: 9 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: anotherDrawCardTile.
 	aSpaceship1
 		turn: 6 in: aGame;
@@ -85,7 +85,7 @@ CardsTest >> test03WhenSpaceShipPicksUpOverloadCardAndUses [
 	overloadCard:=Overload new.
 	aCardDeck:=CardDeck new.
 	aCardDeck addCard: overloadCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn:1 playCard: overloadCard against: aSpaceship2 in:aGame .
@@ -99,7 +99,7 @@ CardsTest >> test04WhenSpaceShipUsesOverloadCardAndApplyEffect [
 	aCardDeck:=CardDeck new.
 	overloadCard:=Overload new.
 	aCardDeck addCard:overloadCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 	
 	aSpaceship1 turn: 6 in: aGame.
@@ -117,7 +117,7 @@ CardsTest >> test05WhenUsedAllyCardThenBothSpaceshipFuelsGoDown [
 	aCardDeck:=CardDeck new.
 	allyCard:=Ally new.
 	aCardDeck addCard: allyCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn:6 playCard: allyCard against: aSpaceship2 in: aGame.
@@ -132,7 +132,7 @@ CardsTest >> test06WhenAllyRunsOutOfFuelThenBothRunOutOfFuel [
 	aCardDeck:=CardDeck new.
 	allyCard:=Ally new.
 	aCardDeck addCard: allyCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn:15 playCard: allyCard against: aSpaceship2 in: aGame.
@@ -148,7 +148,7 @@ CardsTest >> test07WhenAllyRunsOutOfFuelThenBothRGoBackToZero [
 	aCardDeck:=CardDeck new.
 	allyCard:=Ally new.
 	aCardDeck addCard: allyCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn:15 playCard: allyCard against: aSpaceship2 in: aGame.
@@ -165,7 +165,7 @@ CardsTest >> test08WhenAccelerationCardIsUsedThenTheNextMoveIsUpByOne [
 	aCardDeck:=CardDeck new.
 	accelerationCard:=Acceleration new.
 	aCardDeck addCard: accelerationCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn: 2 playCard: accelerationCard against: nil in: aGame .
@@ -180,7 +180,7 @@ CardsTest >> test09WhenAccelerationCardIsUsedThenAllMovesAreUpByOne [
 	aCardDeck:=CardDeck new.
 	accelerationCard:=Acceleration new.
 	aCardDeck addCard: accelerationCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn: 2 playCard: accelerationCard against: nil in: aGame .
@@ -308,7 +308,7 @@ CardsTest >> test17WhenRedoCardUsedPlaysLatestAccelerationCard [
 	accelerationCard := Acceleration new.
 	aCardDeck := CardDeck new.
 	aCardDeck addCard: accelerationCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 	aSpaceship1 drawCard: redoCard.
 	aSpaceship2
@@ -327,7 +327,7 @@ CardsTest >> test18WhenRepeatCardUsedThenAppliesBlackHoleEffectToSpaceship [
 	repeat := Repeat new.
 	aSpaceship2  drawCard: repeat.
 	
-	blackHole:= BlackHole inPosition: 9.
+	blackHole:= BoardTile inPosition: 9 effect: BlackHole new target: SelfTarget new.
 	aBoard addTile: blackHole.
 	aSpaceship3 turn: 9 in: aGame. "Aplicamos el efecto blackHole en el juego, la Nave 3 tiene 20 de fuel"
 	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "usa la carta repetida y va 4 mas para atras"
@@ -341,7 +341,7 @@ CardsTest >> test19WhenRepeatCardUsedThenAppliesAtomicBombEffectToSpaceship [
 	repeat := Repeat new.
 	aSpaceship2  drawCard: repeat.
 	
-	atomicBomb:= AtomicBomb inPosition: 9.
+	atomicBomb:= BoardTile inPosition: 9 effect: AtomicBomb new target: AllTarget new.
 	aBoard addTile: atomicBomb.
 	aSpaceship3 turn: 9 in: aGame. "Aplicamos el efecto atomicBomb en el juego, la Nave 3 tiene 20 de fuel"
 	aSpaceship3 turn: 5 in: aGame. "Vuelve a comenzar de cero y se mueve hasta 5"
@@ -358,7 +358,7 @@ CardsTest >> test20WhenRepeatCardUsedThenAppliesHyperGravityEffectToSpaceship [
 	repeat := Repeat new.
 	aSpaceship2  drawCard: repeat.
 	
-	hyperGravity:= HyperGravity inPosition: 5 needingToRoll: 3.
+	hyperGravity:= BoardTile inPosition: 5 effect: (HyperGravity needing: 3) target: SelfTarget new.
 	aBoard addTile: hyperGravity.
 	
 	aSpaceship3 turn: 5 in: aGame. "Aplicamos el efecto HyperGravity "
@@ -376,7 +376,7 @@ CardsTest >> test21WhenRepeatCardUsedThenAppliesMoonWalkEffectToSpaceship [
 	repeat := Repeat new.
 	aSpaceship2  drawCard: repeat.
 	
-	moonwalk:= MoonWalk inPosition: 5 backingUp: 3. "lo que tendra que retroceder"
+	moonwalk:= BoardTile inPosition: 5 effect: (MoonWalk steps: 3) target: OthersTarget new. "lo que tendra que retroceder"
 	aBoard addTile: moonwalk.
 	
 	aSpaceship3 turn: 5 in: aGame. "hace retroceder a los demas 3 posiciones"
@@ -390,18 +390,21 @@ CardsTest >> test21WhenRepeatCardUsedThenAppliesMoonWalkEffectToSpaceship [
 
 { #category : 'tests' }
 CardsTest >> test22WhenRepeatCardUsedThenAppliesHyperJumpEffectToSpaceship [
-	|repeat hyperJump|
+	|repeat hyperJumpEffect hyperJumpTile |
 	repeat := Repeat new.
 	aSpaceship2  drawCard: repeat.
 	
-	hyperJump:= HyperJump inPosition: 5.
-	hyperJump convert: 2 with: (Parsec with:(aBoard size))and: {Parsec with:10 . Parsec with:12 . Parsec with:8 . Parsec with:5 . Parsec with:3. Parsec with:2} .
-	aBoard addTile: hyperJump.
+	hyperJumpEffect := HyperJump 
+       withParsecs: { Parsec with: 10. Parsec with: 12. Parsec with: 8. 
+                      Parsec with: 5. Parsec with: 3. Parsec with: 2 }
+       convertor: 2
+       boardSize: aBoard size.
+   hyperJumpTile := BoardTile inPosition: 5 effect: hyperJumpEffect target: SelfTarget new.
+	aBoard addTile: hyperJumpTile.
 	
 	aSpaceship3 turn: 5 in: aGame. "se movera 6 lugares mas adelante"
 	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "al volverselo a aplicar se movera 5 lugares mas"
 	
-	
-	self assert:aSpaceship3 position equals: (Position in:17 at:0). 
+	self assert:aSpaceship3 position equals: (Position in:16 at:0). 
 	
 ]

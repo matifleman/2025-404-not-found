@@ -97,19 +97,6 @@ Spaceship >> initializeWith: aName withBoard: aBoard withMaxFuel: aMaxFuel withC
 	rollAddOn := 0.
 ]
 
-{ #category : 'initialization' }
-Spaceship >> initializeWith: aName  withMaxFuel: aMaxFuel withCards: someCards [
-	position := Position in: 0 at: 0.
-	name := aName.
-	fuelTank := FuelTank with: aMaxFuel.
-	penalization := 0.
-	exitRoll := 0.
-	cards := someCards.
-	minusMoves :=0.
-	ally := nil.
-	rollAddOn := 0.
-]
-
 { #category : 'logic' }
 Spaceship >> lockUntil: anExitRoll [
 	exitRoll := anExitRoll.

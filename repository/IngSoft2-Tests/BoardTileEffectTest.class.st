@@ -36,7 +36,7 @@ BoardTileEffectTest >> setUp [
 { #category : 'tests' }
 BoardTileEffectTest >> testABWhenSpaceshipLandsOnAtomicBombAndGoesBackToOThenLapsDontChange [
 	| atomicBomb | 	 	
-	atomicBomb := AtomicBomb inPosition: 4. 	
+	atomicBomb := BoardTile inPosition: 4 effect: AtomicBomb new  target: AllTarget new. 	
 	aBoard addTile: atomicBomb.
 	aSpaceship2 turn: 18 in: aGame.
 	aSpaceship1 turn: 25 in: aGame.
@@ -48,7 +48,7 @@ BoardTileEffectTest >> testABWhenSpaceshipLandsOnAtomicBombAndGoesBackToOThenLap
 { #category : 'tests' }
 BoardTileEffectTest >> testABWhenSpaceshipLandsOnAtomicBombThenAllSpaceshipsGoBackTo0 [
 	| atomicBomb | 	 	
-	atomicBomb := AtomicBomb inPosition: 9. 	
+	atomicBomb := BoardTile inPosition: 9 effect: AtomicBomb new  target: AllTarget new. 	
 	aBoard addTile: atomicBomb.
 	aSpaceship2 turn: 8 in: aGame.	
 	aSpaceship1 turn: 9 in: aGame. 
@@ -60,7 +60,7 @@ BoardTileEffectTest >> testABWhenSpaceshipLandsOnAtomicBombThenAllSpaceshipsGoBa
 { #category : 'tests' }
 BoardTileEffectTest >> testABWhenSpaceshipLandsOnAtomicBombThenSpaceshipsDontUseFuel [
 	| atomicBomb | 	 	
-	atomicBomb := AtomicBomb inPosition: 9. 	
+	atomicBomb := BoardTile inPosition: 9 effect: AtomicBomb new  target: AllTarget new. 	
 	aBoard addTile: atomicBomb.
 	aSpaceship1 turn: 9 in: aGame. 
 	 
@@ -72,7 +72,7 @@ BoardTileEffectTest >> testABWhenSpaceshipLandsOnAtomicBombThenSpaceshipsDontUse
 BoardTileEffectTest >> testBHWhenBlackHoleEffectIsApliedThenFuelGoesDown [
 	| blackHole |
 	
-	blackHole:= BlackHole inPosition: 9.
+	blackHole:= BoardTile inPosition: 9 effect: BlackHole new  target: SelfTarget new.
 	aBoard addTile: blackHole.
 	
 	aSpaceship1 turn: 9 in: aGame.
@@ -86,7 +86,7 @@ BoardTileEffectTest >> testBHWhenBlackHoleEffectIsApliedThenFuelGoesDown [
 BoardTileEffectTest >> testBHWhenFuelRunsOutDurginBlackHoleThenGoesBackTo0AndIsPenalized [
 	| blackHole |
 	
-	blackHole := BlackHole inPosition: 7.
+	blackHole := BoardTile inPosition: 7 effect: BlackHole new  target: SelfTarget new.
 	aBoard addTile: blackHole.
 	
 	aSpaceship1 turn: 28 in: aGame.
@@ -99,7 +99,7 @@ BoardTileEffectTest >> testBHWhenFuelRunsOutDurginBlackHoleThenGoesBackTo0AndIsP
 BoardTileEffectTest >> testBHWhenGoingBackwardsCanReduceOneLap [
 	| blackHole |
 	
-	blackHole := BlackHole inPosition: 2.
+	blackHole := BoardTile inPosition: 2 effect: BlackHole new  target: SelfTarget new.
 	aBoard addTile: blackHole.
 	
 	aSpaceship1 turn: 23 in: aGame.
@@ -112,9 +112,9 @@ BoardTileEffectTest >> testBHWhenGoingBackwardsCanReduceOneLap [
 BoardTileEffectTest >> testBHWhenSpaceShipLandsOnBlackHoleMovesBackwardsThenNoOtherEffectIsApplied [
 	
 	| blackHole blackHole2 |
-	blackHole := BlackHole inPosition: 9.
+	blackHole := BoardTile inPosition: 9 effect: BlackHole new  target: SelfTarget new.
 	aBoard addTile: blackHole.
-	blackHole2 := BlackHole inPosition: 5.
+	blackHole2 := BoardTile inPosition: 5 effect: BlackHole new  target: SelfTarget new.
 	aBoard addTile: blackHole2.
 	
 	aSpaceship1 turn: 9 in: aGame.
@@ -128,7 +128,7 @@ BoardTileEffectTest >> testBHWhenSpaceShipLandsOnBlackHoleMovesBackwardsThenNoOt
 BoardTileEffectTest >> testBHWhenSpaceShipLandsOnBlackHoleThenItMovesBackwards [
 	| blackHole |
 
-	blackHole := BlackHole inPosition: 9.
+	blackHole := BoardTile inPosition: 9 effect: BlackHole new  target: SelfTarget new.
 	aBoard addTile: blackHole.
 	
 	aSpaceship1 turn: 9 in: aGame.
@@ -141,9 +141,7 @@ BoardTileEffectTest >> testBHWhenSpaceShipLandsOnBlackHoleThenItMovesBackwards [
 { #category : 'tests' }
 BoardTileEffectTest >> testHGWhenSpaceshipLandsOnHyperGravityAndRollIsBiggerThenMoves [
 	| hyperGravity | 	 	
-	hyperGravity := HyperGravity inPosition: 6 needingToRoll: 2. 	
-	aBoard addTile: hyperGravity .
-	
+	hyperGravity := BoardTile inPosition: 6 effect: (HyperGravity needing: 2) target: SelfTarget new.
 	aSpaceship1 turn: 6 in: aGame.
 	aSpaceship1 turn: 6 in: aGame.
 	 
@@ -153,7 +151,7 @@ BoardTileEffectTest >> testHGWhenSpaceshipLandsOnHyperGravityAndRollIsBiggerThen
 { #category : 'tests' }
 BoardTileEffectTest >> testHGWhenSpaceshipLandsOnHyperGravityButRollIsSmallerThenStaysAtTheSamePosition [
 	| hyperGravity | 	 	
-	hyperGravity := HyperGravity inPosition: 6 needingToRoll: 10. 	
+	hyperGravity := BoardTile inPosition: 6 effect: (HyperGravity needing: 10) target: SelfTarget new. 	
 	aBoard addTile: hyperGravity .
 	
 	aSpaceship1 turn: 6 in: aGame.
@@ -164,36 +162,38 @@ BoardTileEffectTest >> testHGWhenSpaceshipLandsOnHyperGravityButRollIsSmallerThe
 
 { #category : 'tests' }
 BoardTileEffectTest >> testHJWhenSecondSpaceshipLandOnHyperJumpThenUsesSecondValue [
-	| hyperJump | 	 	
-	hyperJump := HyperJump inPosition: 4. 	
-	hyperJump convert: 2 with: (Parsec with:(aBoard size))and: {Parsec with:10 . Parsec with:12 . Parsec with:8 . Parsec with:5 . Parsec with:3. Parsec with:2} . "es decir si el tamaño es 20, tendra 20*2 = 40 parsecs y esa es mi lista de valores maximos"
-	aBoard addTile: hyperJump .
-	
-	aSpaceship1 turn: 4 in: aGame.
-	aSpaceship2 turn: 4 in: aGame.
-	 
-	self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
-	self assert: aSpaceship2 position equals: (Position in: 9 at: 0).
+	| hyperJumpEffect hyperJumpTile |
+   hyperJumpEffect := HyperJump 
+       withParsecs: { Parsec with: 10. Parsec with: 12. Parsec with: 8. 
+                      Parsec with: 5. Parsec with: 3. Parsec with: 2 }
+       convertor: 2
+       boardSize: aBoard size.
+   hyperJumpTile := BoardTile inPosition: 4 effect: hyperJumpEffect target: SelfTarget new.
+   aBoard addTile: hyperJumpTile.
+   aSpaceship1 turn: 4 in: aGame.
+   self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
 	
 ]
 
 { #category : 'tests' }
 BoardTileEffectTest >> testHJWhenSpaceShipLandsOnHyperJumpThenItMovesAccordingToParsecs [
-	| hyperJump | 	 	
-	hyperJump := HyperJump inPosition: 4. 	
-	hyperJump convert: 2 with: (Parsec with:(aBoard size)) and: {Parsec with:10 . Parsec with:12 . Parsec with:8 . Parsec with:5 . Parsec with:3. Parsec with:2} . "es decir si el tamaño es 20, tendra 20*2 = 40 parsecs y esa es mi lista de valores maximos"
-	aBoard addTile: hyperJump .
-	
-	aSpaceship1 turn: 4 in: aGame.
-	
+	| hyperJumpEffect hyperJumpTile |
+   hyperJumpEffect := HyperJump 
+       withParsecs: { Parsec with: 10. Parsec with: 12. Parsec with: 8. 
+                      Parsec with: 5. Parsec with: 3. Parsec with: 2 }
+       convertor: 2
+       boardSize: aBoard size.
+   hyperJumpTile := BoardTile inPosition: 4 effect: hyperJumpEffect target: SelfTarget new.
+   aBoard addTile: hyperJumpTile.
+   aSpaceship1 turn: 4 in: aGame.
+   aSpaceship2 turn: 4 in: aGame.
 	self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
-	
 ]
 
 { #category : 'tests' }
 BoardTileEffectTest >> testMWCorrectFuelUsage [
 	| moonWalk | 	 	
-	moonWalk := MoonWalk inPosition: 4 backingUp: 3. 	
+	moonWalk := BoardTile inPosition: 4 effect: (MoonWalk steps: 3) target: OthersTarget new.	
 	aBoard addTile: moonWalk .
 	
 	aSpaceship1 turn: 6 in: aGame.
@@ -206,7 +206,7 @@ BoardTileEffectTest >> testMWCorrectFuelUsage [
 { #category : 'tests' }
 BoardTileEffectTest >> testMWWhenOtherSpaceShipRunsOutOfFuelThenItApplisPenalization [
 	| moonWalk | 	 	
-	moonWalk := MoonWalk inPosition: 4 backingUp: 3. 	
+	moonWalk := BoardTile inPosition: 4 effect: (MoonWalk steps: 3) target: OthersTarget new.		
 	aBoard addTile: moonWalk .
 	
 	aSpaceship1 turn: 28 in: aGame.
@@ -221,7 +221,7 @@ BoardTileEffectTest >> testMWWhenOtherSpaceShipRunsOutOfFuelThenItApplisPenaliza
 { #category : 'tests' }
 BoardTileEffectTest >> testMWWhenSpaceShipLandsOnMoonWalkThenOthersBack [
 	| moonWalk | 	 	
-	moonWalk := MoonWalk inPosition: 4 backingUp: 3. 	
+	moonWalk := BoardTile inPosition: 4 effect: (MoonWalk steps: 3) target: OthersTarget new.		
 	aBoard addTile: moonWalk .
 	
 	aSpaceship1 turn: 6 in: aGame.

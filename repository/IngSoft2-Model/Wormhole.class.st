@@ -3,7 +3,7 @@ Wormhole
 "
 Class {
 	#name : 'WormHole',
-	#superclass : 'BoardTile',
+	#superclass : 'TileEffect',
 	#instVars : [
 		'offset'
 	],
@@ -34,7 +34,7 @@ WormHole class >> inPosition: aPosition withOffset: anOffset [
 ]
 
 { #category : 'effects' }
-WormHole >> applyEffectsTo: aSpaceship in: aGame [
+WormHole >> applyEffectTo: aSpaceship in: aGame [
 	aSpaceship move: offset .
 ]
 
@@ -44,4 +44,9 @@ WormHole >> initializeIn: aPosition withOffset: anOffset [
 	offset := anOffset
 	
 	
+]
+
+{ #category : 'asserting' }
+WormHole >> shouldSaveAsLastEffect [
+	^true 
 ]

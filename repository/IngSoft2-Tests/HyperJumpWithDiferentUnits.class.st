@@ -34,42 +34,42 @@ HyperJumpWithDiferentUnits >> setUp [
 
 { #category : 'tests' }
 HyperJumpWithDiferentUnits >> testWhenHyperJumpReceivesLightYears [	
-	| hyperJump | 	  
-	
-	hyperJump := HyperJump inPosition: 4. 	
-	hyperJump convert: 2 with: (LightYear with:(aBoard size)*3 )and: {LightYear with:30 . LightYear with:36 . LightYear with:24 . LightYear with:15 . LightYear with:9. LightYear with:6} .
-
-	aBoard addTile: hyperJump .
-	
-	aSpaceship1 turn: 4 in: aGame.
-	
-	self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
+	| hyperJumpEffect hyperJumpTile |
+   hyperJumpEffect := HyperJump
+       withParsecs: { Parsec with: 10. Parsec with: 12. Parsec with: 8.
+                      Parsec with: 5. Parsec with: 3. Parsec with: 2 }
+       convertor: 2
+       boardSize: (Parsec with: aBoard size).
+   hyperJumpTile := BoardTile inPosition: 4 effect: hyperJumpEffect target: SelfTarget new.
+   aBoard addTile: hyperJumpTile.
+   aSpaceship1 turn: 4 in: aGame.
+   self assert: aSpaceship1 position equals: (Position in: 10 at: 0)
 ]
 
 { #category : 'tests' }
 HyperJumpWithDiferentUnits >> testWhenHyperJumpReceivesLightYearsAndParsec [
-	| hyperJump | 	  
-	
-	hyperJump := HyperJump inPosition: 4. 	
-	hyperJump convert: 2 with: (Parsec with:(aBoard size) )and: {LightYear with:30 . LightYear with:36 . LightYear with:24 . LightYear with:15 . LightYear with:9. LightYear with:6} .
-
-	aBoard addTile: hyperJump .
-	
-	aSpaceship1 turn: 4 in: aGame.
-	
-	self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
+	| hyperJumpEffect hyperJumpTile |
+   hyperJumpEffect := HyperJump
+      withParsecs: { LightYear with: 30. LightYear with: 36. LightYear with: 24.
+                      LightYear with: 15. LightYear with: 9. LightYear with: 6 }
+       convertor: 2
+       boardSize: (LightYear with: aBoard size * 3).
+   hyperJumpTile := BoardTile inPosition: 4 effect: hyperJumpEffect target: SelfTarget new.
+   aBoard addTile: hyperJumpTile.
+   aSpaceship1 turn: 4 in: aGame.
+   self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
 ]
 
 { #category : 'tests' }
 HyperJumpWithDiferentUnits >> testWhenHyperJumpReceivesParsecs [	
-	| hyperJump | 	  
-	
-	hyperJump := HyperJump inPosition: 4. 	
-	hyperJump convert: 2 with: (Parsec with:(aBoard size) )and: {Parsec with:10 . Parsec with:12 . Parsec with:8 . Parsec with:5 . Parsec with:3. Parsec with:2} .
-
-	aBoard addTile: hyperJump .
-	
-	aSpaceship1 turn: 4 in: aGame.
-	
-	self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
+	| hyperJumpEffect hyperJumpTile |
+   hyperJumpEffect := HyperJump
+       withParsecs: { LightYear with: 30. LightYear with: 36. LightYear with: 24.
+                      LightYear with: 15. LightYear with: 9. LightYear with: 6 }
+       convertor: 2
+       boardSize: (Parsec with: aBoard size).
+   hyperJumpTile := BoardTile inPosition: 4 effect: hyperJumpEffect target: SelfTarget new.
+   aBoard addTile: hyperJumpTile.
+   aSpaceship1 turn: 4 in: aGame.
+   self assert: aSpaceship1 position equals: (Position in: 10 at: 0).
 ]
