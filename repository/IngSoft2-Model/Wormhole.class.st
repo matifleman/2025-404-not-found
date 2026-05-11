@@ -2,29 +2,18 @@
 Wormhole
 "
 Class {
-	#name : 'WormHole',
+	#name : 'Wormhole',
 	#superclass : 'TileEffect',
 	#instVars : [
-		'offset'
+		'offset',
+		'destination'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-WormHole class >> createPairWithEntrance: entrancePos andExit: exitPos [ 
-	| distance entrance exit |
-	
-	distance := exitPos - entrancePos.
-	
-	entrance := self inPosition: entrancePos withOffset: distance.
-	exit := self inPosition: exitPos withOffset: distance negated.
-	
-	^ { entrance . exit }
-]
-
-{ #category : 'as yet unclassified' }
-WormHole class >> inPosition: aPosition withOffset: anOffset [ 
+Wormhole class >> inPosition: aPosition withOffset: anOffset [ 
 	aPosition negative ifTrue: [
 		Error signal: 'Tile should be a positive position' ].
 		
@@ -34,19 +23,16 @@ WormHole class >> inPosition: aPosition withOffset: anOffset [
 ]
 
 { #category : 'effects' }
-WormHole >> applyEffectTo: aSpaceship in: aGame [
-	aSpaceship move: offset .
+Wormhole >> applyEffectTo: aSpaceship in: aGame [
+	aSpaceship moveToTile: destination .
 ]
 
-{ #category : 'initialization' }
-WormHole >> initializeIn: aPosition withOffset: anOffset [
-	self initializeIn: aPosition. 
-	offset := anOffset
-	
-	
+{ #category : 'effects' }
+Wormhole >> pairWith: aPosition [
+	destination := aPosition.
 ]
 
 { #category : 'asserting' }
-WormHole >> shouldSaveAsLastEffect [
+Wormhole >> shouldSaveAsLastEffect [
 	^true 
 ]

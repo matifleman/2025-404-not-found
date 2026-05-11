@@ -45,7 +45,7 @@ WormholeTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorM
 { #category : 'tests' }
 WormholeTest >> testWhenSpaceshipLandsOnEntranceHoleThenGoesThroughExitHole [
 	| wormholes |
-	wormholes := WormHole createPairWithEntrance: 2 andExit: 6.
+	wormholes := WormholeBuilder entranceAt: 2 exitAt: 6.
 	aBoard addTile: wormholes first.
 	aBoard addTile: wormholes second.
 	
@@ -57,7 +57,7 @@ WormholeTest >> testWhenSpaceshipLandsOnEntranceHoleThenGoesThroughExitHole [
 { #category : 'tests' }
 WormholeTest >> testWhenSpaceshipLandsOnExitHoleThenGoesThroughEntranceHole [ 
 	| wormholes |
-	wormholes := WormHole createPairWithEntrance: 2 andExit: 6.
+	wormholes := WormholeBuilder entranceAt: 2 exitAt: 6.
 	aBoard addTile: wormholes first.
 	aBoard addTile: wormholes second.
 	
@@ -70,10 +70,10 @@ WormholeTest >> testWhenSpaceshipLandsOnExitHoleThenGoesThroughEntranceHole [
 WormholeTest >> testWhenWormholeEntranceBoxOutsideBoardThenCreationFails [
 	| wormholes |
 	self
-		should: [ WormHole createPairWithEntrance: -1 andExit: 6]
+		should: [ wormholes := WormholeBuilder entranceAt: -1 exitAt: 6.]
 		raise: Error
 		withMessageText: 'Tile should be a positive position'.
-	wormholes := WormHole createPairWithEntrance: 22 andExit: 6.
+	wormholes := WormholeBuilder entranceAt: 22 exitAt: 6.
 	self
 		should: [ aBoard addTile: (wormholes first). ]
 		raise: Error
@@ -84,11 +84,11 @@ WormholeTest >> testWhenWormholeEntranceBoxOutsideBoardThenCreationFails [
 WormholeTest >> testWhenWormholeExitBoxOutsideBoardThenCreationFails [
 	| wormholes |
 	self
-		should: [  WormHole createPairWithEntrance: 2 andExit: -6. ]
+		should: [ wormholes := WormholeBuilder entranceAt: 2 exitAt: -6. ]
 		raise: Error
 		withMessageText: 'Tile should be a positive position'.
 		
-	wormholes := WormHole createPairWithEntrance: 2 andExit: 22.
+	wormholes := WormholeBuilder entranceAt: 2 exitAt: 22.
 	self
 		should: [ aBoard addTile: (wormholes second). ]
 		raise: Error
