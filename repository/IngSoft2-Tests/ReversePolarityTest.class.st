@@ -444,6 +444,62 @@ ReversePolarityTest >> test23RPIsRedoneOnSameTileByRedoCard [
 	 
 	self assert: aSpaceship1 position equals: (Position in: 4 at: 0).
 	self assert: aSpaceship2 position equals: (Position in: 8 at: 0).
-	self assert: aSpaceship3 position equals: (Position in: 6 at: 0).
+	self assert: aSpaceship3 position equals: (Position in: 7 at: 0).
+	
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test24ReversePolarityOnWormholeEntranceMovesOtherShipsToExit [
+	| wormholes |
+	wormholes := WormholeBuilder entranceAt: 2 exitAt: 8.
+	aBoard addTile: wormholes first.
+	aBoard addTile: wormholes second.
+	
+	aSpaceship1 turn: 6 in: aGame.  
+	aSpaceship1 turn: 1 playCard: reverseCard against: wormholes first in: aGame. 
+	aSpaceship2 turn: 2 in: aGame. 
+	
+	self assert: aSpaceship1 position equals: (Position in: 8 at: 0).
+	self assert: aSpaceship2 position equals: (Position in: 2 at: 0).
+	self assert: aSpaceship3 position equals: (Position in: 8 at: 0).
+	
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test25ReversePolarityOnWormholeExitMovesOtherShipsToEntrance [
+	| wormholes |
+	wormholes := WormholeBuilder entranceAt: 2 exitAt: 8.
+	aBoard addTile: wormholes first.
+	aBoard addTile: wormholes second.
+	
+	aSpaceship1 turn: 6 in: aGame.  
+	aSpaceship1 turn: 1 playCard: reverseCard against: wormholes second in: aGame. 
+	aSpaceship2 turn: 8 in: aGame. 
+	
+	self assert: aSpaceship1 position equals: (Position in: 2 at: 0).
+	self assert: aSpaceship2 position equals: (Position in: 8 at: 0).
+	self assert: aSpaceship3 position equals: (Position in: 2 at: 0).
+	
+]
+
+{ #category : 'tests' }
+ReversePolarityTest >> test26RPAppliedTwiceRestoresWormhole [
+	| wormholes  reverseCard2 |
+	wormholes := WormholeBuilder entranceAt: 2 exitAt: 8.
+	aBoard addTile: wormholes first.
+	aBoard addTile: wormholes second.
+	
+	reverseCard2 := ReversePolarity new.
+	aCardDeck addCard: reverseCard2.
+	
+	aSpaceship1 turn: 6 in: aGame.  
+	aSpaceship1 turn: 1 playCard: reverseCard2 against: wormholes first in: aGame. 
+	aSpaceship2 turn: 6 in: aGame. 
+	aSpaceship2 turn: 1 playCard: reverseCard against: wormholes first in: aGame. 
+	aSpaceship3 turn: 2 in: aGame.
+	
+	self assert: aSpaceship1 position equals: (Position in: 7 at: 0).
+	self assert: aSpaceship2 position equals: (Position in: 7 at: 0).
+	self assert: aSpaceship3 position equals: (Position in: 8 at: 0).
 	
 ]

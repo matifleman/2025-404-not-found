@@ -126,6 +126,13 @@ Spaceship >> move: numberOfTiles [
 	
 ]
 
+{ #category : 'as yet unclassified' }
+Spaceship >> moveToTile: aPosition [
+	| steps |
+	steps := aPosition - position index.
+	self move: steps
+]
+
 { #category : 'accessing' }
 Spaceship >> name [
 	^ name
