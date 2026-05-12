@@ -11,6 +11,7 @@ Class {
 { #category : 'effects' }
 BlackHole >> applyEffectTo: aSpaceship in: aGame [
 	aSpaceship move: -4.
+	aSpaceship loseTurbine.
 ]
 
 { #category : 'asserting' }

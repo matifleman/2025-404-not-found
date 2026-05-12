@@ -14,7 +14,8 @@ Class {
 		'cards',
 		'minusMoves',
 		'ally',
-		'rollAddOn'
+		'rollAddOn',
+		'turbines'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -63,6 +64,13 @@ Spaceship >> checkFuelCapacity [
 ]
 
 { #category : 'logic' }
+Spaceship >> checkTurbines [
+	(turbines == 0) ifTrue: [ 
+		Error signal: 'Spaceship has no more turbines'
+	]
+]
+
+{ #category : 'logic' }
 Spaceship >> drawCard: aCard [
 	cards add: aCard
 ]
@@ -95,11 +103,22 @@ Spaceship >> initializeWith: aName withBoard: aBoard withMaxFuel: aMaxFuel withC
 	minusMoves :=0.
 	ally := nil.
 	rollAddOn := 0.
+	turbines := 3.
+]
+
+{ #category : 'testing' }
+Spaceship >> isEliminated [
+	^turbines == 0
 ]
 
 { #category : 'logic' }
 Spaceship >> lockUntil: anExitRoll [
 	exitRoll := anExitRoll.
+]
+
+{ #category : 'logic' }
+Spaceship >> loseTurbine [
+	turbines := turbines - 1
 ]
 
 { #category : 'logic' }
@@ -126,7 +145,7 @@ Spaceship >> move: numberOfTiles [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'moving' }
 Spaceship >> moveToTile: aPosition [
 	| steps |
 	steps := aPosition - position index.
@@ -172,12 +191,21 @@ Spaceship >> shareFuel: fuelNeeded [
 	
 ]
 
+{ #category : 'accessing' }
+Spaceship >> turbines [
+	^turbines 
+]
+
 { #category : 'logic' }
 Spaceship >> turn: toMove in: aGame [
-    toMove < exitRoll ifTrue: [ ^ self ].
-    exitRoll := 0.
-    self move: toMove + rollAddOn.
-    board applyTileEffectTo: self in: aGame
+	self checkTurbines.
+   toMove < exitRoll ifTrue: [ 
+		self loseTurbine.
+		^ self 
+	].
+   exitRoll := 0.
+   self move: toMove + rollAddOn.
+   board applyTileEffectTo: self in: aGame
 
 ]
 

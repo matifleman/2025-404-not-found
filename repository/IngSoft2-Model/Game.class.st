@@ -98,11 +98,12 @@ Game >> nextTurn [
 	| spaceship positionsToMove|
 	self isFinished ifTrue: [ ^ self ].
 	spaceship := spaceships at: turnNumber. "obtengo nave actual"
-	
-	((spaceship) managePenalization) ifFalse:[
-		positionsToMove:= self rollDice.
-		(positionsToMove = self maximumValueOfDice)ifTrue: [self applyRewardTo: spaceship withPercentageOf: 80].
-		spaceship turn: positionsToMove in: self.
+	spaceship isEliminated ifFalse: [ 
+		((spaceship) managePenalization) ifFalse:[
+			positionsToMove:= self rollDice.
+			(positionsToMove = self maximumValueOfDice)ifTrue: [self applyRewardTo: spaceship withPercentageOf: 80].
+			spaceship turn: positionsToMove in: self.
+		].
 	].
 	turnNumber := (turnNumber \\ numberSpaceships) + 1.
 
