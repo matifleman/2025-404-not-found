@@ -103,3 +103,37 @@ TurbineTest >> test05SpaceshipLosesTurbineWhenFailsHyperGravityRoll [
 	self assert: aSpaceship1 turbines equals: 2
 	
 ]
+
+{ #category : 'tests' }
+TurbineTest >> test06SpaceshipLoses2TurbineWhenFallsOnBlackHoleAndRunsOutOfFuel [
+	| blackHole |
+	blackHole:= BoardTile inPosition: 7 effect: BlackHole new  target: SelfTarget new.
+	aBoard addTile: blackHole.
+	
+	aSpaceship1 turn: 21 in: aGame.
+	aSpaceship1 turn: 7 in: aGame.
+	
+	self assert: aSpaceship1 turbines equals: 1.
+	
+]
+
+{ #category : 'tests' }
+TurbineTest >> test07SpaceshipThatRunsOutOfTurnbinesCantPlayAnymore [
+	| blackHole |
+	
+	blackHole:= BoardTile inPosition: 6 effect: BlackHole new  target: SelfTarget new.
+	aBoard addTile: blackHole.
+	
+	aSpaceship1 loseTurbine.
+	aSpaceship1 loseTurbine. "Queda con una sola"
+	aGame nextTurn. "salta 6, cae en blackhole y pierde ultima turbina"
+	aGame nextTurn. "solo avanza spaceship2"
+	aGame nextTurn. "spaceship1 no avanza ni tira dados"
+	aGame nextTurn. "solo avanza spaceship2"
+	
+	self assert: aSpaceship1 isEliminated .
+	self assert: aSpaceship2 position equals: (Position in: 13 at: 0).
+	
+	
+	
+]

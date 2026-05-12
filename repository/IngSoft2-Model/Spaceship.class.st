@@ -106,6 +106,11 @@ Spaceship >> initializeWith: aName withBoard: aBoard withMaxFuel: aMaxFuel withC
 	turbines := 3.
 ]
 
+{ #category : 'testing' }
+Spaceship >> isEliminated [
+	^turbines == 0
+]
+
 { #category : 'logic' }
 Spaceship >> lockUntil: anExitRoll [
 	exitRoll := anExitRoll.
