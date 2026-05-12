@@ -13,7 +13,8 @@ Class {
 		'permanentCards',
 		'lastEffect',
 		'cardTargets',
-		'board'
+		'board',
+		'rewardResolver'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -22,7 +23,13 @@ Class {
 { #category : 'instance creation' }
 Game class >> with: spaceShips andDice: someDice laps: lap in:aBoard [
 	(lap < 1) ifTrue: [ Error signal: 'Number of laps should be greater than 0' ].
-	^ self new initializeWith: spaceShips andDice: someDice laps: lap in:aBoard.
+	^ self new initializeWith: spaceShips andDice: someDice laps: lap in:aBoard withReward: 80.
+]
+
+{ #category : 'instance creation' }
+Game class >> with: spaceShips andDice: someDice laps: lap in:aBoard withReward: aPercentage [
+	(lap < 1) ifTrue: [ Error signal: 'Number of laps should be greater than 0' ].
+	^ self new initializeWith: spaceShips andDice: someDice laps: lap in:aBoard withReward: aPercentage.
 ]
 
 { #category : 'adding' }
@@ -31,19 +38,8 @@ Game >> addPermanentCard: aCard against: aSpaceship [
    cardTargets at: aCard put: aSpaceship
 ]
 
-{ #category : 'logic' }
-Game >> applyRewardTo: aSpaceship withPercentageOf: aPorcentage [
-	| randomNumber |
-
-	randomNumber := (Random new next * 100) rounded.
-   randomNumber <= aPorcentage
-		ifTrue: [ aSpaceship increaseMaxFuelBy: 1 ]
-      ifFalse: [ aSpaceship reduceFuelBy: 1 ].
-
-]
-
 { #category : 'initialization' }
-Game >> initializeWith: someSpaceships andDice: someDice laps: someLaps in:aBoard [
+Game >> initializeWith: someSpaceships andDice: someDice laps: someLaps in:aBoard withReward: aPercentage [
 	
 	board:= aBoard.
 	laps := someLaps.
@@ -53,6 +49,7 @@ Game >> initializeWith: someSpaceships andDice: someDice laps: someLaps in:aBoar
 	numberSpaceships := spaceships size.
 	permanentCards := OrderedCollection new.
 	cardTargets:=Dictionary new.
+	rewardResolver := RewardResolver withPercentage: aPercentage.
 ]
 
 { #category : 'logic' }
@@ -87,7 +84,7 @@ Game >> nextTurn [
 	spaceship isEliminated ifFalse: [ 
 		((spaceship) managePenalization) ifFalse:[
 			positionsToMove:= self rollDice.
-			(positionsToMove = self maximumValueOfDice)ifTrue: [self applyRewardTo: spaceship withPercentageOf: 80].
+			(positionsToMove = self maximumValueOfDice)ifTrue: [rewardResolver resolveFor: spaceship ].
 			spaceship turn: positionsToMove in: self.
 		].
 	].
