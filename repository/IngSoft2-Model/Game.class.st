@@ -25,20 +25,6 @@ Game class >> with: spaceShips andDice: someDice laps: lap in:aBoard [
 	^ self new initializeWith: spaceShips andDice: someDice laps: lap in:aBoard.
 ]
 
-{ #category : 'logic' }
-Game >> activateAtomicBomb [     
-	self spaceships do: [:ship | ship resetToStartWithoutFuelLoss ].
-]
-
-{ #category : 'logic' }
-Game >> activateMoonWalk: nTiles from: triggeringSpaceship [
-	self spaceships do: [:ship |
-		ship = triggeringSpaceship ifFalse: [
-			ship move: nTiles
-		]
-	].
-]
-
 { #category : 'adding' }
 Game >> addPermanentCard: aCard against: aSpaceship [ 
 	permanentCards add: aCard.

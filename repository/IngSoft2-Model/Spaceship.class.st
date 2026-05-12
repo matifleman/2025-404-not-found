@@ -12,7 +12,6 @@ Class {
 		'exitRoll',
 		'fuelTank',
 		'cards',
-		'minusMoves',
 		'ally',
 		'rollAddOn',
 		'turbines'
@@ -100,7 +99,6 @@ Spaceship >> initializeWith: aName withBoard: aBoard withMaxFuel: aMaxFuel withC
 	penalization := 0.
 	exitRoll := 0.
 	cards := someCards.
-	minusMoves :=0.
 	ally := nil.
 	rollAddOn := 0.
 	turbines := 3.
@@ -125,7 +123,6 @@ Spaceship >> loseTurbine [
 Spaceship >> managePenalization [
 
 	penalization == 0 ifTrue: [ ^ false ].
-	nil.
 	penalization := penalization - 1.
 	penalization == 0 ifTrue: [ fuelTank refuel ].
 	^ true
