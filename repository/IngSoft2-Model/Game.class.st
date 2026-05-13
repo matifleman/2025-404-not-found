@@ -7,14 +7,13 @@ Class {
 	#instVars : [
 		'spaceships',
 		'dice',
-		'turnNumber',
-		'numberSpaceships',
 		'laps',
 		'permanentCards',
 		'lastEffect',
 		'cardTargets',
 		'board',
-		'rewardResolver'
+		'rewardResolver',
+		'turnManager'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -45,8 +44,7 @@ Game >> initializeWith: someSpaceships andDice: someDice laps: someLaps in:aBoar
 	laps := someLaps.
 	spaceships := someSpaceships.
 	dice := someDice.
-	turnNumber := 1.
-	numberSpaceships := spaceships size.
+	turnManager := TurnManager with: someSpaceships.
 	permanentCards := OrderedCollection new.
 	cardTargets:=Dictionary new.
 	rewardResolver := RewardResolver withPercentage: aPercentage.
@@ -80,7 +78,7 @@ Game >> nextTurn [
 
 	| spaceship positionsToMove|
 	self isFinished ifTrue: [ ^ self ].
-	spaceship := spaceships at: turnNumber. "obtengo nave actual"
+	spaceship := turnManager currentShip.
 	spaceship isEliminated ifFalse: [ 
 		((spaceship) managePenalization) ifFalse:[
 			positionsToMove:= self rollDice.
@@ -88,7 +86,7 @@ Game >> nextTurn [
 			spaceship turn: positionsToMove in: self.
 		].
 	].
-	turnNumber := (turnNumber \\ numberSpaceships) + 1.
+	turnManager advance 
 
 
 
@@ -133,8 +131,8 @@ Game >> saveLastEffect: aBlock [
 { #category : 'logic' }
 Game >> skipTurn [
 	self isFinished ifTrue: [ ^ self ].
-	(spaceships at: turnNumber) refuel.
-	turnNumber := (turnNumber \\ numberSpaceships) + 1.
+	turnManager currentShip refuel.
+	turnManager advance
 ]
 
 { #category : 'accessing' }
