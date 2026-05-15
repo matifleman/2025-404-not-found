@@ -22,7 +22,7 @@ FuelTank >> fuel [
 	^fuel
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 FuelTank >> increaseSize:aNumber [
 	maxFuel := maxFuel +aNumber.
 
@@ -36,7 +36,7 @@ FuelTank >> initializeWith: aMaxFuel [
 
 { #category : 'accessing' }
 FuelTank >> maxFuel [ 
-^maxFuel
+	^maxFuel
 
 ]
 
@@ -45,7 +45,7 @@ FuelTank >> refuel [
 	fuel := maxFuel.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'moving' }
 FuelTank >> shareFuel: fuelNeeded from: aSpaceship [
 	fuel := fuel - fuelNeeded abs.
 	fuel > 0 ifTrue: [ ^true ].
@@ -56,10 +56,10 @@ FuelTank >> shareFuel: fuelNeeded from: aSpaceship [
 
 { #category : 'moving' }
 FuelTank >> useFuel: numberOfTiles from: spaceship [
-
 	fuel := fuel - numberOfTiles abs.
 	fuel > 0 ifTrue: [ ^self ].
 	(spaceship askForFuel: fuel abs) ifTrue: [ ^self ].
+	spaceship loseTurbine.
 	spaceship penalize.
 	fuel := 0.
 ]

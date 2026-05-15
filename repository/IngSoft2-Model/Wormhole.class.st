@@ -1,31 +1,38 @@
+"
+Wormhole
+"
 Class {
-	#name : 'WormHole',
-	#superclass : 'BoardTile',
+	#name : 'Wormhole',
+	#superclass : 'TileEffect',
 	#instVars : [
-		'offset'
+		'offset',
+		'destination'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-WormHole class >> inPosition: aPosition withOffset:anOffset [
-	^ self new initializeIn: aPosition withOffset: anOffset 
+Wormhole class >> inPosition: aPosition withOffset: anOffset [ 
+	aPosition negative ifTrue: [
+		Error signal: 'Tile should be a positive position' ].
+		
+	^ self new initializeIn: aPosition withOffset: anOffset
+	
 
 ]
 
 { #category : 'effects' }
-WormHole >> applyEffectsTo: aSpaceship in: aGame [
-	aSpaceship move: offset .
-
-
-	"effects ifNotNil: [effects do: [ :effect | effect applyTo: aSpaceship ] ]."
+Wormhole >> applyEffectTo: aSpaceship in: aGame [
+	aSpaceship moveToTile: destination .
 ]
 
-{ #category : 'initialization' }
-WormHole >> initializeIn: aPosition withOffset:anOffset [
-	self initializeIn: aPosition. 
-	offset :=anOffset
-	
-	
+{ #category : 'effects' }
+Wormhole >> pairWith: aPosition [
+	destination := aPosition.
+]
+
+{ #category : 'asserting' }
+Wormhole >> shouldSaveAsLastEffect [
+	^true 
 ]

@@ -7,8 +7,7 @@ Class {
 	#instVars : [
 		'wormhole',
 		'size',
-		'tiles',
-		'game'
+		'tiles'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -38,39 +37,13 @@ Board >> addTile: tile [
 	tiles at: tile position put: tile
 ]
 
-{ #category : 'adding' }
-Board >> addWormHolewithEntraceTile: entrance exitTile: exit [
-
-	| entranceWormhole exitWormhole |
-	(entrance > size)  ifTrue: [
-		Error signal: 'Tile should be inside the board' ].
-	(exit > size)  ifTrue: [
-		Error signal: 'Tile should be inside the board' ].
-	
-	
-	entranceWormhole := WormHole inPosition: entrance withOffset: exit - entrance.
-	exitWormhole := WormHole inPosition: exit withOffset: entrance - exit.
-	self
-		addTile: entranceWormhole;
-		addTile: exitWormhole
-]
-
-{ #category : 'as yet unclassified' }
-Board >> applyCard: anOverloadCard to: aSpaceship [ 
-	game addPermanentCard:anOverloadCard against:aSpaceship .
-]
-
 { #category : 'accessing' }
-Board >> applyTileEffectTo: aSpaceship [ 	
-	| tile |   
-	tile := self tileAt: aSpaceship position. 	
-	"
-	(tile notNil and: [ tile class ~= CommonTile ]) ifTrue: [
-        game ifNotNil: [ game saveLastEffect: tile ].
-    ]."
-    tile ifNotNil: [
-        tile applyEffectsTo: aSpaceship in: game
-    ].
+Board >> applyTileEffectTo: aSpaceship in: aGame [ 
+   | tile |
+   tile := self tileAt: aSpaceship position.
+   tile ifNotNil: [
+		tile applyEffectsTo: aSpaceship in: aGame
+   ]
 ]
 
 { #category : 'check' }
@@ -87,17 +60,6 @@ Board >> checkLimits: aNumber [
 	
 ]
 
-{ #category : 'as yet unclassified' }
-Board >> gotMaxRoll: valueRoll [
-	^ game maxRoll = valueRoll .
-	
-]
-
-{ #category : 'initialization' }
-Board >> setGame: aGame [ 
-	game := aGame.
-]
-
 { #category : 'accessing' }
 Board >> size [
 	^size
@@ -105,21 +67,18 @@ Board >> size [
 
 { #category : 'accessing' }
 Board >> tileAt: position [
-
 	position index = 0 ifTrue: [ ^ nil ].
 	^ tiles at: position index
 ]
 
 { #category : 'initialization' }
 Board >> with: aSize [
-
 	size := aSize.
 	tiles := (TileDistributionStrategy new) initializeTiles: aSize.
 ]
 
 { #category : 'initialization' }
 Board >> withRandom: aSize [
-
 	size := aSize.
 	tiles := (TileDistributionStrategy new) initializeTilesRandom: aSize.
 ]

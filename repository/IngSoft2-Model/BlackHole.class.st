@@ -1,12 +1,20 @@
+"
+Black hole
+"
 Class {
 	#name : 'BlackHole',
-	#superclass : 'BoardTile',
+	#superclass : 'TileEffect',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'effects' }
-BlackHole >> applyEffectsTo: aSpaceship in: aGame [
-	aGame saveLastEffect: [:aShip | aShip move: -4. ].
+BlackHole >> applyEffectTo: aSpaceship in: aGame [
 	aSpaceship move: -4.
+	aSpaceship loseTurbine.
+]
+
+{ #category : 'asserting' }
+BlackHole >> shouldSaveAsLastEffect [
+	^true 
 ]

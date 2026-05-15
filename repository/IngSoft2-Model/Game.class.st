@@ -7,13 +7,13 @@ Class {
 	#instVars : [
 		'spaceships',
 		'dice',
-		'turnNumber',
-		'numberSpaceships',
 		'laps',
 		'permanentCards',
 		'lastEffect',
 		'cardTargets',
-		'board'
+		'board',
+		'rewardResolver',
+		'turnManager'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -22,58 +22,32 @@ Class {
 { #category : 'instance creation' }
 Game class >> with: spaceShips andDice: someDice laps: lap in:aBoard [
 	(lap < 1) ifTrue: [ Error signal: 'Number of laps should be greater than 0' ].
-	^ self new initializeWith: spaceShips andDice: someDice laps: lap in:aBoard.
+	^ self new initializeWith: spaceShips andDice: someDice laps: lap in:aBoard withReward: 80.
 ]
 
-{ #category : 'logic' }
-Game >> activateAtomicBomb [     
-	self spaceships do: [:ship | ship resetToStartWithoutFuelLoss ].
-]
-
-{ #category : 'logic' }
-Game >> activateMoonWalk: nTiles from: triggeringSpaceship [
-	self spaceships do: [:ship |
-		ship = triggeringSpaceship ifFalse: [
-			ship move: nTiles
-		]
-	].
+{ #category : 'instance creation' }
+Game class >> with: spaceShips andDice: someDice laps: lap in:aBoard withReward: aPercentage [
+	(lap < 1) ifTrue: [ Error signal: 'Number of laps should be greater than 0' ].
+	^ self new initializeWith: spaceShips andDice: someDice laps: lap in:aBoard withReward: aPercentage.
 ]
 
 { #category : 'adding' }
-Game >> addCard: aCard against:aSpaceship [
-	permanentCards add: aCard .
-	cardTargets at: aCard put:aSpaceship .
-]
-
-{ #category : 'adding' }
-Game >> addPermanentCard: anOverloadCard against: aSpaceship [ 
-	self addCard:anOverloadCard against: aSpaceship .
-	aSpaceship modifyRoll: anOverloadCard penalty .
-]
-
-{ #category : 'as yet unclassified' }
-Game >> applyRewardTo: aSpaceship withPorcentageOf: aPorcentage [
-	| randomNumber |
-
-    randomNumber := (Random new next * 100) rounded.
-
-    randomNumber <= aPorcentage
-        ifTrue: [ aSpaceship increaseMaxFuelBy: 1 ]
-        ifFalse: [ aSpaceship reduceFuelBy: 1 ].
-
+Game >> addPermanentCard: aCard against: aSpaceship [ 
+	permanentCards add: aCard.
+   cardTargets at: aCard put: aSpaceship
 ]
 
 { #category : 'initialization' }
-Game >> initializeWith: someSpaceships andDice: someDice laps: someLaps in:aBoard [
+Game >> initializeWith: someSpaceships andDice: someDice laps: someLaps in:aBoard withReward: aPercentage [
 	
 	board:= aBoard.
 	laps := someLaps.
 	spaceships := someSpaceships.
 	dice := someDice.
-	turnNumber := 1.
-	numberSpaceships := spaceships size.
+	turnManager := TurnManager with: someSpaceships.
 	permanentCards := OrderedCollection new.
 	cardTargets:=Dictionary new.
+	rewardResolver := RewardResolver withPercentage: aPercentage.
 ]
 
 { #category : 'logic' }
@@ -83,7 +57,7 @@ Game >> isFinished [
 
 { #category : 'accessing' }
 Game >> lastEffect [
-^lastEffect 
+	^lastEffect 
 ]
 
 { #category : 'accessing' }
@@ -92,7 +66,7 @@ Game >> maximumValueOfDice [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Game >> modifyRollAll: aNumber [
 	
 	spaceships do: [ :ship | ship modifyRoll: aNumber ].
@@ -104,14 +78,15 @@ Game >> nextTurn [
 
 	| spaceship positionsToMove|
 	self isFinished ifTrue: [ ^ self ].
-	spaceship := spaceships at: turnNumber. "obtengo nave actual"
-	
-	((spaceship) managePenalization) ifFalse:[
-		positionsToMove:= self rollDices.
-		(positionsToMove = self maximumValueOfDice)ifTrue: [self applyRewardTo: spaceship withPorcentageOf: 80].
-		spaceship turn: positionsToMove.
+	spaceship := turnManager currentShip.
+	spaceship isEliminated ifFalse: [ 
+		((spaceship) managePenalization) ifFalse:[
+			positionsToMove:= self rollDice.
+			(positionsToMove = self maximumValueOfDice)ifTrue: [rewardResolver resolveFor: spaceship ].
+			spaceship turn: positionsToMove in: self.
+		].
 	].
-	turnNumber := (turnNumber \\ numberSpaceships) + 1.
+	turnManager advance 
 
 
 
@@ -120,47 +95,35 @@ Game >> nextTurn [
 
 { #category : 'accessing' }
 Game >> permanentCards [
-
-	^ permanentCards size
+	^ permanentCards
 ]
 
 { #category : 'removing' }
 Game >> readLastCard [
-
-	permanentCards isEmptyOrNil ifTrue: [
-		^ NullCard with: NullAction new ].
-	nil.
-	^ permanentCards last
+	permanentCards isEmpty ifTrue: [ ^ NullCard new ].
+   ^ permanentCards last
 ]
 
 { #category : 'removing' }
 Game >> removeCard: aCardToRemove [
-
-	| cardToRemoveFromGame  targetSpaceship |
-	cardToRemoveFromGame  := permanentCards
-		        detect: [ :aPermanentCard  | aPermanentCard  class = aCardToRemove action class ]
-		        ifNone: [
-		        Error signal: 'La carta a eliminar no esta en juego' ].
-	
-	permanentCards remove: cardToRemoveFromGame .
-	
-	targetSpaceship:= cardTargets at:aCardToRemove ifAbsent: [ nil ].
-	targetSpaceship ifNotNil: [ 
-		aCardToRemove removeAction:targetSpaceship in:self.
-		cardTargets removeKey:aCardToRemove ]ifNil: [ cardToRemoveFromGame  removeAction:self. ].
-	
-	^ cardToRemoveFromGame 
+	| card |
+	card := permanentCards
+		detect: [ :c | c == aCardToRemove ]
+      ifNone: [ Error signal: 'La carta a eliminar no esta en juego' ].
+   permanentCards remove: card.
+   cardTargets removeKey: card ifAbsent: [ nil ].
+   card removeFrom: self.
 ]
 
 { #category : 'logic' }
-Game >> rollDices [
+Game >> rollDice [
 	| resultados |
 	resultados := dice collect: [ :dado | dado roll ].
 	^ resultados sum.
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Game >> saveLastEffect: aBlock [
 	lastEffect :=aBlock .
 ]
@@ -168,8 +131,8 @@ Game >> saveLastEffect: aBlock [
 { #category : 'logic' }
 Game >> skipTurn [
 	self isFinished ifTrue: [ ^ self ].
-	(spaceships at: turnNumber) refuel.
-	turnNumber := (turnNumber \\ numberSpaceships) + 1.
+	turnManager currentShip refuel.
+	turnManager advance
 ]
 
 { #category : 'accessing' }

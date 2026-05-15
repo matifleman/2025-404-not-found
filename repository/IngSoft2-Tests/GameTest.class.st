@@ -32,7 +32,6 @@ GameTest >> setUp [
 	dice := { aDie1 . aDie2 }.
 	lap := 1.
 	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard .
-	aBoard addWormHolewithEntraceTile: 12 exitTile: 18.
 	
 ]
 
@@ -88,20 +87,9 @@ GameTest >> testWhenADiceIsRolledOneSpaceshipMovesAndTheOtherDoesnt [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenASpaceShipHasFallenIntoWormholeThenItChangesPosition [ 
-
-	aGame nextTurn.
-	aGame nextTurn.
-	aGame nextTurn.
-	
-	self assert: aSpaceship1 position equals: (Position in: 18 at: 0).
-	
-]
-
-{ #category : 'tests' }
 GameTest >> testWhenMultiplesDicesAreRolledTheSumIsCalculatedCorrectly [
 
-	self assert: aGame rollDices equals: 6.
+	self assert: aGame rollDice equals: 6.
 ]
 
 { #category : 'tests' }

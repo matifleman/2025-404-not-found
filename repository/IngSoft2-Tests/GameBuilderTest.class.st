@@ -24,7 +24,6 @@ GameBuilderTest >> testSpaceshipFuelInitializesWithDoubleTheMaxRoll [
 	builder addDieWithValue: 3.
 	builder addDieWithValue: 5.
 	builder setBoardSize: 10.
-	builder setWormholeEntrance: 2 exit: 7.
 	builder setGameLaps: 1.
 	
 	game := builder buildGame.
@@ -45,8 +44,7 @@ GameBuilderTest >> testWhenGameCreationWithInvalidLapsThenFails [
 	builder addSpaceshipNamed: 'Nave 2'.
 	builder addDieWithValue: 3.
 	builder addDieWithValue: 5.
-	builder setBoardSize: 10.
-	builder setWormholeEntrance: 2 exit: 7.		
+	builder setBoardSize: 10.		
 	builder setGameLaps: 0.
 				
 	self
@@ -66,57 +64,12 @@ GameBuilderTest >> testWhenGameCreationWithInvalidSpaceshipNameThenFails [
 	builder addSpaceshipNamed: 'Nave 2'.
 	builder addDieWithValue: 3.
 	builder addDieWithValue: 5.
-	builder setBoardSize: 10.
-	builder setWormholeEntrance: 2 exit: 7.		
+	builder setBoardSize: 10.	
 				
 	self
 		should: [ game := builder buildGame ]
 		raise: Error
 		withMessageText: 'Name should have at least one character'	
-		
-	
-
-]
-
-{ #category : 'asserting' }
-GameBuilderTest >> testWhenGameCreationWithInvalidWormholeEntranceThenFails [
-	| builder game |
-	builder := GameBuilder new.
-	builder addSpaceshipNamed: 'Nave 1'.
-	builder addSpaceshipNamed: 'Nave 2'.
-	builder addDieWithValue: 3.
-	builder addDieWithValue: 5.
-	builder setBoardSize: 10.
-	builder setWormholeEntrance: -2 exit: 7.
-	
-	self
-		should: [ game := builder buildGame ]
-		raise: Error
-		withMessageText: 'Tile should be a positive position'			
-				
-			
-		
-	
-
-]
-
-{ #category : 'asserting' }
-GameBuilderTest >> testWhenGameCreationWithInvalidWormholeExitThenFails [
-	| builder game |
-	builder := GameBuilder new.
-	builder addSpaceshipNamed: 'Nave 1'.
-	builder addSpaceshipNamed: 'Nave 2'.
-	builder addDieWithValue: 3.
-	builder addDieWithValue: 5.
-	builder setBoardSize: 10.
-	builder setWormholeEntrance: 2 exit: -7.
-	
-	self
-		should: [ game := builder buildGame ]
-		raise: Error
-		withMessageText: 'Tile should be a positive position'		
-				
-			
 		
 	
 
@@ -131,7 +84,6 @@ GameBuilderTest >> testWhenGameCreationWithNegativeBoardSizeThenFails [
 	builder addDieWithValue: 3.
 	builder addDieWithValue: 5.
 	builder setBoardSize: -10.
-	builder setWormholeEntrance: 2 exit: 7.
 	
 	self
 		should: [ game := builder buildGame ]
@@ -153,7 +105,6 @@ GameBuilderTest >> testWhenGameCreationWithNegativeDieSideThenFails [
 	builder addDieWithValue: -3.
 	builder addDieWithValue: 5.
 	builder setBoardSize: 10.
-	builder setWormholeEntrance: 2 exit: 7.
 	
 	self
 		should: [ game := builder buildGame ]

@@ -16,98 +16,20 @@ BoardTileTest >> should: anErrorBlock raise: anErrorClass withMessageText: error
 ]
 
 { #category : 'running' }
-BoardTileTest >> testWhenAtomicBombNegativeThenCreationFails [
+BoardTileTest >> testWhenTilePositionIsNegativeThenCreationFails [
 	self
-		should: [AtomicBomb inPosition: -2.]
+		should: [BoardTile inPosition: -2 effect: NoEffect new  target: SelfTarget new]
 		raise: Error
 		withMessageText: 'Tile should be a positive position'.
 ]
 
 { #category : 'running' }
-BoardTileTest >> testWhenAtomicBombOutsideBoardThenNotAddedToBoard [
+BoardTileTest >> testWhenTilePositionIsOutsideThenNotAddedToBoard [
 	| atomicBomb aBoard| 	 	
 	aBoard := Board with: 20. 
-	atomicBomb := AtomicBomb inPosition: 22. 	 	
+	atomicBomb := BoardTile inPosition: 22 effect: NoEffect new  target: SelfTarget new. 	 	
 	self
 		should: [aBoard addTile: atomicBomb .]
-		raise: Error
-		withMessageText: 'Tile should be inside board'.
-]
-
-{ #category : 'running' }
-BoardTileTest >> testWhenBlackHoleNegativeThenCreationFails [
-	self
-		should: [BlackHole inPosition: -2.]
-		raise: Error
-		withMessageText: 'Tile should be a positive position'.
-]
-
-{ #category : 'running' }
-BoardTileTest >> testWhenBlackHoleOutsideBoardThenNotAddedToBoard [
-	| blackHole aBoard| 	 	
-	aBoard := Board with: 20. 
-	blackHole := BlackHole inPosition: 22. 	 	
-	self
-		should: [aBoard addTile: blackHole .]
-		raise: Error
-		withMessageText: 'Tile should be inside board'.
-]
-
-{ #category : 'running' }
-BoardTileTest >> testWhenHyperGravityNegativeThenCreationFails [
-	self
-		should: [HyperJump inPosition: -2.]
-		raise: Error
-		withMessageText: 'Tile should be a positive position'.
-]
-
-{ #category : 'running' }
-BoardTileTest >> testWhenHyperGravityOutsideBoardThenNotAddedToBoard [
-	| hyperGravity aBoard| 	 	
-	aBoard := Board with: 20. 
-	hyperGravity := HyperGravity inPosition: 22 needingToRoll: 11. 	 	
-	self
-		should: [aBoard addTile: hyperGravity .]
-		raise: Error
-		withMessageText: 'Tile should be inside board'.
-]
-
-{ #category : 'running' }
-BoardTileTest >> testWhenHyperJumpNegativeThenCreationFails [
-	self
-		should: [HyperJump inPosition: -2.]
-		raise: Error
-		withMessageText: 'Tile should be a positive position'.
-]
-
-{ #category : 'running' }
-BoardTileTest >> testWhenHyperJumpOutsideBoardThenNotAddedToBoard [
-	| hyperJump aBoard| 	 	
-	aBoard := Board with: 20. 
-	hyperJump := HyperJump inPosition: 22. 	 	
-	hyperJump convert: 2 with: (Parsec with:(aBoard size)) and: {Parsec with:10 . Parsec with:12 .Parsec with:8 . Parsec with:5 . Parsec with:3. Parsec with:2} .
-	self
-		should: [aBoard addTile: hyperJump .]
-		raise: Error
-		withMessageText: 'Tile should be inside board'.
-]
-
-{ #category : 'running' }
-BoardTileTest >> testWhenMoonWalkNegativeThenCreationFails [
-	self
-		should: [MoonWalk inPosition: -2.]
-		raise: Error
-		withMessageText: 'Tile should be a positive position'.
-]
-
-{ #category : 'running' }
-BoardTileTest >> testWhenMoonWalkOutsideBoardThenNotAddedToBoard [
-	| moonWalk aBoard| 	 	
-	aBoard := Board with: 20. 
-	moonWalk := MoonWalk inPosition: 22 backingUp: 3. 	
-
-	self
-		should: [aBoard addTile: moonWalk .]
 		raise: Error
 		withMessageText: 'Tile should be inside board'.
 ]

@@ -12,9 +12,9 @@ Class {
 		'exitRoll',
 		'fuelTank',
 		'cards',
-		'minusMoves',
 		'ally',
-		'rollAddOn'
+		'rollAddOn',
+		'turbines'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -34,21 +34,20 @@ Spaceship class >> withName: aName withBoard:aBoard withMaxFuel: maxFuel withCar
 	^ self new initializeWith: aName withBoard: aBoard  withMaxFuel: maxFuel withCards: cards
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> allyWith: aSpaceship [
 	ally := aSpaceship.
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> askForFuel: fuelNeeded [
 	ally ifNil: [ ^false ].
 	^ally shareFuel: fuelNeeded
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> breakAlliance [
-
 	ally := nil
 ]
 
@@ -57,13 +56,20 @@ Spaceship >> cards [
 	^cards size
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> checkFuelCapacity [
-^fuelTank maxFuel
+	^fuelTank maxFuel
 
 ]
 
-{ #category : 'cardLogic' }
+{ #category : 'logic' }
+Spaceship >> checkTurbines [
+	(turbines == 0) ifTrue: [ 
+		Error signal: 'Spaceship has no more turbines'
+	]
+]
+
+{ #category : 'logic' }
 Spaceship >> drawCard: aCard [
 	cards add: aCard
 ]
@@ -75,11 +81,10 @@ Spaceship >> fuel [
 
 { #category : 'logic' }
 Spaceship >> hasWon: laps [
-
 	^ position hasDoneLaps: laps
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> increaseMaxFuelBy: aNumberToIncreaseTank [
 	fuelTank increaseSize:aNumberToIncreaseTank.
 
@@ -94,22 +99,14 @@ Spaceship >> initializeWith: aName withBoard: aBoard withMaxFuel: aMaxFuel withC
 	penalization := 0.
 	exitRoll := 0.
 	cards := someCards.
-	minusMoves :=0.
 	ally := nil.
 	rollAddOn := 0.
+	turbines := 3.
 ]
 
-{ #category : 'initialization' }
-Spaceship >> initializeWith: aName  withMaxFuel: aMaxFuel withCards: someCards [
-	position := Position in: 0 at: 0.
-	name := aName.
-	fuelTank := FuelTank with: aMaxFuel.
-	penalization := 0.
-	exitRoll := 0.
-	cards := someCards.
-	minusMoves :=0.
-	ally := nil.
-	rollAddOn := 0.
+{ #category : 'testing' }
+Spaceship >> isEliminated [
+	^turbines == 0
 ]
 
 { #category : 'logic' }
@@ -118,28 +115,38 @@ Spaceship >> lockUntil: anExitRoll [
 ]
 
 { #category : 'logic' }
+Spaceship >> loseTurbine [
+	turbines := turbines - 1
+]
+
+{ #category : 'logic' }
 Spaceship >> managePenalization [
 
 	penalization == 0 ifTrue: [ ^ false ].
-	nil.
 	penalization := penalization - 1.
 	penalization == 0 ifTrue: [ fuelTank refuel ].
 	^ true
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> modifyRoll: aNumber [
 	rollAddOn := rollAddOn + aNumber.
 ]
 
 { #category : 'moving' }
 Spaceship >> move: numberOfTiles [
-
 	position := board boardPosition: position + numberOfTiles.
 	fuelTank useFuel: numberOfTiles from: self.
 	
 	
 	
+]
+
+{ #category : 'moving' }
+Spaceship >> moveToTile: aPosition [
+	| steps |
+	steps := aPosition - position index.
+	self move: steps
 ]
 
 { #category : 'accessing' }
@@ -158,9 +165,9 @@ Spaceship >> position [
 	^ position
 ]
 
-{ #category : 'as yet unclassified' }
-Spaceship >> reduceFuelBy:aNumber [
-	fuelTank useFuel: 1 from: self.
+{ #category : 'logic' }
+Spaceship >> reduceFuelBy: aNumber [
+	fuelTank useFuel: aNumber from: self.
 
 ]
 
@@ -171,54 +178,65 @@ Spaceship >> refuel [
 
 { #category : 'initialization' }
 Spaceship >> resetToStartWithoutFuelLoss [
-
 	position := position backToZero.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> shareFuel: fuelNeeded [
 	^fuelTank shareFuel: fuelNeeded from: self.
 	
 	
 ]
 
+{ #category : 'accessing' }
+Spaceship >> turbines [
+	^turbines 
+]
+
 { #category : 'logic' }
-Spaceship >> turn: toMove [
+Spaceship >> turn: toMove in: aGame [
+	self checkTurbines.
+   toMove < exitRoll ifTrue: [ 
+		self loseTurbine.
+		^ self 
+	].
+   exitRoll := 0.
+   self move: toMove + rollAddOn.
+   board applyTileEffectTo: self in: aGame
 
-	toMove < exitRoll ifTrue: [ ^ self ].
-	nil.
-	exitRoll := 0.
-	self move: toMove + rollAddOn.
-	board applyTileEffectTo: self
 ]
 
-{ #category : 'as yet unclassified' }
-Spaceship >> turn: aNumber playCard: aCard against: aSpaceship in:aGame [
-	self useCard: aCard against:aSpaceship during:aGame .
-	self turn: aNumber 
+{ #category : 'logic' }
+Spaceship >> turn: aNumber playCard: aCard against: aTarget in: aGame [
+    | cardToUse |
+    cardToUse := cards
+        detect: [ :c | c == aCard ]
+        ifNone: [ Error signal: 'The chosen card was not found' ].
+    cardToUse playOn: aTarget from: self in: aGame.
+    cards remove: cardToUse.
+    self turn: aNumber in: aGame
+
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'logic' }
 Spaceship >> useCancellationOn: cardToRemove inGame: aGame [
-	| cancellationCard |
-	cancellationCard := cards detect: [:c | c action class = Cancellation] ifNone: [ Error signal:'No cancellation card was found' ].
-	cards remove: cancellationCard.
-	aGame removeCard: cardToRemove . 
-   ^cancellationCard 
+    | cancellationCard |
+    cancellationCard := cards
+        detect: [ :c | c isKindOf: Cancellation ]
+        ifNone: [ Error signal: 'No cancellation card was found' ].
+    cards remove: cancellationCard.
+    aGame removeCard: cardToRemove.
+    ^ cancellationCard
 ]
 
-{ #category : 'as yet unclassified' }
-Spaceship >> useCard: aCard against: aSpaceship during: aGame [
-	| cardToUse |
-	cardToUse := cards detect: [:c | c == aCard ] ifNone: [ Error signal:'The chosen card was not found' ].
-	cardToUse useAgainst: aSpaceship from: self during: aGame.
-	cards remove: (cards at: 1).
-]
-
-{ #category : 'as yet unclassified' }
-Spaceship >> useCard: aCard against: aSpaceship in: aGame [
-	| cardToUse |
-	cardToUse := cards detect: [:c | c == aCard ] ifNone: [ Error signal:'The chosen card was not found' ].
-	cardToUse useAgainst: aSpaceship from: self in: aGame.
-	cards remove: (cards at: 1).
+{ #category : 'logic' }
+Spaceship >> useCard: aCard against: aTarget in: aGame [
+    | cardToUse |
+    cardToUse := cards
+        detect: [ :c | c == aCard ]
+        ifNone: [ Error signal: 'The chosen card was not found' ].
+    aCard isPermanent ifTrue: [
+        Error signal: 'Permanent Card can only be played during turn' ].
+    cardToUse playOn: aTarget from: self in: aGame.
+    cards remove: cardToUse
 ]

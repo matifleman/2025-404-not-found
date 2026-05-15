@@ -1,25 +1,22 @@
+"
+Redo card
+"
 Class {
 	#name : 'Redo',
-	#superclass : 'CardAction',
+	#superclass : 'Card',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-Redo >> actOn: aSpaceship from: aCardSpaceship during: aGame [ 
-	| newCard |
-	newCard:=(aGame readLastCard) class new.
-	newCard actOn: aSpaceship from: aCardSpaceship during: aGame.
+{ #category : 'play' }
+Redo >> isPermanent [
+    ^ false
 ]
 
-{ #category : 'as yet unclassified' }
-Redo >> actOn: aSpaceship from: aCardSpaceship in: aGame [ 
-	| newCard |
-	newCard:=(aGame readLastCard) class new.
-	newCard actOn: aSpaceship from: aCardSpaceship in: aGame.
-]
+{ #category : 'play' }
+Redo >> playOn: aTarget from: aCardOwner in: aGame [
+	| lastCard |
+	lastCard := aGame readLastCard.
+   lastCard playOn: aTarget from: aCardOwner in: aGame 
 
-{ #category : 'as yet unclassified' }
-Redo >> nameOfCard [ 
-^'redo'
 ]

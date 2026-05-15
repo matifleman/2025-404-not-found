@@ -18,19 +18,6 @@ SpacepshipFuelTest >> testSpaceshipFuelDecreaseWithMoves [
 ]
 
 { #category : 'tests' }
-SpacepshipFuelTest >> testSpaceshipFuelDecreasesInWormHole [
-| aBoard aSpaceship1 |
-	aBoard := Board with: 20.
-	aBoard addWormHolewithEntraceTile:8 exitTile:10.
-	aSpaceship1 := Spaceship withName: 'Nave 1' withBoard: aBoard withMaxFuel: 10.
-	
-	aSpaceship1 turn: 8.
-	
-	self assert: aSpaceship1 fuel equals: 0.
-	
-]
-
-{ #category : 'tests' }
 SpacepshipFuelTest >> testSpaceshipFuelStartsWithMaxDice [
 	| aBoard aSpaceship1 |
 	aBoard := Board with: 20.

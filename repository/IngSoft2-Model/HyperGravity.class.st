@@ -1,6 +1,9 @@
+"
+Hypergravity
+"
 Class {
 	#name : 'HyperGravity',
-	#superclass : 'BoardTile',
+	#superclass : 'TileEffect',
 	#instVars : [
 		'exitRoll'
 	],
@@ -8,21 +11,25 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-HyperGravity class >> inPosition: aPosition needingToRoll:aNumber [
-	^self new initializeIn: aPosition needing:aNumber.
+{ #category : 'instance creation' }
+HyperGravity class >> needing: aNumber [
+	^self new initializeNeeding: aNumber
 	
 ]
 
 { #category : 'effects' }
-HyperGravity >> applyEffectsTo: aSpaceship in: aGame [
+HyperGravity >> applyEffectTo: aSpaceship in: aGame [
 	aGame saveLastEffect: [:aShip | aShip lockUntil:exitRoll ].
 	aSpaceship lockUntil: exitRoll.
 	
 ]
 
 { #category : 'initialization' }
-HyperGravity >> initializeIn: aPosition needing:aNumber [
-	self initializeIn: aPosition.
-	exitRoll :=aNumber
+HyperGravity >> initializeNeeding: aNumber [
+	exitRoll := aNumber
+]
+
+{ #category : 'asserting' }
+HyperGravity >> shouldSaveAsLastEffect [
+	^true 
 ]

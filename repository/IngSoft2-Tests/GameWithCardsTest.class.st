@@ -32,11 +32,7 @@ GameWithCardsTest >> setUp [
 	aDie1 := LoadedDie with: { 3 . 3 . 3 . 3}. 
 	aDie2 := LoadedDie with: { 3 . 3 . 3 . 3}. 	
 	dice := { aDie1 . aDie2 }. 	lap := 2. 	
-	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard . 	
-	aBoard setGame: aGame. 
-	
-	drawCardTile := DrawCardTile inPosition: 6.
-	aBoard addTile: drawCardTile.
+	aGame := Game with: spaceships andDice: dice laps: lap in:aBoard . 
 ]
 
 { #category : 'asserting' }
@@ -53,12 +49,12 @@ GameWithCardsTest >> should: anErrorBlock raise: anErrorClass withMessageText: e
 GameWithCardsTest >> testOnlyCardsOnHandCanBePlayed [
 	| aCardDeck allyCard repeatCard |
 	aCardDeck:=CardDeck new.
-	allyCard:=Card with: Ally new.
-	repeatCard:=Card with:Repeat new.
+	allyCard:=Ally new.
+	repeatCard:=Repeat new.
 	aCardDeck addCard: allyCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
-	aSpaceship1 turn: 6.
+	aSpaceship1 turn: 6 in: aGame.
 	
 	self
 		should: [ aSpaceship1 useCard: repeatCard against: aSpaceship2 in: aGame.]
@@ -71,14 +67,14 @@ GameWithCardsTest >> testOnlyCardsOnHandCanBePlayed [
 GameWithCardsTest >> testPermanentCardAOverloadIsPlayedDuringTurn [
 	| aCardDeck overloadCard|
 	aCardDeck:=CardDeck new.
-	overloadCard:=Card with: Overload new.
+	overloadCard:=Overload new.
 	aCardDeck addCard: overloadCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 
-	aSpaceship1 turn:6.
+	aSpaceship1 turn:6 in: aGame.
 	aSpaceship1 turn: 1 playCard: overloadCard against: aSpaceship2 in:aGame .
-	aSpaceship2 turn:4.
+	aSpaceship2 turn:4 in: aGame.
 	
 	
 	self assert: aSpaceship2 position equals: (Position in: 2 at: 0).
@@ -89,16 +85,16 @@ GameWithCardsTest >> testPermanentCardAOverloadIsPlayedDuringTurn [
 GameWithCardsTest >> testPermanentCardAccelerationIsCantBePlayedOutsideTurn [
 	| aCardDeck accelerationCard|
 	aCardDeck:=CardDeck new.
-	accelerationCard:=Card with: Acceleration new.
+	accelerationCard:=Acceleration new.
 	aCardDeck addCard: accelerationCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 
-	aSpaceship2 turn:6.
+	aSpaceship2 turn:6 in: aGame.
 	self
 		should: [ aSpaceship2 useCard: accelerationCard against:nil in:aGame]
 		raise: Error
-		withMessageText: 'Permanent Card can only be played turing turn'
+		withMessageText: 'Permanent Card can only be played during turn'
 
 
 	
@@ -108,12 +104,12 @@ GameWithCardsTest >> testPermanentCardAccelerationIsCantBePlayedOutsideTurn [
 GameWithCardsTest >> testPermanentCardAccelerationIsPlayedDuringTurn [
 	| aCardDeck accelerationCard|
 	aCardDeck:=CardDeck new.
-	accelerationCard:=Card with: Acceleration new.
+	accelerationCard:=Acceleration new.
 	aCardDeck addCard: accelerationCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 
-	aSpaceship2 turn:6.
+	aSpaceship2 turn:6 in: aGame.
 	aSpaceship2 turn: 2 playCard: accelerationCard against: nil in:aGame .
 	
 	self assert: aSpaceship2 position equals: (Position in: 9 at: 0).
@@ -124,16 +120,16 @@ GameWithCardsTest >> testPermanentCardAccelerationIsPlayedDuringTurn [
 GameWithCardsTest >> testPermanentCardAllyIsCantBePlayedOutsideTurn [
 	| aCardDeck allyCard|
 	aCardDeck:=CardDeck new.
-	allyCard:=Card with: Ally new.
+	allyCard:=Ally new.
 	aCardDeck addCard: allyCard.
-	drawCardTile:= DrawCardTile inPosition: 6 withDeck: aCardDeck.
+	drawCardTile:= BoardTile inPosition: 6 effect: (DrawCard withDeck: aCardDeck) target: SelfTarget new.
 	aBoard addTile: drawCardTile .
 
-	aSpaceship2 turn:6.
+	aSpaceship2 turn:6 in: aGame.
 	self
 		should: [ aSpaceship2 useCard: allyCard against:aSpaceship1 in:aGame]
 		raise: Error
-		withMessageText: 'Permanent Card can only be played turing turn'
+		withMessageText: 'Permanent Card can only be played during turn'
 
 
 	

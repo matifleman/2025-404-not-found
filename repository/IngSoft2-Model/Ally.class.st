@@ -1,32 +1,34 @@
+"
+Ally card
+"
 Class {
 	#name : 'Ally',
-	#superclass : 'CardAction',
+	#superclass : 'Card',
+	#instVars : [
+		'ship1',
+		'ship2'
+	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-Ally >> actOn: aSpaceship from: aCardSpaceship during: aGame [
-	aGame addCard: self against:aSpaceship .
-	aCardSpaceship allyWith: aSpaceship.
-	aSpaceship allyWith: aCardSpaceship .
+{ #category : 'play' }
+Ally >> isPermanent [
+    ^ true
+]
+
+{ #category : 'play' }
+Ally >> playOn: aSpaceship from: aCardOwner  in: aGame [
+	ship1 := aSpaceship.
+	ship2 := aCardOwner.
+	aGame addPermanentCard: self against: aSpaceship.
+	aCardOwner allyWith: aSpaceship.
+	aSpaceship allyWith: aCardOwner
 
 ]
 
-{ #category : 'as yet unclassified' }
-Ally >> actOn: aSpaceship from: aCardSpaceship in: aGame [
-	Error signal:'Permanent Card can only be played turing turn'
-
-]
-
-{ #category : 'as yet unclassified' }
-Ally >> nameOfCard [ 
-^'ally'
-]
-
-{ #category : 'removing' }
-Ally >> removeAction:allies in:aGame [
-	allies first breakAlliance.
-	allies second breakAlliance.
-	
+{ #category : 'play' }
+Ally >> removeFrom: aGame [
+	ship1 breakAlliance.
+   ship2 breakAlliance
 ]

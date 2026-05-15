@@ -1,19 +1,20 @@
+"
+Cancellation card
+"
 Class {
 	#name : 'Cancellation',
-	#superclass : 'CardAction',
+	#superclass : 'Card',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-Cancellation >> actOn: aSpaceship from: aCardSpaceship in: aGame [
-
-	aGame removeCard. 
-
+{ #category : 'play' }
+Cancellation >> isPermanent [
+    ^ false
 ]
 
-{ #category : 'as yet unclassified' }
-Cancellation >> nameOfCard [
-^'cancellation'
+{ #category : 'play' }
+Cancellation >> playOn: aCardToRemove from: aCardOwner in: aGame [
+	aGame removeCard: aCardToRemove
 
 ]

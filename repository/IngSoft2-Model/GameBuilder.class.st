@@ -43,7 +43,6 @@ GameBuilder >> buildGame [
 	maxFuel := dieValues sum.
 	dice := dieValues collect: [ :val | Die with: val ].
 	board := Board with: boardSize.
-	board addWormHolewithEntraceTile:wormholeEntrance exitTile:wormholeExit .
 	cards := self addCards.
 	spaceships := spaceshipNames collect: [ :name | Spaceship withName: name withBoard: board withMaxFuel: maxFuel withCards: cards].
 
@@ -69,10 +68,4 @@ GameBuilder >> setBoardSize: aSize [
 { #category : 'initialization' }
 GameBuilder >> setGameLaps: numberOfLaps [
 	laps := numberOfLaps.
-]
-
-{ #category : 'initialization' }
-GameBuilder >> setWormholeEntrance: entrance exit: exit [
-    wormholeEntrance := entrance.
-    wormholeExit := exit.
 ]
