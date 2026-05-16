@@ -61,6 +61,11 @@ Board >> checkLimits: aNumber [
 ]
 
 { #category : 'accessing' }
+Board >> size [
+	^size 
+]
+
+{ #category : 'accessing' }
 Board >> tileAt: position [
 	position index = 0 ifTrue: [ ^ nil ].
 	^ tiles at: position index
