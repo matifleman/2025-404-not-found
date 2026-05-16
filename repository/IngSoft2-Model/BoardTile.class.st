@@ -9,11 +9,6 @@ Class {
 		'effect',
 		'target'
 	],
-	#classInstVars : [
-		'position',
-		'effect',
-		'taget'
-	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
