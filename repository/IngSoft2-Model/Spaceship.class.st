@@ -25,7 +25,7 @@ Spaceship class >> withName: aName withBoard: aBoard withMaxFuel: maxFuel [
 
 	aName size < 1 ifTrue: [
 		Error signal: 'Name should have at least one character' ].
-	^ self new initializeWith: aName withBoard: aBoard	 withMaxFuel: maxFuel withCards: nil
+	^ self new initializeWith: aName withBoard: aBoard	 withMaxFuel: maxFuel withCards: OrderedCollection new
 ]
 
 { #category : 'instance creation' }
@@ -54,12 +54,6 @@ Spaceship >> breakAlliance [
 { #category : 'accessing' }
 Spaceship >> cards [
 	^cards size
-]
-
-{ #category : 'logic' }
-Spaceship >> checkFuelCapacity [
-	^fuelTank maxFuel
-
 ]
 
 { #category : 'logic' }
@@ -126,6 +120,12 @@ Spaceship >> managePenalization [
 	penalization := penalization - 1.
 	penalization == 0 ifTrue: [ fuelTank refuel ].
 	^ true
+]
+
+{ #category : 'logic' }
+Spaceship >> maxFuel [
+	^fuelTank maxFuel
+
 ]
 
 { #category : 'logic' }

@@ -26,7 +26,7 @@ RewardTest >> test01WhenMaxRollGetsMaxFuelPermanently [
 	| resolver |
     resolver := RewardResolver withPercentage: 100.
     resolver resolveFor: aSpaceship1.
-    self assert: aSpaceship1 checkFuelCapacity equals: 11.
+    self assert: aSpaceship1 maxFuel equals: 11.
 
 		
 	
@@ -49,7 +49,7 @@ RewardTest >> test03WhenShipRollsMaximumThenMaxFuelIncreasesWithFullReward [
    | aGame |
 	aGame := Game with: (OrderedCollection with: aSpaceship1) andDice: (OrderedCollection with: aDie) laps: 3 in: aBoard withReward: 100.
    aGame nextTurn. 
-   self assert: aSpaceship1 checkFuelCapacity equals: 11.
+   self assert: aSpaceship1 maxFuel equals: 11.
 
 
 ]
