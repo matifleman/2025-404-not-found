@@ -199,7 +199,7 @@ CardsTest >> test10WhenUsedACancellationCardThenAPermanentCardIsEliminatedtest [
 	aSpaceship1 drawCard: accelerationCard.
 	aSpaceship2 drawCard: cancellationCard.
 	aSpaceship1 turn: 2 playCard: accelerationCard against: nil in: aGame .
-	aSpaceship2 useCancellationOn: accelerationCard inGame: aGame.
+	aSpaceship2 turn: 2 playCard: cancellationCard against: accelerationCard in: aGame .
 	self assert: (aGame permanentCards size) equals: 0
 ]
 
@@ -213,7 +213,7 @@ CardsTest >> test11WhenUsedACancellationCardThenAccelerationActionIsGone [
 	aSpaceship2 drawCard: cancellationCard.
 	aSpaceship1 turn: 2 playCard: accelerationCard against: nil in: aGame .
 	
-	aSpaceship2 useCancellationOn: accelerationCard inGame: aGame.
+	aSpaceship2 turn: 2 playCard: cancellationCard against: accelerationCard in: aGame .
 	aSpaceship1 turn: 1 in: aGame.
 	self assert: aSpaceship1 position equals: (Position in: 4 at: 0)
 ]
@@ -227,10 +227,9 @@ CardsTest >> test12WhenUsedACancellationCardThenOverloadActionIsGone [
 	aSpaceship1 drawCard: overloadCard.
 	aSpaceship2 drawCard: cancellationCard.
 	aSpaceship1 turn:1 playCard:overloadCard against:aSpaceship2 in:aGame.
-	aSpaceship2
-		turn: 5 in: aGame;
-		useCancellationOn: overloadCard inGame: aGame;
-		turn: 1 in: aGame.
+	aSpaceship2 turn: 5 in: aGame.
+	aSpaceship2	turn: 0 playCard: cancellationCard against: overloadCard in: aGame .
+	aSpaceship2	turn: 1 in: aGame.
 	self assert: aSpaceship2 position equals: (Position in: 4 at: 0)
 ]
 
@@ -244,7 +243,7 @@ CardsTest >> test13WhenUsedACancellationCardThenAllyActionIsGone [
 	aSpaceship2 drawCard: aCancellationCard.
 	aSpaceship1 turn: 12 playCard: anAllyCard against:aSpaceship2 in:aGame .
 		
-	aSpaceship2 useCancellationOn: anAllyCard inGame: aGame.
+	aSpaceship2 turn: 0 playCard: aCancellationCard against: anAllyCard in: aGame .
 	aSpaceship1 turn: 2 in: aGame.
 	self assert: aSpaceship2 position equals: (Position in: 0 at: 0)
 ]
@@ -260,7 +259,7 @@ CardsTest >> test14WhenUsedACancellationCardOnANonExistenCardThenIsInvalid [
 	aSpaceship2 drawCard: cancellationCard.
 	aSpaceship1 turn:12 playCard:allyCard against:aSpaceship2 in:aGame .
 	self
-		should: [ aSpaceship2 useCancellationOn: accelerationCard inGame: aGame ]
+		should: [ aSpaceship2 turn: 0 playCard: cancellationCard against: accelerationCard in: aGame . ]
 		raise: Error
 		withMessageText: 'La carta a eliminar no esta en juego'
 ]

@@ -53,7 +53,7 @@ HyperJumpWithDiferentUnits >> testWhenHyperJumpReceivesLightYearsAndParsec [
       withParsecs: { LightYear with: 30. LightYear with: 36. LightYear with: 24.
                       LightYear with: 15. LightYear with: 9. LightYear with: 6 }
        convertor: 2
-       boardSize: (LightYear with: aBoard size * 3).
+       boardSize: (LightYear with: 60).
    hyperJumpTile := BoardTile inPosition: 4 effect: hyperJumpEffect target: SelfTarget new.
    aBoard addTile: hyperJumpTile.
    aSpaceship1 turn: 4 in: aGame.

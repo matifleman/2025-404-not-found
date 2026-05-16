@@ -24,22 +24,23 @@ TileDistributionStrategy >> initializeTilesRandom: numberOfTiles [
    | tiles |
 	tiles := (1 to: numberOfTiles) collect: [ :pos |
         | tile |
-        tile := self randomTile.
-        tile position: pos.
+        tile := self randomTileIn: pos.
         tile
     ].
 	^ tiles
 ]
 
 { #category : 'initialization' }
-TileDistributionStrategy >> randomTile [
-    | r |
-    r := Random new next.
+TileDistributionStrategy >> randomTileIn: aPosition [
+   | r  hyperGravityValue  moonWalkValue |
+   r := Random new next.
+	hyperGravityValue := r * 6.
+	moonWalkValue := r * 10.
 
-    (r < 0.40) ifTrue: [ ^ NoEffect new ].
-    (r < 0.60) ifTrue: [ ^ BlackHole new ].
-    (r < 0.80) ifTrue: [ ^ HyperGravity new ].
-    (r < 0.90) ifTrue: [ ^ MoonWalk new ].
-    (r < 0.92) ifTrue: [ ^ AtomicBomb new ].
-    ^ HyperJump new.
+   (r < 0.40) ifTrue: [ ^ BoardTile inPosition: aPosition effect: (NoEffect new)  target: SelfTarget new. ].
+   (r < 0.60) ifTrue: [ ^ BoardTile inPosition: aPosition effect: (BlackHole new)  target: SelfTarget new. ].
+   (r < 0.80) ifTrue: [ ^ BoardTile inPosition: aPosition effect: (HyperGravity needing: hyperGravityValue) target: SelfTarget new ].
+   (r < 0.90) ifTrue: [ ^ BoardTile inPosition: aPosition effect: (MoonWalk steps: moonWalkValue)  target: OthersTarget new. ].
+   (r < 0.92) ifTrue: [ ^ BoardTile inPosition: aPosition effect: (AtomicBomb new)  target: AllTarget new. ].
+   ^ HyperJump new.
 ]

@@ -416,7 +416,7 @@ ReversePolarityTest >> test22RPIsRemovedByCancellationAndRestoresTarget [
 	
 	aCardDeck addCard: cancelCard .
 	aSpaceship3 turn: 11 in: aGame. "levanta carta"
-	aSpaceship3 useCancellationOn: reverseCard inGame: aGame . "da vuela efecto"
+	aSpaceship3 turn: 0 playCard: cancelCard against: reverseCard in: aGame. "da vuela efecto"
 	aSpaceship1 turn: 5 in: aGame. "afecta solo a 1"
 	 
 	self assert: aSpaceship1 position equals: (Position in: 4 at: 0).

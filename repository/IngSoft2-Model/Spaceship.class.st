@@ -219,17 +219,6 @@ Spaceship >> turn: aNumber playCard: aCard against: aTarget in: aGame [
 ]
 
 { #category : 'logic' }
-Spaceship >> useCancellationOn: cardToRemove inGame: aGame [
-    | cancellationCard |
-    cancellationCard := cards
-        detect: [ :c | c isKindOf: Cancellation ]
-        ifNone: [ Error signal: 'No cancellation card was found' ].
-    cards remove: cancellationCard.
-    aGame removeCard: cardToRemove.
-    ^ cancellationCard
-]
-
-{ #category : 'logic' }
 Spaceship >> useCard: aCard against: aTarget in: aGame [
     | cardToUse |
     cardToUse := cards
