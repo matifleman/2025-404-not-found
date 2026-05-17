@@ -367,7 +367,8 @@ ReversePolarityTest >> test20RPAppliedTwiceRestoresHyperGravity [
 	aSpaceship2 turn: 8 in: aGame." los demas no avanzan si sacan menos de 2" 
 	aSpaceship3 turn: 1 in: aGame. "no avanza"
 	 
-	aSpaceship3 turn: 6 in: aGame. "sale del lock"
+	aSpaceship3 turn: 6 in: aGame. "sale del lock pero no avanza"
+	aSpaceship3 turn: 6 in: aGame. "ahora si avanza"
 	aSpaceship3 turn: 1 playCard: reverseCard against: aHyperGravity in: aGame. "afecta al q cae"
 	aSpaceship3 turn: 1 in: aGame. "cae"
 	aSpaceship3 turn: 1 in: aGame. "no avanza"

@@ -103,9 +103,9 @@ CardsTest >> test04WhenSpaceShipUsesOverloadCardAndApplyEffect [
 	aBoard addTile: drawCardTile .
 	
 	aSpaceship1 turn: 6 in: aGame.
-	aSpaceship1 turn:1 playCard: overloadCard against: aSpaceship2 in:aGame .
+	aSpaceship1 turn: 1 playCard: overloadCard against: aSpaceship2 in:aGame .
 	
-	aSpaceship2 turn:4 in: aGame.
+	aSpaceship2 turn: 4 in: aGame.
 	
 	self assert: aSpaceship2 position equals:(Position in: 2 at: 0).
 ]
@@ -361,11 +361,11 @@ CardsTest >> test20WhenRepeatCardUsedThenAppliesHyperGravityEffectToSpaceship [
 	aBoard addTile: hyperGravity.
 	
 	aSpaceship3 turn: 5 in: aGame. "Aplicamos el efecto HyperGravity "
-	aSpaceship3 turn: 6 in: aGame. "sale del casillero"
-	aSpaceship2 useCard:repeat against: aSpaceship3 in:aGame. "usa la carta repetida y vuelve a aplicarse con el mismo exit roll"
+	aSpaceship3 turn: 6 in: aGame. "deja de estar locked pero no avanza"
+	aSpaceship2 useCard: repeat against: aSpaceship3 in: aGame. "usa la carta repetida y vuelve a aplicarse con el mismo exit roll"
 	aSpaceship3 turn: 2 in: aGame. 
 	
-	self assert:aSpaceship3 position equals: (Position in:11 at:0). "No se pudo mover de 11 al no sacar mas de 3"
+	self assert:aSpaceship3 position equals: (Position in: 5 at:0). "No se pudo mover de 11 al no sacar mas de 3"
 	
 ]
 

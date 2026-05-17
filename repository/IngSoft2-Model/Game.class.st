@@ -75,17 +75,12 @@ Game >> modifyRollAll: aNumber [
 
 { #category : 'logic' }
 Game >> nextTurn [
-
 	| spaceship positionsToMove|
 	self isFinished ifTrue: [ ^ self ].
 	spaceship := turnManager currentShip.
-	spaceship isEliminated ifFalse: [ 
-		((spaceship) managePenalization) ifFalse:[
-			positionsToMove:= self rollDice.
-			(positionsToMove = self maximumValueOfDice)ifTrue: [rewardResolver resolveFor: spaceship ].
-			spaceship turn: positionsToMove in: self.
-		].
-	].
+	positionsToMove:= self rollDice.
+	(positionsToMove = self maximumValueOfDice)ifTrue: [rewardResolver resolveFor: spaceship ].
+	spaceship turn: positionsToMove in: self.
 	turnManager advance 
 
 

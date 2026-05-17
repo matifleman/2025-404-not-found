@@ -61,10 +61,6 @@ TurbineTest >> test02SpaceshipWithoutTurbinesCannotMove [
 	aSpaceship1 loseTurbine.
 	aSpaceship1 loseTurbine.
 
-	self
-		should: [ aSpaceship1 turn: 2 in: aGame .]
-		raise: Error
-		withMessageText: 'Spaceship has no more turbines'.
 	self assert: aSpaceship1 turbines equals: 0.
 	self assert: aSpaceship1 position equals: (Position in: 2 at: 0)
 	
@@ -132,7 +128,7 @@ TurbineTest >> test07SpaceshipThatRunsOutOfTurnbinesCantPlayAnymore [
 	aGame nextTurn. "solo avanza spaceship2"
 	
 	self assert: aSpaceship1 isEliminated .
-	self assert: aSpaceship2 position equals: (Position in: 13 at: 0).
+	self assert: aSpaceship2 position equals: (Position in: 10 at: 0).
 	
 	
 	

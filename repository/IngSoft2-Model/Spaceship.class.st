@@ -14,7 +14,8 @@ Class {
 		'cards',
 		'ally',
 		'rollAddOn',
-		'turbines'
+		'turbines',
+		'state'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -46,6 +47,11 @@ Spaceship >> askForFuel: fuelNeeded [
 	^ally shareFuel: fuelNeeded
 ]
 
+{ #category : 'as yet unclassified' }
+Spaceship >> beAffectedIn: aGame [
+	board applyTileEffectTo: self in: aGame 
+]
+
 { #category : 'logic' }
 Spaceship >> breakAlliance [
 	ally := nil
@@ -54,13 +60,6 @@ Spaceship >> breakAlliance [
 { #category : 'accessing' }
 Spaceship >> cards [
 	^cards size
-]
-
-{ #category : 'logic' }
-Spaceship >> checkTurbines [
-	(turbines == 0) ifTrue: [ 
-		Error signal: 'Spaceship has no more turbines'
-	]
 ]
 
 { #category : 'logic' }
@@ -86,7 +85,7 @@ Spaceship >> increaseMaxFuelBy: aNumberToIncreaseTank [
 
 { #category : 'initialization' }
 Spaceship >> initializeWith: aName withBoard: aBoard withMaxFuel: aMaxFuel withCards: someCards [
-	board:=aBoard.
+	board:= aBoard.
 	position := Position in: 0 at: 0.
 	name := aName.
 	fuelTank := FuelTank with: aMaxFuel.
@@ -96,6 +95,7 @@ Spaceship >> initializeWith: aName withBoard: aBoard withMaxFuel: aMaxFuel withC
 	ally := nil.
 	rollAddOn := 0.
 	turbines := 3.
+	state := ReadyState with: self.
 ]
 
 { #category : 'testing' }
@@ -110,7 +110,8 @@ Spaceship >> lockUntil: anExitRoll [
 
 { #category : 'logic' }
 Spaceship >> loseTurbine [
-	turbines := turbines - 1
+	turbines := turbines - 1 .
+	turbines == 0 ifTrue: [ self transitionTo: (EliminatedState with: self) ].
 ]
 
 { #category : 'logic' }
@@ -135,7 +136,7 @@ Spaceship >> modifyRoll: aNumber [
 
 { #category : 'moving' }
 Spaceship >> move: numberOfTiles [
-	position := board boardPosition: position + numberOfTiles.
+	position := board boardPosition: position + numberOfTiles + rollAddOn .
 	fuelTank useFuel: numberOfTiles from: self.
 	
 	
@@ -157,7 +158,7 @@ Spaceship >> name [
 { #category : 'logic' }
 Spaceship >> penalize [
 	position := position backToZero.
-	penalization := 2.
+	self transitionTo: (PenalizedState with: self turns: 2)
 ]
 
 { #category : 'accessing' }
@@ -188,6 +189,11 @@ Spaceship >> shareFuel: fuelNeeded [
 	
 ]
 
+{ #category : 'as yet unclassified' }
+Spaceship >> transitionTo: aState [
+	state := aState 
+]
+
 { #category : 'accessing' }
 Spaceship >> turbines [
 	^turbines 
@@ -195,14 +201,7 @@ Spaceship >> turbines [
 
 { #category : 'logic' }
 Spaceship >> turn: toMove in: aGame [
-	self checkTurbines.
-   toMove < exitRoll ifTrue: [ 
-		self loseTurbine.
-		^ self 
-	].
-   exitRoll := 0.
-   self move: toMove + rollAddOn.
-   board applyTileEffectTo: self in: aGame
+	state playTurn: toMove in: aGame
 
 ]
 
