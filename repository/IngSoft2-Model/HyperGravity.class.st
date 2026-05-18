@@ -19,7 +19,6 @@ HyperGravity class >> needing: aNumber [
 
 { #category : 'effects' }
 HyperGravity >> applyEffectTo: aSpaceship in: aGame [
-	aGame saveLastEffect: [:aShip | aShip lockUntil:exitRoll ].
 	aSpaceship transitionTo: (LockedState with: aSpaceship exitRoll: 2)
 	
 ]

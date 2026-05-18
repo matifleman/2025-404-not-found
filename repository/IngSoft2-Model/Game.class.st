@@ -119,8 +119,8 @@ Game >> rollDice [
 ]
 
 { #category : 'logic' }
-Game >> saveLastEffect: aBlock [
-	lastEffect :=aBlock .
+Game >> saveLastEffect: anEffect [
+	lastEffect := anEffect .
 ]
 
 { #category : 'logic' }

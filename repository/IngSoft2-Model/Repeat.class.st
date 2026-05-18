@@ -15,6 +15,7 @@ Repeat >> isPermanent [
 
 { #category : 'play' }
 Repeat >> playOn: aSpaceship from: aCardOwner in: aGame [
-	aGame lastEffect ifNotNil: [ :effect | effect value: aSpaceship ]
+	aGame lastEffect ifNotNil: [ (aGame lastEffect) applyEffectTo: aSpaceship in: aGame ]
+	":effect | effect value: aSpaceship"
 
 ]

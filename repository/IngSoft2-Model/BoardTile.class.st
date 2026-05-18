@@ -24,8 +24,9 @@ BoardTile class >> inPosition: aPosition effect: anEffect target: aTarget [
 BoardTile >> applyEffectsTo: aSpaceship in: aGame [
 	| affectedShips |
 	effect shouldSaveAsLastEffect ifTrue: [ 
-		aGame saveLastEffect: [ :aShip | effect applyEffectTo: aShip in: aGame ].
+		aGame saveLastEffect: effect.
 	].
+":aShip | effect applyEffectTo: aShip in: aGame"
    affectedShips := target resolveFrom: aSpaceship in: aGame.
    affectedShips do: [ :ship | effect applyEffectTo: ship in: aGame ].
 ]
